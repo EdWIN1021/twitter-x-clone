@@ -34,7 +34,7 @@ const DropDown: FC<{
       <label
         htmlFor={title}
         className={clsx(
-          "absolute block text-[13px] text-[rgb(83,100,113)] left-2 pt-2",
+          "absolute block text-[13px] text-[rgb(83,100,113)] left-3 pt-2",
           {
             "text-[#1D9BF0]": isActive,
           }

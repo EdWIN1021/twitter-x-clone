@@ -1,8 +1,13 @@
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import DropDown from "./DropDown";
 import { monthData, dayData, yearData } from "../constants";
+import TextInput from "./TextInput";
+import { useState } from "react";
 
 const SignUp = () => {
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+
   return (
     <div className="bg-white w-[600px] p-4 rounded-2xl shadow-xl flex justify-center  relative">
       <XMarkIcon className="w-[20px] h-[20px] absolute left-[3%] top-[3%]" />
@@ -12,12 +17,22 @@ const SignUp = () => {
 
         <h2 className="text-[31px] font-bold my-7">Create your account</h2>
 
-        <div>
-          <input className="w-full h-[60px] border rounded-md" type="text" />
-        </div>
+        <div className="flex flex-col gap-5">
+          <TextInput
+            label="Name"
+            value={name}
+            id={name}
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+          />
 
-        <div className="py-4">
-          <input className="w-full  h-[60px] border rounded-md" type="email" />
+          <TextInput
+            label="Email"
+            value={email}
+            id={email}
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
 
         <h3 className="text-[15px] font-bold mt-10 mb-2">Date of birth</h3>

@@ -1,5 +1,6 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { FC, useMemo, useState } from "react";
+import clsx from "clsx";
 
 const DropDown: FC<{
   size: "sm" | "md" | "lg";
@@ -21,23 +22,30 @@ const DropDown: FC<{
 
   return (
     <div
-      className={`${sizes[size]} border rounded-md h-[60px]  relative overflow-hidden`}
+      className={clsx(
+        `${sizes[size]} border rounded-md h-[60px]  relative overflow-hidden `,
+        {
+          "border-2 border-[#1D9BF0]": isActive,
+        }
+      )}
       onFocus={() => setIsActive(true)}
       onBlur={() => setIsActive(false)}
     >
       <label
         htmlFor={title}
-        className="absolute block text-[13px] text-[rgb(83,100,113)] left-2 pt-2"
+        className={clsx(
+          "absolute block text-[13px] text-[rgb(83,100,113)] left-2 pt-2",
+          {
+            "text-[#1D9BF0]": isActive,
+          }
+        )}
       >
         {title}
       </label>
 
-      <div>{isActive}</div>
-
       <select
         id={title}
-        className="w-full outline-none appearance-none h-full pt-7 pb-2 pl-2 pr-2"
-        onClick={() => console.log("a")}
+        className="w-full outline-none appearance-none h-full pt-7 pb-2 pl-2 pr-2 cursor-pointer"
       >
         <option value=""></option>
         {data?.map((item, index) => (

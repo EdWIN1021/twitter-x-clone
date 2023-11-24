@@ -1,20 +1,34 @@
-import DropDown from "./DropDown";
-import { monthData, dayData, yearData } from "../constants";
-import TextInput from "./TextInput";
-import { useMemo, useState } from "react";
-import clsx from "clsx";
+import { useMemo, useState, useContext } from "react";
 
-const SignUp = () => {
+import TextInput from "./TextInput";
+import DropDown from "./DropDown";
+import { StepperContext } from "./Stepper";
+import { monthData, dayData, yearData } from "../constants";
+
+const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [year, setYear] = useState("");
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
 
+  const { nextStep } = useContext(StepperContext);
+
   const isDisabled = useMemo(
-    () => year && day && month && name && email,
+    () => !year || !day || !month || !name || !email,
     [year, day, month, email, name]
   );
+
+  const handleOnClick = () => {
+    // const birthday = new Date(
+    //   Number(year),
+    //   monthData.indexOf("January") + 1,
+    //   Number(day)
+    // );
+    // signUp(name, email, birthday);
+
+    nextStep();
+  };
 
   return (
     <div className="flex flex-col max-w-[400px] mx-auto">
@@ -24,7 +38,7 @@ const SignUp = () => {
         <TextInput
           label="Name"
           value={name}
-          id={name}
+          id="name"
           type="text"
           onChange={(e) => setName(e.target.value)}
         />
@@ -32,7 +46,7 @@ const SignUp = () => {
         <TextInput
           label="Email"
           value={email}
-          id={email}
+          id="email"
           type="email"
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -69,17 +83,17 @@ const SignUp = () => {
       </div>
 
       <button
-        className={clsx(
-          "text-white text-[17px] font-bold bg-[rgba(15,20,25,0.5)] rounded-full py-3.5 mt-20 mb-2 w-full",
-          {
-            "bg-[rgba(15,20,25,1)]": isDisabled,
-          }
-        )}
+        onClick={handleOnClick}
+        disabled={isDisabled}
+        className={`text-white text-[17px] font-bold ${
+          isDisabled ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"
+        }  rounded-full py-3.5 mt-20 mb-2 w-full cursor-pointer`}
+        type="submit"
       >
-        Sign Up
+        Next
       </button>
     </div>
   );
 };
 
-export default SignUp;
+export default SignUpForm;

@@ -8,30 +8,19 @@ import { AuthContext } from "../contexts/AuthContext";
 
 const SignUpForm = () => {
   const { nextStep } = useContext(StepperContext);
-  const { signUpFields, setSignUpFields } = useContext(AuthContext);
+  const { inputFields, setInputFields } = useContext(AuthContext);
 
-  const { name, email, year, month, day } = signUpFields;
+  const { name, email, year, month, day } = inputFields;
   const isDisabled = useMemo(
     () => !year || !day || !month || !name || !email,
     [year, day, month, email, name]
   );
 
-  const handleOnClick = () => {
-    // const birthday = new Date(
-    //   Number(year),
-    //   monthData.indexOf("January") + 1,
-    //   Number(day)
-    // );
-    // signUp(name, email, birthday);
-
-    nextStep();
-  };
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setSignUpFields({
-      ...signUpFields,
+    setInputFields({
+      ...inputFields,
       [e.target.name]: e.target.value,
     });
   };
@@ -94,7 +83,7 @@ const SignUpForm = () => {
       </div>
 
       <button
-        onClick={handleOnClick}
+        onClick={() => nextStep()}
         disabled={isDisabled}
         className={`text-white text-[17px] font-bold ${
           isDisabled ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"

@@ -8,14 +8,22 @@ import {
   SetStateAction,
 } from "react";
 
-// import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-// const auth = getAuth();
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { FirebaseError } from "firebase/app";
 
-// interface CustomError extends Error {
-//   message: string;
-// }
+import { auth } from "../firebase";
 
-interface SignUpFields {
+// const birthday = new Date(
+//   Number(year),
+//   monthData.indexOf("January") + 1,
+//   Number(day)
+// );
+
+interface InputFields {
   email: string;
   name: string;
   year: string;
@@ -25,17 +33,17 @@ interface SignUpFields {
 }
 
 interface AuthContextProps {
-  signUpFields: SignUpFields;
-  signUp: (email: string, name: string, birthday: Date) => void;
-  setSignUpFields: Dispatch<SetStateAction<SignUpFields>>;
+  inputFields: InputFields;
+  setInputFields: Dispatch<SetStateAction<InputFields>>;
   resetFields: () => void;
-  //   signIn: (email: string, password: string) => void;
+  signUp: (cb: () => void) => void;
+  signIn: (cb: () => void) => void;
   //   signOut: () => void;
   //   currentUser: null | undefined;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
-  signUpFields: {
+  inputFields: {
     email: "",
     name: "",
     year: "",
@@ -44,16 +52,16 @@ export const AuthContext = createContext<AuthContextProps>({
     password: "",
   },
   signUp: () => {},
-  setSignUpFields: () => null,
+  setInputFields: () => null,
   resetFields: () => {},
-  //   signIn: () => {},
+  signIn: () => {},
   //   signOut: () => {},
   //   currentUser: null,
 });
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   //   const [currentUser, setCurrentUser] = useState<User | null | undefined>(null);
-  const [signUpFields, setSignUpFields] = useState({
+  const [inputFields, setInputFields] = useState({
     email: "",
     name: "",
     year: "",
@@ -62,17 +70,52 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     password: "",
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const observer = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        console.log(user);
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
 
-  const signUp = async (email: string, name: string, birthday: Date) => {
-    console.log(email, name, birthday);
+    return () => observer();
+  }, []);
+
+  const signUp = async (cb: () => void) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        inputFields.email,
+        inputFields.password
+      );
+      if (userCredential?.user) cb();
+    } catch (error) {
+      console.log((error as FirebaseError).message);
+    }
   };
 
-  //   const signIn = async (email: string, password: string) => {};
-  //   const signOut = async () => {};
+  const signIn = async (cb: () => void) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        inputFields.email,
+        inputFields.password
+      );
+      if (userCredential?.user) cb();
+    } catch (error) {
+      console.log((error as FirebaseError).message);
+    }
+  };
+
+  // const signOut = async () => {};
 
   const resetFields = () => {
-    setSignUpFields({
+    setInputFields({
       email: "",
       name: "",
       year: "",
@@ -83,12 +126,11 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const contextValue: AuthContextProps = {
-    signUpFields,
-    setSignUpFields,
+    inputFields,
+    setInputFields,
     signUp,
     resetFields,
-
-    // signIn,
+    signIn,
     // signOut,
     // currentUser,
   };

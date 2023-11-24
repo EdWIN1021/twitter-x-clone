@@ -1,5 +1,3 @@
-"use client";
-
 import clsx from "clsx";
 import { InputHTMLAttributes, useEffect, useState } from "react";
 
@@ -19,7 +17,7 @@ const TextInput: React.FC<TextInputProps> = ({ label, id, value, ...rest }) => {
   }, [value]);
 
   return (
-    <div className="relative h-[60px]">
+    <div className="relative h-[60px] w-full">
       <input
         id={id}
         {...rest}

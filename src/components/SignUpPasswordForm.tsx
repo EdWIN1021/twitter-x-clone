@@ -1,11 +1,12 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import TextInput from "./TextInput";
 import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-const PasswordForm = () => {
-  const { signUpFields, setSignUpFields } = useContext(AuthContext);
-
-  const { password } = signUpFields;
+const SignUpPasswordForm = () => {
+  const { inputFields, setInputFields, signUp } = useContext(AuthContext);
+  const { password } = inputFields;
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col max-w-[400px] mx-auto">
@@ -20,17 +21,17 @@ const PasswordForm = () => {
         value={password}
         name="password"
         onChange={(e) =>
-          setSignUpFields({ ...signUpFields, [e.target.name]: e.target.value })
+          setInputFields({ ...inputFields, [e.target.name]: e.target.value })
         }
         type="password"
       />
 
       <button
-        disabled={!!password}
+        // disabled={!!password}
+        onClick={() => signUp(() => navigate("/home"))}
         className={`text-white text-[17px] font-bold ${
           !password ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"
-        }  rounded-full py-3.5 mt-20 mb-2 w-full cursor-pointer mt-[327px]`}
-        type="submit"
+        }  rounded-full py-3.5 mb-2 w-full cursor-pointer mt-[327px]`}
       >
         Sign Up
       </button>
@@ -38,4 +39,4 @@ const PasswordForm = () => {
   );
 };
 
-export default PasswordForm;
+export default SignUpPasswordForm;

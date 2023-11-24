@@ -1,5 +1,4 @@
 import React, { useState, createContext, useContext } from "react";
-import Modal from "./Modal";
 
 export const StepperContext = createContext({
   activeStep: 1,
@@ -15,9 +14,7 @@ interface ValueProps {
 
 const Stepper: React.FC<{
   children: React.ReactNode;
-  open: boolean;
-  toggle: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ children, open, toggle }) => {
+}> = ({ children }) => {
   const [activeStep, setActiveStep] = useState(1);
 
   const nextStep = () => setActiveStep((step) => step + 1);
@@ -30,11 +27,7 @@ const Stepper: React.FC<{
   };
 
   return (
-    <StepperContext.Provider value={value}>
-      <Modal open={open} toggle={toggle}>
-        {children}
-      </Modal>
-    </StepperContext.Provider>
+    <StepperContext.Provider value={value}>{children}</StepperContext.Provider>
   );
 };
 

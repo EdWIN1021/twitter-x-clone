@@ -1,11 +1,6 @@
-import SignUpForm from "./SignUpForm";
-import { useState } from "react";
-import PasswordForm from "./PasswordForm";
-import Stepper, { Step } from "./Stepper";
+import { Link } from "react-router-dom";
 
 const SignInOrUp = () => {
-  const [open, toggle] = useState(false);
-
   return (
     <>
       <div className="p-4 lg:flex-1 lg:flex lg:items-center">
@@ -55,12 +50,12 @@ const SignInOrUp = () => {
                 </div>
               </div>
 
-              <button
-                onClick={() => toggle(true)}
-                className="bg-[rgb(29,155,240)] text-[rgb(255,255,255)] text-[15px] font-bold leading-5 px-4 w-[300px] h-[40px] rounded-full mb-2 hover:bg-[rgb(26,140,216)]"
+              <Link
+                to="signup"
+                className="flex justify-center items-center bg-[rgb(29,155,240)] text-[rgb(255,255,255)] text-[15px] font-bold leading-5 px-4 w-[300px] h-[40px] rounded-full mb-2 hover:bg-[rgb(26,140,216)]"
               >
-                Create account
-              </button>
+                <span>Create account</span>
+              </Link>
             </div>
 
             <p className="text-[rgb(83,100,113)] text-[11px] mb-4 w-[300px]">
@@ -82,21 +77,15 @@ const SignInOrUp = () => {
               Already have an account?
             </h2>
 
-            <button className="text-[rgb(29,155,240)] border border-[rgb(207,217,222)] text-[15px] font-bold leading-5 px-4 w-[300px] h-[40px] rounded-full hover:bg-[rgba(29,155,240,0.1)]">
-              Sign in
-            </button>
+            <Link
+              to="signin"
+              className="text-[rgb(29,155,240)] border border-[rgb(207,217,222)] text-[15px] font-bold leading-5 px-4 w-[300px] h-[40px] rounded-full hover:bg-[rgba(29,155,240,0.1)] flex justify-center items-center"
+            >
+              <span>Sign in</span>
+            </Link>
           </div>
         </div>
       </div>
-      <Stepper open={open} toggle={toggle}>
-        <Step index={1}>
-          <SignUpForm />
-        </Step>
-
-        <Step index={2}>
-          <PasswordForm />
-        </Step>
-      </Stepper>
     </>
   );
 };

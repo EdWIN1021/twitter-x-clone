@@ -1,12 +1,14 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { FC, useMemo, useState } from "react";
+import { FC, SelectHTMLAttributes, useMemo, useState } from "react";
 import clsx from "clsx";
 
-const DropDown: FC<{
-  size: "sm" | "md" | "lg";
+interface DropDownProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  variant: "sm" | "md" | "lg";
   type: string;
   data: string[] | number[];
-}> = ({ size, type, data }) => {
+}
+
+const DropDown: FC<DropDownProps> = ({ variant, type, data, ...rest }) => {
   const sizes = {
     sm: "w-[90px]",
     md: "w-[115px]",
@@ -23,7 +25,7 @@ const DropDown: FC<{
   return (
     <div
       className={clsx(
-        `${sizes[size]} border rounded-md h-[60px]  relative overflow-hidden `,
+        `${sizes[variant]} border rounded-md h-[60px]  relative overflow-hidden `,
         {
           "border-2 border-[#1D9BF0]": isActive,
         }
@@ -44,6 +46,7 @@ const DropDown: FC<{
       </label>
 
       <select
+        {...rest}
         id={title}
         className="w-full outline-none appearance-none h-full pt-7 pb-2 pl-2 pr-2 cursor-pointer"
       >

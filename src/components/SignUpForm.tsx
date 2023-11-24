@@ -1,19 +1,16 @@
-import { useMemo, useState, useContext } from "react";
+import { useMemo, useContext, ChangeEvent } from "react";
 
 import TextInput from "./TextInput";
 import DropDown from "./DropDown";
 import { StepperContext } from "./Stepper";
 import { monthData, dayData, yearData } from "../constants";
+import { AuthContext } from "../contexts/AuthContext";
 
 const SignUpForm = () => {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [year, setYear] = useState("");
-  const [day, setDay] = useState("");
-  const [month, setMonth] = useState("");
-
   const { nextStep } = useContext(StepperContext);
+  const { signUpFields, setSignUpFields } = useContext(AuthContext);
 
+  const { name, email, year, month, day } = signUpFields;
   const isDisabled = useMemo(
     () => !year || !day || !month || !name || !email,
     [year, day, month, email, name]
@@ -30,6 +27,15 @@ const SignUpForm = () => {
     nextStep();
   };
 
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setSignUpFields({
+      ...signUpFields,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
     <div className="flex flex-col max-w-[400px] mx-auto">
       <h2 className="text-[31px] font-bold my-7">Create your account</h2>
@@ -39,16 +45,18 @@ const SignUpForm = () => {
           label="Name"
           value={name}
           id="name"
+          name="name"
           type="text"
-          onChange={(e) => setName(e.target.value)}
+          onChange={handleChange}
         />
 
         <TextInput
           label="Email"
           value={email}
           id="email"
+          name="email"
           type="email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleChange}
         />
       </div>
 
@@ -61,24 +69,27 @@ const SignUpForm = () => {
       <div className="flex mt-4 gap-3 ">
         <DropDown
           variant="lg"
-          type="month"
+          type="Month"
+          name="month"
           data={monthData}
           value={month}
-          onChange={(e) => setMonth(e.target.value)}
+          onChange={handleChange}
         />
         <DropDown
           variant="sm"
-          type="day"
+          type="Day"
+          name="day"
           data={dayData}
           value={day}
-          onChange={(e) => setDay(e.target.value)}
+          onChange={handleChange}
         />
         <DropDown
           variant="md"
-          type="year"
+          type="Year"
+          name="year"
           data={yearData}
           value={year}
-          onChange={(e) => setYear(e.target.value)}
+          onChange={handleChange}
         />
       </div>
 

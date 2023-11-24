@@ -1,5 +1,5 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { FC, SelectHTMLAttributes, useMemo, useState } from "react";
+import { FC, SelectHTMLAttributes, useState } from "react";
 import clsx from "clsx";
 
 interface DropDownProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -15,11 +15,6 @@ const DropDown: FC<DropDownProps> = ({ variant, type, data, ...rest }) => {
     lg: "w-[208px]",
   };
 
-  const title = useMemo(
-    () => type.charAt(0).toUpperCase() + type.slice(1),
-    [type]
-  );
-
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -34,7 +29,7 @@ const DropDown: FC<DropDownProps> = ({ variant, type, data, ...rest }) => {
       onBlur={() => setIsActive(false)}
     >
       <label
-        htmlFor={title}
+        htmlFor={type}
         className={clsx(
           "absolute block text-[13px] text-[rgb(83,100,113)] left-3 pt-2",
           {
@@ -42,12 +37,12 @@ const DropDown: FC<DropDownProps> = ({ variant, type, data, ...rest }) => {
           }
         )}
       >
-        {title}
+        {type}
       </label>
 
       <select
         {...rest}
-        id={title}
+        id={type}
         className="w-full outline-none appearance-none h-full pt-7 pb-2 pl-2 pr-2 cursor-pointer"
       >
         <option value=""></option>

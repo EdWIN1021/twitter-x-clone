@@ -1,5 +1,4 @@
 import SignUpForm from "./SignUpForm";
-import Modal from "./Modal";
 import { useState } from "react";
 import PasswordForm from "./PasswordForm";
 import Stepper, { Step } from "./Stepper";
@@ -89,17 +88,15 @@ const SignInOrUp = () => {
           </div>
         </div>
       </div>
-      <Modal open={open} toggle={toggle}>
-        <Stepper>
-          <Step index={1}>
-            <SignUpForm />
-          </Step>
+      <Stepper open={open} toggle={toggle}>
+        <Step index={1}>
+          <SignUpForm />
+        </Step>
 
-          <Step index={2}>
-            <PasswordForm />
-          </Step>
-        </Stepper>
-      </Modal>
+        <Step index={2}>
+          <PasswordForm />
+        </Step>
+      </Stepper>
     </>
   );
 };

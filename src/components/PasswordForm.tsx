@@ -26,7 +26,10 @@ const PasswordForm = () => {
       />
 
       <button
-        className={`text-white text-[17px] font-bold bg-[rgba(0,0,0,0.5)] mt-[327px] rounded-full py-3.5  mb-2 w-full cursor-pointer`}
+        disabled={!!password}
+        className={`text-white text-[17px] font-bold ${
+          !password ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"
+        }  rounded-full py-3.5 mt-20 mb-2 w-full cursor-pointer mt-[327px]`}
         type="submit"
       >
         Sign Up

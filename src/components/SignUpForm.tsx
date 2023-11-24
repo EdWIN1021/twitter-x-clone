@@ -99,7 +99,6 @@ const SignUpForm = () => {
         className={`text-white text-[17px] font-bold ${
           isDisabled ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"
         }  rounded-full py-3.5 mt-20 mb-2 w-full cursor-pointer`}
-        type="submit"
       >
         Next
       </button>

@@ -12,16 +12,16 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 
-import { auth } from "../firebase";
+import { auth } from "../lib/firebase";
 
-// const birthday = new Date(
-//   Number(year),
-//   monthData.indexOf("January") + 1,
-//   Number(day)
-// );
+const googleProvider = new GoogleAuthProvider();
+const githubProvider = new GithubAuthProvider();
 
 interface InputFields {
   email: string;
@@ -38,6 +38,9 @@ interface AuthContextProps {
   resetFields: () => void;
   signUp: (cb: () => void) => void;
   signIn: (cb: () => void) => void;
+  signInWithGoogle: () => void;
+  signInWithGithub: () => void;
+
   //   signOut: () => void;
   //   currentUser: null | undefined;
 }
@@ -55,6 +58,8 @@ export const AuthContext = createContext<AuthContextProps>({
   setInputFields: () => null,
   resetFields: () => {},
   signIn: () => {},
+  signInWithGoogle: () => {},
+  signInWithGithub: () => {},
   //   signOut: () => {},
   //   currentUser: null,
 });
@@ -112,6 +117,19 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   };
 
+  const signInWithGoogle = async () => {
+    const result = await signInWithPopup(auth, googleProvider);
+    // const credential = GoogleAuthProvider.credentialFromResult(result);
+    const user = result.user;
+    console.log(user);
+  };
+
+  const signInWithGithub = async () => {
+    const result = await signInWithPopup(auth, githubProvider);
+    // const credential = GoogleAuthProvider.credentialFromResult(result);
+    const user = result.user;
+    console.log(user);
+  };
   // const signOut = async () => {};
 
   const resetFields = () => {
@@ -131,6 +149,8 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     signUp,
     resetFields,
     signIn,
+    signInWithGoogle,
+    signInWithGithub,
     // signOut,
     // currentUser,
   };
@@ -141,3 +161,9 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export default AuthProvider;
+
+// const birthday = new Date(
+//   Number(year),
+//   monthData.indexOf("January") + 1,
+//   Number(day)
+// );

@@ -1,6 +1,11 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 const SignInOrUp = () => {
+  const { signInWithGoogle, signInWithGithub } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="p-4 lg:flex-1 lg:flex lg:items-center">
@@ -23,7 +28,10 @@ const SignInOrUp = () => {
             </h2>
 
             <div>
-              <div className="w-[300px] h-[40px] text-[14px] border rounded-full border-[rgb(207,217,222)] flex justify-center items-center gap-2 mb-4 hover:bg-[rgba(29,155,240,0.1)] active:bg-[rgba(66,133,244,.1)]">
+              <div
+                className="w-[300px] h-[40px] text-[14px] border rounded-full border-[rgb(207,217,222)] flex justify-center items-center gap-2 mb-4 hover:bg-[rgba(29,155,240,0.1)] active:bg-[rgba(66,133,244,.1)]"
+                onClick={() => signInWithGoogle(() => navigate("/home"))}
+              >
                 <img
                   src="/google.svg"
                   alt="google-logo"
@@ -34,7 +42,10 @@ const SignInOrUp = () => {
                 </button>
               </div>
 
-              <div className="w-[300px] h-[40px] text-[14px] border rounded-full border-[rgb(207,217,222)] flex justify-center items-center gap-2 hover:bg-[rgb(230,230,230)] active:bg-[rgb(204,204,204)]">
+              <div
+                onClick={() => signInWithGithub(() => navigate("/home"))}
+                className="w-[300px] h-[40px] text-[14px] border rounded-full border-[rgb(207,217,222)] flex justify-center items-center gap-2 hover:bg-[rgb(230,230,230)] active:bg-[rgb(204,204,204)]"
+              >
                 <img
                   src="/github.svg"
                   alt="google-logo"

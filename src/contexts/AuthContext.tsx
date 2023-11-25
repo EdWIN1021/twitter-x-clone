@@ -15,6 +15,8 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
   signInWithPopup,
+  User,
+  signOut as signOutUser,
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 
@@ -38,11 +40,10 @@ interface AuthContextProps {
   resetFields: () => void;
   signUp: (cb: () => void) => void;
   signIn: (cb: () => void) => void;
-  signInWithGoogle: () => void;
-  signInWithGithub: () => void;
-
-  //   signOut: () => void;
-  //   currentUser: null | undefined;
+  signInWithGoogle: (cb: () => void) => void;
+  signInWithGithub: (cb: () => void) => void;
+  signOut: (cb: () => void) => void;
+  currentUser: User | null;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -60,12 +61,12 @@ export const AuthContext = createContext<AuthContextProps>({
   signIn: () => {},
   signInWithGoogle: () => {},
   signInWithGithub: () => {},
-  //   signOut: () => {},
-  //   currentUser: null,
+  currentUser: null,
+  signOut: () => {},
 });
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  //   const [currentUser, setCurrentUser] = useState<User | null | undefined>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [inputFields, setInputFields] = useState({
     email: "",
     name: "",
@@ -78,13 +79,9 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     const observer = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        console.log(user);
-        // ...
+        setCurrentUser(user);
       } else {
-        // User is signed out
-        // ...
+        setCurrentUser(null);
       }
     });
 
@@ -117,20 +114,28 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   };
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (cb: () => void) => {
     const result = await signInWithPopup(auth, googleProvider);
-    // const credential = GoogleAuthProvider.credentialFromResult(result);
     const user = result.user;
-    console.log(user);
+    if (user) cb();
   };
 
-  const signInWithGithub = async () => {
+  const signInWithGithub = async (cb: () => void) => {
     const result = await signInWithPopup(auth, githubProvider);
-    // const credential = GoogleAuthProvider.credentialFromResult(result);
     const user = result.user;
+
+    if (user) cb();
+
     console.log(user);
   };
-  // const signOut = async () => {};
+  const signOut = async (cb: () => void) => {
+    try {
+      await signOutUser(auth);
+      cb();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const resetFields = () => {
     setInputFields({
@@ -151,8 +156,8 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     signIn,
     signInWithGoogle,
     signInWithGithub,
-    // signOut,
-    // currentUser,
+    signOut,
+    currentUser,
   };
 
   return (

@@ -1,13 +1,15 @@
 import { useContext } from "react";
 import TextInput from "./TextInput";
 import { AuthContext } from "../contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StepperContext } from "./Stepper";
 
 const SignInForm = () => {
   const { inputFields, setInputFields, signInWithGoogle, signInWithGithub } =
     useContext(AuthContext);
   const { nextStep } = useContext(StepperContext);
+
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col max-w-[300px] h-[580px] mx-auto items-center">
@@ -17,7 +19,7 @@ const SignInForm = () => {
 
       <div
         className="h-[38px] w-full text-[14px] my-3 border rounded-full border-[rgb(207,217,222)] flex justify-center items-center gap-2 mb-4 hover:bg-[rgba(29,155,240,0.1)] active:bg-[rgba(66,133,244,.1)]"
-        onClick={signInWithGoogle}
+        onClick={() => signInWithGoogle(() => navigate("/home"))}
       >
         <img
           src="/google.svg"
@@ -31,7 +33,7 @@ const SignInForm = () => {
 
       <div
         className=" h-[38px] w-full text-[14px] my-3 border rounded-full border-[rgb(207,217,222)] flex justify-center items-center gap-2 hover:bg-[rgb(230,230,230)] active:bg-[rgb(204,204,204)]"
-        onClick={signInWithGithub}
+        onClick={() => signInWithGithub(() => navigate("/home"))}
       >
         <img
           src="/github.svg"

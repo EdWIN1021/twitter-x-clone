@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import TextInput from "./TextInput";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import PasswordInput from "./PasswordInput";
 
 const SignUpPasswordForm = () => {
   const { inputFields, setInputFields, signUp } = useContext(AuthContext);
@@ -15,15 +15,12 @@ const SignUpPasswordForm = () => {
         Make sure it's 8 characters or more.
       </p>
 
-      <TextInput
-        label="password"
-        id="password"
+      <PasswordInput
         value={password}
         name="password"
         onChange={(e) =>
           setInputFields({ ...inputFields, [e.target.name]: e.target.value })
         }
-        type="password"
       />
 
       <button

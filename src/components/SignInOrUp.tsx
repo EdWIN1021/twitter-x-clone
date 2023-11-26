@@ -1,13 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import PasswordInput from "./PasswordInput";
 
 const SignInOrUp = () => {
   const { signInWithGoogle, signInWithGithub } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const [value, setValue] = useState("");
 
   return (
     <>
@@ -97,11 +94,6 @@ const SignInOrUp = () => {
             >
               <span>Sign in</span>
             </Link>
-
-            <PasswordInput
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            />
           </div>
         </div>
       </div>

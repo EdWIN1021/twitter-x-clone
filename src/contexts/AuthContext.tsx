@@ -125,8 +125,6 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const user = result.user;
 
     if (user) cb();
-
-    console.log(user);
   };
   const signOut = async (cb: () => void) => {
     try {

@@ -3,6 +3,7 @@ import TextInput from "./TextInput";
 import { AuthContext } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import PasswordInput from "./PasswordInput";
 
 const SignInPasswordForm = () => {
   const { inputFields, setInputFields, signIn } = useContext(AuthContext);
@@ -23,18 +24,14 @@ const SignInPasswordForm = () => {
         />
       </div>
 
-      <div className="my-3">
-        <TextInput
-          label="Password"
-          id="password"
-          value={password}
-          name="password"
-          onChange={(e) =>
-            setInputFields({ ...inputFields, [e.target.name]: e.target.value })
-          }
-          type="password"
-        />
-      </div>
+      <PasswordInput
+        className="my-3"
+        value={password}
+        name="password"
+        onChange={(e) =>
+          setInputFields({ ...inputFields, [e.target.name]: e.target.value })
+        }
+      />
 
       <Link to="/">
         <span className="text-[13px] text-[rgb(29,155,240)]">

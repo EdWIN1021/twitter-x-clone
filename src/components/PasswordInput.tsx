@@ -3,12 +3,7 @@ import { InputHTMLAttributes, useEffect, useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { twMerge } from "tailwind-merge";
 
-interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  variant?: "primary" | "secondary" | "tertiary";
-  outline?: boolean;
-}
-
-const PasswordInput: React.FC<TextInputProps> = ({
+const PasswordInput: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({
   value,
   className,
   ...rest

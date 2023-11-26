@@ -53,7 +53,7 @@ const DropDown: FC<DropDownProps> = ({ variant, type, data, ...rest }) => {
         ))}
       </select>
 
-      <ChevronDownIcon className="absolute w-[20px] h-[25px] top-1/2 -translate-y-1/2 right-2" />
+      <ChevronDownIcon className="absolute w-[20px] h-[20px] top-1/2 -translate-y-1/2 right-2" />
     </div>
   );
 };

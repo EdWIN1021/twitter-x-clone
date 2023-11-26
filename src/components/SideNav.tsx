@@ -12,57 +12,36 @@ import {
   EllipsisHorizontalCircleIcon,
 } from "@heroicons/react/24/outline";
 
+import NavLink from "./NavLink";
+import UserInfo from "./UserInfo";
+
 const SideNav = () => {
   return (
-    <ul className="max-w-[259px] border-r text-xl ">
-      <li className="p-4">
-        <Logo />
-      </li>
-      <li className="flex items-center gap-3 p-3">
-        <HomeIcon className="w-7" />
-        <span>Home</span>
-      </li>
-      <li className="flex items-center gap-3 p-3">
-        <MagnifyingGlassIcon className="w-7" />
-        <span>Explore</span>
-      </li>
-      <li className="flex items-center gap-3 p-3">
-        <BellIcon className="w-7" />
-        <span>Notifications</span>
-      </li>
-      <li className="flex items-center gap-3 p-3">
-        <EnvelopeIcon className="w-7" />
-        <span>Messages</span>
-      </li>
-      <li className="flex items-center gap-3 p-3">
-        <QueueListIcon className="w-7" />
-        <span>Lists</span>
-      </li>
-      <li className="flex items-center gap-3 p-3">
-        <BookmarkIcon className="w-7" />
-        <span>Bookmarks</span>
-      </li>
-      <li className="flex items-center gap-3 p-3">
-        <UsersIcon className="w-7" />
-        <span>Communities</span>
-      </li>
+    <div className="flex flex-col w-[275px] mt-2 mb-5">
+      <ul className=" border-r text-xl flex-1">
+        <NavLink icon={<Logo />} />
+        <NavLink icon={<HomeIcon />} title={"Home"} to={"/home"} />
+        <NavLink
+          icon={<MagnifyingGlassIcon />}
+          title={"Explore"}
+          to={"/explore"}
+        />
+        <NavLink icon={<BellIcon />} title={"Notifications"} />
+        <NavLink icon={<EnvelopeIcon />} title={"Messages"} />
+        <NavLink icon={<QueueListIcon />} title={"Lists"} />
+        <NavLink icon={<BookmarkIcon />} title={"Bookmarks"} />
+        <NavLink icon={<UsersIcon />} title={"Communities"} />
+        <NavLink icon={<Logo />} title={"Premium"} />
+        <NavLink icon={<UserIcon />} title={"Profile"} />
+        <NavLink icon={<EllipsisHorizontalCircleIcon />} title={"More"} />
 
-      <li className="flex items-center gap-3 p-3">
-        <Logo />
-        <span>Premium</span>
-      </li>
+        <div className="w-[244px]">
+          <Button title={"Post"} />
+        </div>
+      </ul>
 
-      <li className="flex items-center gap-3 p-3">
-        <UserIcon className="w-7" />
-        <span>Profile</span>
-      </li>
-      <li className="flex items-center gap-3 p-3">
-        <EllipsisHorizontalCircleIcon className="w-7" />
-        <span>More</span>
-      </li>
-
-      <Button title={"Post"} />
-    </ul>
+      <UserInfo />
+    </div>
   );
 };
 

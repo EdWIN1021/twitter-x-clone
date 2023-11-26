@@ -9,6 +9,9 @@ import ErrorPage from "./pages/error-page";
 import RootLayout, { Loader as layoutLoader } from "./layouts/RootLayout";
 import Protect, { Loader as protectLoader } from "./pages/protect";
 import AuthProvider from "./contexts/AuthContext";
+import HomeLayout from "./layouts/HomeLayout";
+
+import Explore from "./components/Explore";
 
 const router = createBrowserRouter([
   {
@@ -35,8 +38,17 @@ const router = createBrowserRouter([
     loader: protectLoader,
     children: [
       {
-        path: "/home",
-        element: <Home />,
+        element: <HomeLayout />,
+        children: [
+          {
+            path: "/home",
+            element: <Home />,
+          },
+          {
+            path: "/explore",
+            element: <Explore />,
+          },
+        ],
       },
     ],
   },

@@ -1,5 +1,7 @@
-const Logo = () => {
-  return <img className="w-7" src="/logo.svg" alt="x-logo" />;
+import { HTMLAttributes } from "react";
+
+const Logo: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
+  return <img className={className} src="/logo.svg" alt="x-logo" />;
 };
 
 export default Logo;

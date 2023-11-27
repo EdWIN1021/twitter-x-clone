@@ -1,5 +1,5 @@
 import { Outlet, redirect } from "react-router-dom";
-import SideNav from "../components/SideNav";
+import SideNav from "../components/SideBar";
 import { getUser } from "../utils/auth";
 import { User } from "firebase/auth";
 

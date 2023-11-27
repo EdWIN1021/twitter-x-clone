@@ -5,7 +5,8 @@ export default {
     extend: {
       colors: {
         primary: "#1D9BF0",
-        label: "rgb(83,100,113)",
+        label: "rgba(83,100,113)",
+        "hover-gray": "rgba(15,20,25,0.1)",
       },
       height: {
         input: "60px",

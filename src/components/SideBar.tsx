@@ -15,7 +15,7 @@ import {
 import NavLink from "./NavLink";
 import UserInfo from "./UserInfo";
 
-const SideNav = () => {
+const SideBar = () => {
   return (
     <div className="flex flex-col w-[275px] mt-2 mb-5">
       <ul className=" border-r text-xl flex-1">
@@ -39,10 +39,9 @@ const SideNav = () => {
           <Button title={"Post"} />
         </div>
       </ul>
-
       <UserInfo />
     </div>
   );
 };
 
-export default SideNav;
+export default SideBar;

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import PasswordInput from "./PasswordInput";
+import PasswordInput from "../ui/PasswordInput";
 
 const SignUpPasswordForm = () => {
   const { inputFields, setInputFields, signUp } = useContext(AuthContext);
@@ -10,7 +10,7 @@ const SignUpPasswordForm = () => {
 
   return (
     <div className="flex flex-col max-w-[400px] mx-auto">
-      <h2 className="text-[31px] font-bold mt-7 ">You'll need a password</h2>
+      <h2 className="text-[31px] font-bold mt-7">You'll need a password</h2>
       <p className="text-[rgb(83,100,113)] text-[14px] mb-7">
         Make sure it's 8 characters or more.
       </p>

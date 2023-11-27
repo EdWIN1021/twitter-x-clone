@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import TextInput from "./TextInput";
+import TextInput from "../ui/TextInput";
 import { AuthContext } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import PasswordInput from "./PasswordInput";
+import PasswordInput from "../ui/PasswordInput";
 
 const SignInPasswordForm = () => {
   const { inputFields, setInputFields, signIn } = useContext(AuthContext);

@@ -6,17 +6,19 @@ import Home from "./pages/home";
 import SignUp from "./pages/signup";
 import SignIn from "./pages/signin";
 import ErrorPage from "./pages/error-page";
-import RootLayout, { Loader as layoutLoader } from "./layouts/RootLayout";
-import Protect, { Loader as protectLoader } from "./pages/protect";
-import AuthProvider from "./contexts/AuthContext";
-import HomeLayout from "./layouts/HomeLayout";
 
+import RootLayout, { Loader as rootLayoutLoader } from "./layouts/RootLayout";
+import Protect, { Loader as protectLoader } from "./pages/protect";
+import HomeLayout, { Loader as homeLayoutLoader } from "./layouts/HomeLayout";
+
+import AuthProvider from "./contexts/AuthContext";
 import Explore from "./components/Explore";
+import Username from "./pages/username";
 
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
-    loader: layoutLoader,
+    loader: rootLayoutLoader,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -39,6 +41,7 @@ const router = createBrowserRouter([
     children: [
       {
         element: <HomeLayout />,
+        loader: homeLayoutLoader,
         children: [
           {
             path: "/home",
@@ -49,6 +52,10 @@ const router = createBrowserRouter([
             element: <Explore />,
           },
         ],
+      },
+      {
+        path: "/username",
+        element: <Username />,
       },
     ],
   },

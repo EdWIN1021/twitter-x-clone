@@ -18,6 +18,11 @@ import {
   User,
   signOut as signOutUser,
 } from "firebase/auth";
+
+import { doc, setDoc } from "firebase/firestore";
+
+import { db } from "../lib/firebase";
+
 import { FirebaseError } from "firebase/app";
 
 import { auth } from "../lib/firebase";
@@ -90,13 +95,20 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const signUp = async (cb: () => void) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
+      const { user } = await createUserWithEmailAndPassword(
         auth,
         inputFields.email,
         inputFields.password
       );
-      if (userCredential?.user) cb();
+
+      if (user) {
+        await setDoc(doc(db, "users", user?.uid), {
+          username: "",
+        });
+        cb();
+      }
     } catch (error) {
+      console.log(error);
       console.log((error as FirebaseError).message);
     }
   };
@@ -117,14 +129,24 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const signInWithGoogle = async (cb: () => void) => {
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
-    if (user) cb();
+    if (user) {
+      await setDoc(doc(db, "users", user?.uid), {
+        username: "",
+      });
+      cb();
+    }
   };
 
   const signInWithGithub = async (cb: () => void) => {
     const result = await signInWithPopup(auth, githubProvider);
     const user = result.user;
 
-    if (user) cb();
+    if (user) {
+      await setDoc(doc(db, "users", user?.uid), {
+        username: "",
+      });
+      cb();
+    }
   };
   const signOut = async (cb: () => void) => {
     try {

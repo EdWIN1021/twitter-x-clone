@@ -1,8 +1,8 @@
 import { useMemo, useContext, ChangeEvent } from "react";
 
-import TextInput from "./TextInput";
-import DropDown from "./DropDown";
-import { StepperContext } from "./Stepper";
+import TextInput from "../ui/TextInput";
+import DropDown from "../ui/DropDown";
+import { StepperContext } from "../ui/Stepper";
 import { monthData, dayData, yearData } from "../constants";
 import { AuthContext } from "../contexts/AuthContext";
 

@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import TextInput from "./TextInput";
+import TextInput from "../ui/TextInput";
 import { AuthContext } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { StepperContext } from "./Stepper";
+import { StepperContext } from "../ui/Stepper";
 
 const SignInForm = () => {
   const { inputFields, setInputFields, signInWithGoogle, signInWithGithub } =
@@ -13,7 +13,7 @@ const SignInForm = () => {
 
   return (
     <div className="flex flex-col max-w-[300px] h-[580px] mx-auto items-center">
-      <h2 className="text-[31px] font-bold  mt-3 mb-7 self-start">
+      <h2 className="text-[31px] font-bold mt-3 mb-7 self-start">
         Sign in to X
       </h2>
 

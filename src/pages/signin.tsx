@@ -1,8 +1,8 @@
-import Modal from "../components/Modal";
-import Overlay from "../components/Overlay";
+import Modal from "../ui/Modal";
+import Overlay from "../ui/Overlay";
 import SignInForm from "../components/SignInForm";
 import SignInPasswordForm from "../components/SignInPasswordForm";
-import Stepper, { Step } from "../components/Stepper";
+import Stepper, { Step } from "../ui/Stepper";
 
 const SignIn = () => {
   return (

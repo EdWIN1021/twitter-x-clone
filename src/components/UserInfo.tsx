@@ -1,7 +1,7 @@
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-import Logout from "./Logout";
+import LogOut from "./LogOut";
 
 const UserInfo: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
@@ -12,8 +12,6 @@ const UserInfo: React.FC = () => {
       <div
         className="rounded-full px-3 py-1 w-[244px] hover:bg-hover-gray cursor-pointer"
         onClick={() => toggle((open) => !open)}
-        tabIndex={0}
-        onBlur={() => toggle(false)}
       >
         <div className="flex items-center gap-2.5">
           <div className="w-10 cursor-pointer">
@@ -35,7 +33,7 @@ const UserInfo: React.FC = () => {
         </div>
       </div>
 
-      {open && <Logout />}
+      {open && <LogOut toggle={toggle} username={currentUser?.username} />}
     </div>
   );
 };

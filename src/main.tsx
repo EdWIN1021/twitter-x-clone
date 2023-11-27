@@ -15,7 +15,7 @@ import HomeLayout, { Loader as homeLayoutLoader } from "./layouts/HomeLayout";
 
 import AuthProvider from "./contexts/AuthContext";
 
-import Explore from "./components/Explore";
+// import Explore from "./components/Explore";
 
 const router = createBrowserRouter([
   {
@@ -49,10 +49,10 @@ const router = createBrowserRouter([
             path: "/home",
             element: <Home />,
           },
-          {
-            path: "/explore",
-            element: <Explore />,
-          },
+          // {
+          //   path: "/explore",
+          //   element: <Explore />,
+          // },
         ],
       },
       {

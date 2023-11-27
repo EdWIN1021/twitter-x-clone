@@ -1,5 +1,5 @@
 const Search = () => {
-  return <div className="max-w-350 bg-[blue]">Search</div>;
+  return <div className="w-[350px] ">Search</div>;
 };
 
 export default Search;

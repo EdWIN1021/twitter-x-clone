@@ -18,14 +18,10 @@ import UserInfo from "./UserInfo";
 const SideBar = () => {
   return (
     <div className="flex flex-col w-[275px] mt-2 mb-5">
-      <ul className=" border-r text-xl flex-1">
+      <ul className="text-xl flex-1">
         <NavLink icon={<Logo />} />
         <NavLink icon={<HomeIcon />} title={"Home"} to={"/home"} />
-        <NavLink
-          icon={<MagnifyingGlassIcon />}
-          title={"Explore"}
-          to={"/explore"}
-        />
+        <NavLink icon={<MagnifyingGlassIcon />} title={"Explore"} />
         <NavLink icon={<BellIcon />} title={"Notifications"} />
         <NavLink icon={<EnvelopeIcon />} title={"Messages"} />
         <NavLink icon={<QueueListIcon />} title={"Lists"} />

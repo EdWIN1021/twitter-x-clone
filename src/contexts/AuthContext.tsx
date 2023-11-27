@@ -26,6 +26,9 @@ import { db } from "../lib/firebase";
 import { FirebaseError } from "firebase/app";
 
 import { auth } from "../lib/firebase";
+import { monthData } from "../constants";
+
+import { getUserProfile } from "../utils/auth";
 
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
@@ -48,7 +51,7 @@ interface AuthContextProps {
   signInWithGoogle: (cb: () => void) => void;
   signInWithGithub: (cb: () => void) => void;
   signOut: (cb: () => void) => void;
-  currentUser: User | null;
+  currentUser: CurrentUser | null;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -70,8 +73,13 @@ export const AuthContext = createContext<AuthContextProps>({
   signOut: () => {},
 });
 
+interface CurrentUser extends User {
+  name?: string;
+  username?: string;
+}
+
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [inputFields, setInputFields] = useState({
     email: "",
     name: "",
@@ -84,6 +92,10 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     const observer = onAuthStateChanged(auth, (user) => {
       if (user) {
+        getUserProfile(user.uid).then((profile) => {
+          setCurrentUser(Object.assign(user, profile));
+        });
+
         setCurrentUser(user);
       } else {
         setCurrentUser(null);
@@ -102,8 +114,14 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       );
 
       if (user) {
+        const birthday = new Date(
+          Number(inputFields.year),
+          monthData.indexOf("January") + 1,
+          Number(inputFields.day)
+        );
         await setDoc(doc(db, "users", user?.uid), {
           username: "",
+          birthday,
         });
         cb();
       }
@@ -186,9 +204,3 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export default AuthProvider;
-
-// const birthday = new Date(
-//   Number(year),
-//   monthData.indexOf("January") + 1,
-//   Number(day)
-// );

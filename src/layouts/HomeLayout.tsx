@@ -13,9 +13,7 @@ export const Loader = async () => {
       const docRef = doc(db, "users", user?.uid);
       const data = (await getDoc(docRef))?.data();
 
-      if (data?.username) {
-        return redirect("/home");
-      } else {
+      if (!data?.username) {
         return redirect("/username");
       }
     }

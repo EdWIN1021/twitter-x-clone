@@ -7,13 +7,15 @@ import SignUp from "./pages/signup";
 import SignIn from "./pages/signin";
 import ErrorPage from "./pages/error-page";
 
-import RootLayout, { Loader as rootLayoutLoader } from "./layouts/RootLayout";
+import Username from "./pages/username";
 import Protect, { Loader as protectLoader } from "./pages/protect";
+
+import RootLayout, { Loader as rootLayoutLoader } from "./layouts/RootLayout";
 import HomeLayout, { Loader as homeLayoutLoader } from "./layouts/HomeLayout";
 
 import AuthProvider from "./contexts/AuthContext";
+
 import Explore from "./components/Explore";
-import Username from "./pages/username";
 
 const router = createBrowserRouter([
   {

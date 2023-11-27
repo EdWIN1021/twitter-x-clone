@@ -6,6 +6,7 @@ import {
   useState,
   Dispatch,
   SetStateAction,
+  useMemo,
 } from "react";
 
 import {
@@ -19,16 +20,13 @@ import {
   signOut as signOutUser,
 } from "firebase/auth";
 
-import { doc, setDoc } from "firebase/firestore";
-
-import { db } from "../lib/firebase";
+import { auth } from "../lib/firebase";
 
 import { FirebaseError } from "firebase/app";
 
-import { auth } from "../lib/firebase";
 import { monthData } from "../constants";
 
-import { getUserProfile } from "../utils/auth";
+import { getUserProfile, initUserProfile } from "../utils/auth";
 
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
@@ -91,6 +89,16 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     password: "",
   });
 
+  const birthday = useMemo(
+    () =>
+      new Date(
+        Number(inputFields.year),
+        monthData.indexOf("January") + 1,
+        Number(inputFields.day)
+      ),
+    [inputFields]
+  );
+
   useEffect(() => {
     const observer = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -116,16 +124,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       );
 
       if (user) {
-        const birthday = new Date(
-          Number(inputFields.year),
-          monthData.indexOf("January") + 1,
-          Number(inputFields.day)
-        );
-
-        await setDoc(doc(db, "users", user?.uid), {
-          username: "",
-          birthday,
-        });
+        initUserProfile(user, birthday);
         cb();
       }
     } catch (error) {
@@ -158,9 +157,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       }
 
       if (user && !profile?.username) {
-        await setDoc(doc(db, "users", user?.uid), {
-          username: "",
-        });
+        initUserProfile(user, birthday);
         cb();
       }
     } catch (error) {
@@ -169,15 +166,21 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const signInWithGithub = async (cb: () => void) => {
-    //copy from up lines
-    const result = await signInWithPopup(auth, githubProvider);
-    const user = result.user;
+    try {
+      const result = await signInWithPopup(auth, githubProvider);
+      const user = result.user as CurrentUser;
+      const profile = await getUserProfile(user?.uid);
 
-    if (user) {
-      await setDoc(doc(db, "users", user?.uid), {
-        username: "",
-      });
-      cb();
+      if (user && profile?.username) {
+        cb();
+      }
+
+      if (user && !profile?.username) {
+        initUserProfile(user, birthday);
+        cb();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   const signOut = async (cb: () => void) => {

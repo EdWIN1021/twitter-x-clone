@@ -1,5 +1,6 @@
+import { User } from "firebase/auth";
 import { auth, db } from "../lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const getUser = () => {
   return new Promise((resolve, reject) => {
@@ -23,4 +24,11 @@ export const getUserProfile = async (id: string) => {
   }
 
   return null;
+};
+
+export const initUserProfile = async (user: User, birthday: Date) => {
+  await setDoc(doc(db, "users", user?.uid), {
+    username: "",
+    birthday,
+  });
 };

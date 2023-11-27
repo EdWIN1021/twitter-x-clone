@@ -10,17 +10,21 @@ import { useNavigate } from "react-router-dom";
 
 const Username = () => {
   const [input, setInput] = useState("");
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+
     try {
       if (currentUser) {
         const usersRef = doc(db, "users", currentUser.uid);
         await updateDoc(usersRef, {
           username: input,
         });
+
+        setCurrentUser({ ...currentUser, username: input });
+
         navigate("/home");
       }
     } catch (error) {

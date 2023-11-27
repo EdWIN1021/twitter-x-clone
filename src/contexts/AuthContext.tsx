@@ -52,6 +52,7 @@ interface AuthContextProps {
   signInWithGithub: (cb: () => void) => void;
   signOut: (cb: () => void) => void;
   currentUser: CurrentUser | null;
+  setCurrentUser: Dispatch<SetStateAction<CurrentUser | null>>;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -71,6 +72,7 @@ export const AuthContext = createContext<AuthContextProps>({
   signInWithGithub: () => {},
   currentUser: null,
   signOut: () => {},
+  setCurrentUser: () => {},
 });
 
 interface CurrentUser extends User {
@@ -119,6 +121,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
           monthData.indexOf("January") + 1,
           Number(inputFields.day)
         );
+
         await setDoc(doc(db, "users", user?.uid), {
           username: "",
           birthday,
@@ -145,17 +148,28 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const signInWithGoogle = async (cb: () => void) => {
-    const result = await signInWithPopup(auth, googleProvider);
-    const user = result.user;
-    if (user) {
-      await setDoc(doc(db, "users", user?.uid), {
-        username: "",
-      });
-      cb();
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user as CurrentUser;
+      const profile = await getUserProfile(user?.uid);
+
+      if (user && profile?.username) {
+        cb();
+      }
+
+      if (user && !profile?.username) {
+        await setDoc(doc(db, "users", user?.uid), {
+          username: "",
+        });
+        cb();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const signInWithGithub = async (cb: () => void) => {
+    //copy from up lines
     const result = await signInWithPopup(auth, githubProvider);
     const user = result.user;
 
@@ -196,6 +210,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     signInWithGithub,
     signOut,
     currentUser,
+    setCurrentUser,
   };
 
   return (

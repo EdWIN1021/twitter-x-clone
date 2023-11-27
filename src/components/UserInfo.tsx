@@ -4,8 +4,6 @@ import { AuthContext } from "../contexts/AuthContext";
 const UserInfo = () => {
   const { currentUser } = useContext(AuthContext);
 
-  console.log(currentUser);
-
   return (
     <div className="flex items-center w-[244px] gap-2.5">
       <div className="w-10 cursor-pointer">
@@ -21,7 +19,7 @@ const UserInfo = () => {
         <span className="text-label">@{currentUser?.username}</span>
       </div>
 
-      <EllipsisHorizontalIcon className="w-7 ml-7" />
+      <EllipsisHorizontalIcon className="w-7 ml-7 cursor-pointer" />
     </div>
   );
 };

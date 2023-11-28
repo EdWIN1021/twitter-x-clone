@@ -32,7 +32,7 @@ const Main = () => {
   }, [currentUser]);
 
   return (
-    <div className="w-[550px] justify-center border-x">
+    <div className="w-[550px] justify-center border-x overflow-y-auto">
       <MainTab />
       <PostForm />
       <Tweets tweets={tweets} />

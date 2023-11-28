@@ -17,7 +17,7 @@ const UserInfo: React.FC = () => {
           <div className="w-10 cursor-pointer">
             <img
               className="rounded-full"
-              src="/default_profile.png"
+              src={currentUser?.photoURL || "/default_profile.png"}
               alt="default..."
             />
           </div>

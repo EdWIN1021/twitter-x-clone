@@ -18,6 +18,7 @@ import {
   signInWithPopup,
   User,
   signOut as signOutUser,
+  updateProfile,
 } from "firebase/auth";
 
 import { auth } from "../lib/firebase";
@@ -124,7 +125,11 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       );
 
       if (user) {
-        initUserProfile(user, birthday);
+        await initUserProfile(user, birthday);
+        await updateProfile(user, {
+          displayName: inputFields.name,
+        });
+
         cb();
       }
     } catch (error) {

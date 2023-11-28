@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 
 import {
   PhotoIcon,
@@ -10,29 +10,43 @@ import { XCircleIcon } from "@heroicons/react/24/solid";
 
 import clsx from "clsx";
 import EmojiModal from "./EmojiModal";
+import { AuthContext } from "../contexts/AuthContext";
+import { createPost } from "../utils/post";
 
 const PostForm = () => {
-  const [input, setInput] = useState("");
+  const [content, setContent] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [open, toggle] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     textAreaRef.current!.style.height = "auto";
     textAreaRef.current!.style.height =
       textAreaRef.current!.scrollHeight + "px";
-  }, [input]);
-
-  console.log(fileInputRef);
+  }, [content]);
 
   const handleEmoji = (emojiObject: { emoji: string }) => {
-    setInput((pre) => pre + emojiObject.emoji);
+    setContent((pre) => pre + emojiObject.emoji);
     toggle(false);
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  console.log(currentUser);
+
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+
+    //add image to storage with postId
+
+    if (currentUser) {
+      createPost(
+        currentUser?.uid,
+        content,
+        currentUser?.displayName,
+        currentUser?.photoURL
+      );
+    }
   };
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +59,7 @@ const PostForm = () => {
         <div className="w-10 cursor-pointer mr-3">
           <img
             className="rounded-full"
-            src="/default_profile.png"
+            src={currentUser?.photoURL || "/default_profile.png"}
             alt="default..."
           />
         </div>
@@ -56,8 +70,8 @@ const PostForm = () => {
             className="outline-none  overflow-hidden resize-none w-full text-xl pb-9"
             placeholder="What is happening?!"
             rows={1}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           ></textarea>
 
           {imageUrl && (
@@ -101,10 +115,10 @@ const PostForm = () => {
               </div>
             </div>
             <button
-              disabled={!input}
+              disabled={!content}
               className={clsx(
                 "bg-primary text-white py-1.5 px-4 rounded-full font-bold ",
-                { "opacity-50": !input }
+                { "opacity-50": !content }
               )}
             >
               Post

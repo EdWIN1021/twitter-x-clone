@@ -77,6 +77,7 @@ export const AuthContext = createContext<AuthContextProps>({
 interface CurrentUser extends User {
   name?: string;
   username?: string;
+  following?: string[];
 }
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {

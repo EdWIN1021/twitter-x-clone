@@ -28,7 +28,7 @@ export const getUserProfile = async (id: string) => {
 
 export const initUserProfile = async (user: User, birthday: Date) => {
   await setDoc(doc(db, "users", user?.uid), {
-    followings: arrayUnion(user?.uid),
+    following: arrayUnion(user?.uid),
     username: "",
     birthday,
   });

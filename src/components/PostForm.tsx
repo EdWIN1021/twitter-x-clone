@@ -44,7 +44,8 @@ const PostForm = () => {
         currentUser?.uid,
         content,
         currentUser?.displayName,
-        currentUser?.photoURL
+        currentUser?.photoURL,
+        currentUser?.username
       );
 
       if (
@@ -97,7 +98,11 @@ const PostForm = () => {
 
           {imageUrl && (
             <div className="w-full h-[382px] rounded-2xl overflow-hidden relative">
-              <img className="w-full h-full" src={imageUrl} alt="" />
+              <img
+                className="w-full h-full object-cover"
+                src={imageUrl}
+                alt=""
+              />
 
               <XCircleIcon
                 className="absolute top-[1%] w-8 right-[1%] cursor-pointer"
@@ -135,6 +140,7 @@ const PostForm = () => {
                 <MapPinIcon className="w-5 stroke-primary stroke-[2.5px] opacity-50" />
               </div>
             </div>
+
             <button
               disabled={!content}
               className={clsx(

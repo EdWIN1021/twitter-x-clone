@@ -7,6 +7,8 @@ import {
 } from "@heroicons/react/24/outline";
 
 const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
+  console.log(tweet);
+
   return (
     <div className="flex pt-4 px-4 pb-3 border-b">
       <div className="w-10 cursor-pointer mr-3">
@@ -24,10 +26,11 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
         </div>
 
         <p>{tweet?.content}</p>
-
-        <div className="w-full h-[288px] rounded-2xl overflow-hidden relative mt-2">
-          <img className="w-full h-full" src={tweet?.postImageUrl} alt="" />
-        </div>
+        {tweet?.postImageUrl && (
+          <div className="w-full h-[288px] rounded-2xl overflow-hidden relative mt-2">
+            <img className="w-full h-full" src={tweet?.postImageUrl} alt="" />
+          </div>
+        )}
 
         <div className="flex justify-around pt-3">
           <div className="text-[13px] text-label flex items-center">

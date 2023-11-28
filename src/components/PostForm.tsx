@@ -1,5 +1,7 @@
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 
+import { ref, uploadBytes } from "firebase/storage";
+
 import {
   PhotoIcon,
   FaceSmileIcon,
@@ -12,11 +14,13 @@ import clsx from "clsx";
 import EmojiModal from "./EmojiModal";
 import { AuthContext } from "../contexts/AuthContext";
 import { createPost } from "../utils/post";
+import { db, storage } from "../lib/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
 const PostForm = () => {
   const [content, setContent] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [open, toggle] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const { currentUser } = useContext(AuthContext);
@@ -32,21 +36,38 @@ const PostForm = () => {
     toggle(false);
   };
 
-  console.log(currentUser);
-
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    //add image to storage with postId
-
     if (currentUser) {
-      createPost(
+      const postRes = await createPost(
         currentUser?.uid,
         content,
         currentUser?.displayName,
         currentUser?.photoURL
       );
+
+      if (
+        fileInputRef.current?.files &&
+        fileInputRef.current?.files.length > 0
+      ) {
+        const storageRef = ref(storage, `posts/${postRes?.id}`);
+        const uploadRes = await uploadBytes(
+          storageRef,
+          fileInputRef?.current?.files[0]
+        );
+
+        await updateDoc(doc(db, "posts", postRes?.id), {
+          postImageUrl: `
+          https://firebasestorage.googleapis.com/v0/b/twitter-clone-f5011.appspot.com/o/posts%2F${uploadRes.metadata.name}?alt=media&token=9a311874-bf9f-4118-9504-6f9a9952e230
+          `,
+        });
+      }
     }
+
+    setContent("");
+    setImageUrl("");
+    fileInputRef.current!.value = "";
   };
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {

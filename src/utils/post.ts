@@ -14,5 +14,6 @@ export const createPost = async (
     photoURL,
     timestamp: serverTimestamp(),
   });
-  console.log(docRef.id);
+
+  return docRef;
 };

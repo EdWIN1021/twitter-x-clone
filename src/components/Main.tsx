@@ -3,7 +3,7 @@ import MainTab from "./MainTab";
 import PostForm from "./PostForm";
 import Tweets from "./Tweets";
 import { AuthContext } from "../contexts/AuthContext";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { Tweet } from "../types";
 
@@ -17,7 +17,8 @@ const Main = () => {
     const getTweets = async () => {
       const q = query(
         collection(db, "posts"),
-        where("userId", "in", currentUser?.following)
+        where("userId", "in", currentUser?.following),
+        orderBy("timestamp", "desc")
       );
 
       const querySnapshot = await getDocs(q);

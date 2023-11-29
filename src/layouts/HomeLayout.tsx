@@ -25,7 +25,7 @@ export const Loader = async () => {
 
 const HomeLayout = () => {
   return (
-    <div className="h-[100vh] flex justify-center">
+    <div className="flex h-[100vh] justify-center">
       <SideNav />
       <Outlet />
     </div>

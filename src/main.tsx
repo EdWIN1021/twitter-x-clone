@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./pages/root";
 import Home from "./pages/home";

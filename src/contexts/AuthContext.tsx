@@ -74,7 +74,7 @@ export const AuthContext = createContext<AuthContextProps>({
   setCurrentUser: () => {},
 });
 
-interface CurrentUser extends User {
+export interface CurrentUser extends User {
   name?: string;
   username?: string;
   following?: string[];
@@ -96,9 +96,9 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       new Date(
         Number(inputFields.year),
         monthData.indexOf("January") + 1,
-        Number(inputFields.day)
+        Number(inputFields.day),
       ),
-    [inputFields]
+    [inputFields],
   );
 
   useEffect(() => {
@@ -122,7 +122,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       const { user } = await createUserWithEmailAndPassword(
         auth,
         inputFields.email,
-        inputFields.password
+        inputFields.password,
       );
 
       if (user) {
@@ -144,7 +144,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         inputFields.email,
-        inputFields.password
+        inputFields.password,
       );
       if (userCredential?.user) cb();
     } catch (error) {

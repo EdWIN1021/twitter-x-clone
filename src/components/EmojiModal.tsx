@@ -9,11 +9,11 @@ const EmojiModal: React.FC<{
   return createPortal(
     <>
       <div
-        className={`absolute bg-transparent top-0 w-full h-full`}
+        className={`absolute top-0 h-full w-full bg-transparent`}
         onClick={() => toggle(false)}
       ></div>
 
-      <div className="absolute left-[25%] top-[23%] flex-col justify-center items-center">
+      <div className="absolute left-[25%] top-[23%] flex-col items-center justify-center">
         <EmojiPicker
           width={320}
           height={440}
@@ -22,7 +22,7 @@ const EmojiModal: React.FC<{
         />
       </div>
     </>,
-    document.body
+    document.body,
   );
 };
 

@@ -1,20 +1,20 @@
-import { redirect, Outlet } from "react-router-dom";
-import { getUser } from "../utils/auth";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import Loader from "../components/Loader";
+import {auth} from '../lib/firebase'
 
-export const Loader = async () => {
-  try {
-    const user = await getUser();
-    if (user) {
-      return redirect("/home");
-    }
-  } catch (error) {
-    console.log(error);
-  }
-  return null;
-};
 
 const RootLayout = () => {
-  return <Outlet />;
+  const [user, loading, error] = useAuthState(auth);
+
+  if(loading){
+    return <Loader/>
+  }
+
+  return(
+  <>{user && !error ? <Navigate to='/home' /> : <Outlet />}
+ </> 
+  );
 };
 
 export default RootLayout;

@@ -18,7 +18,7 @@ const Main = () => {
       const q = query(
         collection(db, "posts"),
         where("userId", "in", currentUser?.following),
-        orderBy("timestamp", "desc")
+        orderBy("timestamp", "desc"),
       );
 
       const querySnapshot = await getDocs(q);
@@ -33,7 +33,7 @@ const Main = () => {
   }, [currentUser]);
 
   return (
-    <div className="w-[550px] justify-center border-x overflow-y-auto">
+    <div className="w-[550px] justify-center overflow-y-auto border-x">
       <MainTab />
       <PostForm />
       <Tweets tweets={tweets} />

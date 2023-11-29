@@ -10,17 +10,15 @@ import ErrorPage from "./pages/error-page";
 import Username from "./pages/username";
 import Protect, { Loader as protectLoader } from "./pages/protect";
 
-import RootLayout, { Loader as rootLayoutLoader } from "./layouts/RootLayout";
+import RootLayout from "./layouts/RootLayout";
 import HomeLayout, { Loader as homeLayoutLoader } from "./layouts/HomeLayout";
 
 import AuthProvider from "./contexts/AuthContext";
 
-// import Explore from "./components/Explore";
 
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
-    loader: rootLayoutLoader,
     errorElement: <ErrorPage />,
     children: [
       {

@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Root from "./pages/root";
 import Home from "./pages/home";
 import SignUp from "./pages/signup";
@@ -16,7 +16,7 @@ import RootLayout from "./layouts/RootLayout";
 
 import AuthProvider from "./contexts/AuthContext";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <RootLayout />,

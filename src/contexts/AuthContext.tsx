@@ -75,18 +75,18 @@ export const AuthContext = createContext<AuthContextProps>({
   currentUser: null,
   signOut: () => {},
   setCurrentUser: () => {},
-  loading: false,
+  loading: true,
 });
 
 export interface CurrentUser extends User {
-  name?: string;
-  username?: string;
+  name: string;
+  username: string;
   following?: string[];
 }
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [inputFields, setInputFields] = useState({
     email: "",
@@ -100,19 +100,13 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setLoading(true);
-        getUserProfile(user.uid)
-          .then((profile) => {
-            setCurrentUser(Object.assign(user, profile));
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
+        getUserProfile(user?.uid).then((profile) => {
+          setCurrentUser({ ...user, ...profile } as CurrentUser);
+          setLoading(false);
+        });
       } else {
         setCurrentUser(null);
+        setLoading(false);
       }
     });
     return () => unsubscribe();

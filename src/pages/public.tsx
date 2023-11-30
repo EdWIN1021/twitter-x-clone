@@ -1,19 +1,20 @@
 import { useContext } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import Loader from "../components/Loader";
 
-const Protect = () => {
+const Public = () => {
   const { currentUser, loading } = useContext(AuthContext);
+
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
-        <>{currentUser ? <Outlet /> : <Navigate to="/" />}</>
+        <>{currentUser ? <Navigate to="/home" /> : <Outlet />}</>
       )}
     </>
   );
 };
 
-export default Protect;
+export default Public;

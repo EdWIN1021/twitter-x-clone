@@ -1,0 +1,42 @@
+import { useContext, useEffect, useState } from "react";
+import { db } from "../lib/firebase";
+import { collection, query, getDocs, where } from "firebase/firestore";
+import { CurrentUser } from "../types";
+import { AuthContext } from "../contexts/AuthContext";
+
+const useUsers = () => {
+  const [users, setUsers] = useState<CurrentUser[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      setLoading(true);
+      const data = [] as CurrentUser[];
+      try {
+        const q = query(
+          collection(db, "users"),
+          where("username", "!=", currentUser?.username),
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => data.push(doc.data() as CurrentUser));
+        setUsers(data);
+      } catch (err) {
+        console.log(err);
+        // setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getUsers();
+
+    return () => {
+      getUsers();
+    };
+  }, [currentUser?.username]);
+
+  return { users, loading };
+};
+
+export default useUsers;

@@ -145,6 +145,8 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         inputFields.email,
         inputFields.password,
       );
+
+
       if (userCredential?.user) cb();
     } catch (error) {
       console.log((error as FirebaseError).message);

@@ -5,8 +5,6 @@ import { AuthContext } from "../contexts/AuthContext";
 const HomeLayout = () => {
   const { currentUser } = useContext(AuthContext);
 
-  console.log(currentUser);
-
   return (
     <>
       {currentUser?.username ? (

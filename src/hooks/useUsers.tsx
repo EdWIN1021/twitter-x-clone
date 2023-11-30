@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { db } from "../lib/firebase";
-import { collection, query, getDocs, where, or } from "firebase/firestore";
+import { collection, query, getDocs, where } from "firebase/firestore";
 import { CurrentUser } from "../types";
 import { AuthContext } from "../contexts/AuthContext";
 

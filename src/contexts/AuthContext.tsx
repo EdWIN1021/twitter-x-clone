@@ -28,19 +28,7 @@ import { getUserProfile, initUserProfile } from "../utils/auth";
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
 
-interface InputFields {
-  email: string;
-  name: string;
-  year: string;
-  day: string;
-  month: string;
-  password: string;
-}
-
 interface AuthContextProps {
-  inputFields: InputFields;
-  setInputFields: Dispatch<SetStateAction<InputFields>>;
-  resetFields: () => void;
   signUp: (
     email: string,
     password: string,
@@ -48,7 +36,7 @@ interface AuthContextProps {
     name: string,
     cb: () => void,
   ) => void;
-  signIn: (cb: () => void) => void;
+  signIn: (email: string, password: string, cb: () => void) => void;
   signInWithGoogle: (cb: () => void) => void;
   signInWithGithub: (cb: () => void) => void;
   signOut: (cb: () => void) => void;
@@ -58,17 +46,7 @@ interface AuthContextProps {
 }
 
 export const AuthContext = createContext<AuthContextProps>({
-  inputFields: {
-    email: "",
-    name: "",
-    year: "",
-    day: "",
-    month: "",
-    password: "",
-  },
   signUp: () => {},
-  setInputFields: () => null,
-  resetFields: () => {},
   signIn: () => {},
   signInWithGoogle: () => {},
   signInWithGithub: () => {},
@@ -87,15 +65,6 @@ export interface CurrentUser extends User {
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const [inputFields, setInputFields] = useState({
-    email: "",
-    name: "",
-    year: "",
-    day: "",
-    month: "",
-    password: "",
-  });
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -126,10 +95,11 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         password,
       );
       if (user) {
-        await initUserProfile(user, birthday);
+        await initUserProfile(user, birthday, name);
         await updateProfile(user, {
           displayName: name,
         });
+
         cb();
       }
     } catch (error) {
@@ -138,14 +108,13 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   };
 
-  const signIn = async (cb: () => void) => {
+  const signIn = async (email: string, password: string, cb: () => void) => {
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
-        inputFields.email,
-        inputFields.password,
+        email,
+        password,
       );
-
 
       if (userCredential?.user) cb();
     } catch (error) {
@@ -202,22 +171,8 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   };
 
-  const resetFields = () => {
-    setInputFields({
-      email: "",
-      name: "",
-      year: "",
-      day: "",
-      month: "",
-      password: "",
-    });
-  };
-
   const contextValue: AuthContextProps = {
-    inputFields,
-    setInputFields,
     signUp,
-    resetFields,
     signIn,
     signInWithGoogle,
     signInWithGithub,

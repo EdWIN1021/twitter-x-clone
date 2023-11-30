@@ -4,15 +4,19 @@ import { AuthContext } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PasswordInput from "../ui/PasswordInput";
+import { SignInProps } from "../types";
 
-const SignInPasswordForm = () => {
-  const { inputFields, setInputFields, signIn } = useContext(AuthContext);
+const SignInPasswordForm: React.FC<SignInProps> = ({
+  inputFields,
+  setInputFields,
+}) => {
+  const { signIn } = useContext(AuthContext);
   const { password, email } = inputFields;
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col max-w-[400px] mx-auto">
-      <h2 className="text-[31px] font-bold mt-7 ">Enter your password</h2>
+    <div className="mx-auto flex max-w-[400px] flex-col">
+      <h2 className="mt-7 text-[31px] font-bold ">Enter your password</h2>
 
       <div className="my-3">
         <TextInput
@@ -40,15 +44,19 @@ const SignInPasswordForm = () => {
       </Link>
 
       <button
-        onClick={() => signIn(() => navigate("/home"))}
-        className={`text-white text-[17px] font-bold ${
+        onClick={() =>
+          signIn(inputFields.email, inputFields.password, () =>
+            navigate("/home"),
+          )
+        }
+        className={`text-[17px] font-bold text-white ${
           !password ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"
-        }  rounded-full py-3.5 mb-2 w-full cursor-pointer mt-[200px]`}
+        }  mb-2 mt-[200px] w-full cursor-pointer rounded-full py-3.5`}
       >
         Log In
       </button>
 
-      <p className="text-[rgb(83,100,113)] text-[15px] self-start m-[10px]">
+      <p className="m-[10px] self-start text-[15px] text-[rgb(83,100,113)]">
         Don't have an account?{" "}
         <Link className="text-[rgb(29,155,240)]" to="/signup">
           Sign up

@@ -3,40 +3,43 @@ import { XMarkIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { createPortal } from "react-dom";
 
 import { StepperContext } from "./Stepper";
-import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 interface ModalProps {
   children: React.ReactNode;
   showCloseButton?: boolean;
+  resetFields: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ children, showCloseButton = true }) => {
+const Modal: React.FC<ModalProps> = ({
+  children,
+  showCloseButton = true,
+  resetFields,
+}) => {
   const { prevStep, activeStep } = useContext(StepperContext);
-  const { resetFields } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   return createPortal(
     <div>
-      <div className="bg-white w-[600px] p-4 rounded-2xl shadow-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
+      <div className="absolute left-1/2 top-1/2 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white p-4 shadow-xl ">
         {showCloseButton && (
           <>
             {activeStep < 2 ? (
-              <div className="inline-block p-2 hover:bg-[rgb(0,0,0,0.1)] rounded-full">
+              <div className="inline-block rounded-full p-2 hover:bg-[rgb(0,0,0,0.1)]">
                 <XMarkIcon
                   onClick={() => {
                     navigate("/");
                     resetFields();
                   }}
-                  className="w-[20px] h-[20px]  left-[3%] top-[3%] cursor-pointer"
+                  className="left-[3%] top-[3%]  h-[20px] w-[20px] cursor-pointer"
                 />
               </div>
             ) : (
-              <div className="inline-block p-2 hover:bg-[rgb(0,0,0,0.1)] rounded-full">
+              <div className="inline-block rounded-full p-2 hover:bg-[rgb(0,0,0,0.1)]">
                 <ArrowLeftIcon
                   onClick={() => prevStep()}
-                  className="w-[20px] h-[20px]  left-[3%] top-[3%] cursor-pointer"
+                  className="left-[3%] top-[3%]  h-[20px] w-[20px] cursor-pointer"
                 />
               </div>
             )}
@@ -46,7 +49,7 @@ const Modal: React.FC<ModalProps> = ({ children, showCloseButton = true }) => {
         {children}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };
 

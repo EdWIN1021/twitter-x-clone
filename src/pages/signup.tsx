@@ -15,11 +15,22 @@ const SignUp = () => {
     password: "",
   });
 
+  const resetFields = () => {
+    setInputFields({
+      email: "",
+      name: "",
+      year: "",
+      day: "",
+      month: "",
+      password: "",
+    });
+  };
+
   return (
     <>
       <Overlay />
       <Stepper>
-        <Modal>
+        <Modal resetFields={resetFields}>
           <Step index={1}>
             <SignUpForm
               inputFields={inputFields}

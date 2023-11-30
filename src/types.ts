@@ -17,7 +17,7 @@ export interface Tweet {
   username: string;
 }
 
-export interface InputFields {
+export interface SignUpInputFields {
   email: string;
   name: string;
   year: string;
@@ -26,7 +26,17 @@ export interface InputFields {
   password: string;
 }
 
+export interface SignInInputFields {
+  email: string;
+  password: string;
+}
+
 export interface SignUpProps {
-  inputFields: InputFields;
-  setInputFields: Dispatch<SetStateAction<InputFields>>;
+  inputFields: SignUpInputFields;
+  setInputFields: Dispatch<SetStateAction<SignUpInputFields>>;
+}
+
+export interface SignInProps {
+  inputFields: SignInInputFields;
+  setInputFields: Dispatch<SetStateAction<SignInInputFields>>;
 }

@@ -11,7 +11,7 @@ const Protect = () => {
       {loading ? (
         <Loader />
       ) : (
-        <>{user && !error ? <Outlet /> : <Navigate to="/" replace={true} />}</>
+        <>{user && !error ? <Outlet /> : <Navigate to="/" replace />}</>
       )}
     </>
   );

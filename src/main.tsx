@@ -18,19 +18,20 @@ import AuthProvider from "./contexts/AuthContext";
 
 const router = createBrowserRouter([
   {
+    path: "/",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <Root />,
       },
       {
-        path: "/signup",
+        path: "signup",
         element: <SignUp />,
       },
       {
-        path: "/signin",
+        path: "signin",
         element: <SignIn />,
       },
     ],
@@ -39,11 +40,12 @@ const router = createBrowserRouter([
     element: <Protect />,
     children: [
       {
+        path: "/",
         element: <HomeLayout />,
         loader: homeLayoutLoader,
         children: [
           {
-            path: "/home",
+            path: "home",
             element: <Home />,
           },
         ],

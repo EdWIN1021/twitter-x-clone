@@ -6,6 +6,8 @@ import Loader from "../components/Loader";
 const Protect = () => {
   const [user, loading, error] = useAuthState(auth);
 
+  console.log(user);
+
   return (
     <>
       {loading ? (

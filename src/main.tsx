@@ -12,7 +12,7 @@ import ErrorPage from "./pages/error-page";
 import Protect from "./pages/protect";
 
 import RootLayout from "./layouts/RootLayout";
-import HomeLayout from "./layouts/HomeLayout";
+// import HomeLayout from "./layouts/HomeLayout";
 
 import AuthProvider from "./contexts/AuthContext";
 
@@ -38,13 +38,8 @@ const router = createBrowserRouter([
         element: <Protect />,
         children: [
           {
-            element: <HomeLayout />,
-            children: [
-              {
-                path: "home",
-                element: <Home />,
-              },
-            ],
+            path: "home",
+            element: <Home />,
           },
         ],
       },

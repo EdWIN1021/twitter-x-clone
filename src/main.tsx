@@ -12,18 +12,17 @@ import Username from "./pages/username";
 import Protect from "./pages/protect";
 
 import RootLayout from "./layouts/RootLayout";
-import HomeLayout, { Loader as homeLayoutLoader } from "./layouts/HomeLayout";
+import HomeLayout from "./layouts/HomeLayout";
 
 import AuthProvider from "./contexts/AuthContext";
 
 const router = createHashRouter([
   {
-    path: "/",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
+        path: "/",
         element: <Root />,
       },
       {
@@ -34,25 +33,24 @@ const router = createHashRouter([
         path: "signin",
         element: <SignIn />,
       },
+    ],
+  },
+  {
+    element: <Protect />,
+    errorElement: <ErrorPage />,
+    children: [
       {
-        element: <Protect />,
+        element: <HomeLayout />,
         children: [
           {
-            path: "/",
-            element: <HomeLayout />,
-            loader: homeLayoutLoader,
-            children: [
-              {
-                path: "home",
-                element: <Home />,
-              },
-            ],
-          },
-          {
-            path: "username",
-            element: <Username />,
+            path: "home",
+            element: <Home />,
           },
         ],
+      },
+      {
+        path: "username",
+        element: <Username />,
       },
     ],
   },

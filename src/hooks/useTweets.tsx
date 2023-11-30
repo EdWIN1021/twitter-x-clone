@@ -1,16 +1,13 @@
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../lib/firebase";
-
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { Tweet } from "../types";
-import { CurrentUser } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 const useTweets = () => {
-  const [user, userLoading, userError] = useAuthState(auth);
+  const { currentUser } = useContext(AuthContext);
+
   const [tweets, setTweets] = useState<Tweet[]>([]);
-  const { following } = user as CurrentUser;
   const [loading, setLoading] = useState(false);
   //   const [error, setError] = useState<unknown>();
 
@@ -21,7 +18,7 @@ const useTweets = () => {
       try {
         const q = query(
           collection(db, "posts"),
-          where("userId", "in", following),
+          where("userId", "in", currentUser?.following),
           orderBy("timestamp", "desc"),
         );
         const querySnapshot = await getDocs(q);
@@ -35,14 +32,12 @@ const useTweets = () => {
       }
     };
 
-    if (!userLoading && !userError) {
-      getTweets();
-    }
+    getTweets();
 
     return () => {
       getTweets();
     };
-  }, [following, userLoading, userError]);
+  }, [currentUser?.following]);
 
   return { tweets, loading };
 };

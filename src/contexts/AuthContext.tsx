@@ -11,7 +11,6 @@ import {
 
 import {
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   GithubAuthProvider,
@@ -28,6 +27,7 @@ import { FirebaseError } from "firebase/app";
 import { monthData } from "../constants";
 
 import { getUserProfile, initUserProfile } from "../utils/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
@@ -81,7 +81,9 @@ export interface CurrentUser extends User {
 }
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  const [user, loading, error] = useAuthState(auth);
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+
   const [inputFields, setInputFields] = useState({
     email: "",
     name: "",
@@ -102,20 +104,14 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   );
 
   useEffect(() => {
-    const observer = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        getUserProfile(user.uid).then((profile) => {
-          setCurrentUser(Object.assign(user, profile));
-        });
-
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(null);
-      }
-    });
-
-    return () => observer();
-  }, []);
+    if (user && !loading && !error) {
+      getUserProfile(user.uid).then((profile) => {
+        setCurrentUser(Object.assign(user, profile));
+      });
+    } else {
+      setCurrentUser(null);
+    }
+  }, [user, loading, error]);
 
   const signUp = async (cb: () => void) => {
     try {

@@ -1,49 +1,60 @@
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import LogOut from "./LogOut";
-import { auth } from "../lib/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { CurrentUser } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
+import Skeleton from "react-loading-skeleton";
 
 const UserInfo: React.FC = () => {
-  const [user] = useAuthState(auth);
   const [open, toggle] = useState(false);
-
-  const { photoURL, displayName, username } = user as CurrentUser;
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
 
   return (
     <div className="relative">
-      {user && (
-        <>
-          <div
-            className="w-[244px] cursor-pointer rounded-full px-3 py-1 hover:bg-hover-gray"
-            onClick={() => toggle((open) => !open)}
-          >
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 cursor-pointer">
+      <>
+        <div
+          className="w-[244px] cursor-pointer rounded-full px-3 py-1 hover:bg-hover-gray"
+          onClick={() => toggle((open) => !open)}
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 cursor-pointer">
+              {currentUser ? (
                 <img
                   className="rounded-full"
-                  src={photoURL || "/default_profile.png"}
+                  src={currentUser?.photoURL || "/default_profile.png"}
                   alt="default..."
                 />
-              </div>
-
-              <div className="flex flex-col text-[15px]">
-                <>
-                  <span className="whitespace-nowrap font-bold">
-                    {displayName}
-                  </span>
-                  <span className="text-label">@{username}</span>
-                </>
-              </div>
-
-              <EllipsisHorizontalIcon className="ml-7 w-7 cursor-pointer" />
+              ) : (
+                <Skeleton circle width={30} height={30} />
+              )}
             </div>
-          </div>
 
-          {open && <LogOut toggle={toggle} username={username} />}
-        </>
-      )}
+            <div className="flex flex-col text-[15px]">
+              <>
+                <span className="whitespace-nowrap font-bold">
+                  {currentUser ? (
+                    currentUser?.displayName
+                  ) : (
+                    <Skeleton width={123} />
+                  )}
+                </span>
+
+                <span className="self-start text-label">
+                  {currentUser ? (
+                    `@${currentUser!.username}`
+                  ) : (
+                    <Skeleton width={75} />
+                  )}
+                </span>
+              </>
+            </div>
+
+            <EllipsisHorizontalIcon className="ml-7 w-7 cursor-pointer" />
+          </div>
+        </div>
+
+        {open && <LogOut toggle={toggle} username={currentUser?.username} />}
+      </>
     </div>
   );
 };

@@ -1,21 +1,18 @@
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
-
 import { ref, uploadBytes } from "firebase/storage";
-
 import {
   PhotoIcon,
   FaceSmileIcon,
   MapPinIcon,
 } from "@heroicons/react/24/outline";
-
 import { XCircleIcon } from "@heroicons/react/24/solid";
-
 import clsx from "clsx";
 import EmojiModal from "./EmojiModal";
 import { AuthContext } from "../contexts/AuthContext";
 import { createPost } from "../utils/post";
 import { db, storage } from "../lib/firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import Skeleton from "react-loading-skeleton";
 
 const PostForm = () => {
   const [content, setContent] = useState("");
@@ -45,7 +42,7 @@ const PostForm = () => {
         content,
         currentUser?.displayName,
         currentUser?.photoURL,
-        currentUser?.username
+        currentUser?.username,
       );
 
       if (
@@ -55,7 +52,7 @@ const PostForm = () => {
         const storageRef = ref(storage, `posts/${postRes?.id}`);
         const uploadRes = await uploadBytes(
           storageRef,
-          fileInputRef?.current?.files[0]
+          fileInputRef?.current?.files[0],
         );
 
         await updateDoc(doc(db, "posts", postRes?.id), {
@@ -77,19 +74,23 @@ const PostForm = () => {
 
   return (
     <>
-      <form className="flex px-4 pt-4 border-b" onSubmit={handleSubmit}>
-        <div className="w-10 cursor-pointer mr-3">
-          <img
-            className="rounded-full"
-            src={currentUser?.photoURL || "/default_profile.png"}
-            alt="default..."
-          />
+      <form className="flex border-b px-4 pt-4" onSubmit={handleSubmit}>
+        <div className="mr-3 w-10 cursor-pointer">
+          {currentUser ? (
+            <img
+              className="rounded-full"
+              src={currentUser?.photoURL || "/default_profile.png"}
+              alt="default..."
+            />
+          ) : (
+            <Skeleton circle width={40} height={40} />
+          )}
         </div>
 
         <div className="flex-1">
           <textarea
             ref={textAreaRef}
-            className="outline-none  overflow-hidden resize-none w-full text-xl pb-9"
+            className="w-full  resize-none overflow-hidden pb-9 text-xl outline-none"
             placeholder="What is happening?!"
             rows={1}
             value={content}
@@ -97,15 +98,15 @@ const PostForm = () => {
           ></textarea>
 
           {imageUrl && (
-            <div className="w-full h-[382px] rounded-2xl overflow-hidden relative">
+            <div className="relative h-[382px] w-full overflow-hidden rounded-2xl">
               <img
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
                 src={imageUrl}
                 alt=""
               />
 
               <XCircleIcon
-                className="absolute top-[1%] w-8 right-[1%] cursor-pointer"
+                className="absolute right-[1%] top-[1%] w-8 cursor-pointer"
                 onClick={() => {
                   fileInputRef.current!.value = "";
                   setImageUrl("");
@@ -114,7 +115,7 @@ const PostForm = () => {
             </div>
           )}
 
-          <div className="flex items-center mt-4 py-2 relative border-t">
+          <div className="relative mt-4 flex items-center border-t py-2">
             <input
               type="file"
               className="hidden"
@@ -122,21 +123,21 @@ const PostForm = () => {
               ref={fileInputRef}
             />
 
-            <div className="flex-1 flex">
+            <div className="flex flex-1">
               <div
-                className="p-2 hover:bg-hover-gray rounded-full cursor-pointer"
+                className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
                 onClick={() => fileInputRef.current?.click()}
               >
                 <PhotoIcon className="w-5 stroke-primary stroke-[2.5px]" />
               </div>
               <div
-                className="p-2 hover:bg-hover-gray rounded-full cursor-pointer"
+                className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
                 onClick={() => toggle(true)}
               >
                 <FaceSmileIcon className="w-5 stroke-primary stroke-[2.5px]" />
               </div>
 
-              <div className="p-2 hover:bg-hover-gray rounded-full cursor-pointer">
+              <div className="cursor-pointer rounded-full p-2 hover:bg-hover-gray">
                 <MapPinIcon className="w-5 stroke-primary stroke-[2.5px] opacity-50" />
               </div>
             </div>
@@ -144,8 +145,8 @@ const PostForm = () => {
             <button
               disabled={!content}
               className={clsx(
-                "bg-primary text-white py-1.5 px-4 rounded-full font-bold ",
-                { "opacity-50": !content }
+                "rounded-full bg-primary px-4 py-1.5 font-bold text-white ",
+                { "opacity-50": !content },
               )}
             >
               Post

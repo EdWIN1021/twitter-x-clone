@@ -4,20 +4,19 @@ import TextInput from "../ui/TextInput";
 import DropDown from "../ui/DropDown";
 import { StepperContext } from "../ui/Stepper";
 import { monthData, dayData, yearData } from "../constants";
-import { AuthContext } from "../contexts/AuthContext";
+import { SignUpProps } from "../types";
 
-const SignUpForm = () => {
+const SignUpForm: React.FC<SignUpProps> = ({ inputFields, setInputFields }) => {
   const { nextStep } = useContext(StepperContext);
-  const { inputFields, setInputFields } = useContext(AuthContext);
 
   const { name, email, year, month, day } = inputFields;
   const isDisabled = useMemo(
     () => !year || !day || !month || !name || !email,
-    [year, day, month, email, name]
+    [year, day, month, email, name],
   );
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     setInputFields({
       ...inputFields,
@@ -26,8 +25,8 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="flex flex-col max-w-[400px] mx-auto">
-      <h2 className="text-[31px] font-bold my-7">Create your account</h2>
+    <div className="mx-auto flex max-w-[400px] flex-col">
+      <h2 className="my-7 text-[31px] font-bold">Create your account</h2>
 
       <div className="flex flex-col gap-5">
         <TextInput
@@ -49,13 +48,13 @@ const SignUpForm = () => {
         />
       </div>
 
-      <h3 className="text-[15px] font-bold mt-10 mb-2">Date of birth</h3>
-      <p className="text-[rgb(83,100,113)] text-[14px]">
+      <h3 className="mb-2 mt-10 text-[15px] font-bold">Date of birth</h3>
+      <p className="text-[14px] text-[rgb(83,100,113)]">
         This will not be shown publicly. Confirm your own age, even if this
         account is for a business, a pet, or something else.
       </p>
 
-      <div className="flex mt-4 gap-3 ">
+      <div className="mt-4 flex gap-3 ">
         <DropDown
           variant="lg"
           type="Month"
@@ -85,9 +84,9 @@ const SignUpForm = () => {
       <button
         onClick={() => nextStep()}
         disabled={isDisabled}
-        className={`text-white text-[17px] font-bold ${
+        className={`text-[17px] font-bold text-white ${
           isDisabled ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"
-        }  rounded-full py-3.5 mt-20 mb-2 w-full cursor-pointer`}
+        }  mb-2 mt-20 w-full cursor-pointer rounded-full py-3.5`}
       >
         Next
       </button>

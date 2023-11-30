@@ -6,7 +6,6 @@ import {
   useState,
   Dispatch,
   SetStateAction,
-  useMemo,
 } from "react";
 
 import {
@@ -24,10 +23,7 @@ import { auth } from "../lib/firebase";
 
 import { FirebaseError } from "firebase/app";
 
-import { monthData } from "../constants";
-
 import { getUserProfile, initUserProfile } from "../utils/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
 
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
@@ -45,13 +41,20 @@ interface AuthContextProps {
   inputFields: InputFields;
   setInputFields: Dispatch<SetStateAction<InputFields>>;
   resetFields: () => void;
-  signUp: (cb: () => void) => void;
+  signUp: (
+    email: string,
+    password: string,
+    birthday: Date,
+    name: string,
+    cb: () => void,
+  ) => void;
   signIn: (cb: () => void) => void;
   signInWithGoogle: (cb: () => void) => void;
   signInWithGithub: (cb: () => void) => void;
   signOut: (cb: () => void) => void;
   currentUser: CurrentUser | null;
   setCurrentUser: Dispatch<SetStateAction<CurrentUser | null>>;
+  loading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -72,6 +75,7 @@ export const AuthContext = createContext<AuthContextProps>({
   currentUser: null,
   signOut: () => {},
   setCurrentUser: () => {},
+  loading: false,
 });
 
 export interface CurrentUser extends User {
@@ -81,8 +85,8 @@ export interface CurrentUser extends User {
 }
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, loading, error] = useAuthState(auth);
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const [inputFields, setInputFields] = useState({
     email: "",
@@ -93,40 +97,45 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     password: "",
   });
 
-  const birthday = useMemo(
-    () =>
-      new Date(
-        Number(inputFields.year),
-        monthData.indexOf("January") + 1,
-        Number(inputFields.day),
-      ),
-    [inputFields],
-  );
-
   useEffect(() => {
-    if (user && !loading && !error) {
-      getUserProfile(user.uid).then((profile) => {
-        setCurrentUser(Object.assign(user, profile));
-      });
-    } else {
-      setCurrentUser(null);
-    }
-  }, [user, loading, error]);
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setLoading(true);
+        getUserProfile(user.uid)
+          .then((profile) => {
+            setCurrentUser(Object.assign(user, profile));
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } else {
+        setCurrentUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
-  const signUp = async (cb: () => void) => {
+  const signUp = async (
+    email: string,
+    password: string,
+    birthday: Date,
+    name: string,
+    cb: () => void,
+  ) => {
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
-        inputFields.email,
-        inputFields.password,
+        email,
+        password,
       );
-
       if (user) {
         await initUserProfile(user, birthday);
         await updateProfile(user, {
-          displayName: inputFields.name,
+          displayName: name,
         });
-
         cb();
       }
     } catch (error) {
@@ -154,12 +163,15 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       const user = result.user as CurrentUser;
       const profile = await getUserProfile(user?.uid);
 
+      console.log(user);
+      console.log(profile);
+
       if (user && profile?.username) {
         cb();
       }
 
       if (user && !profile?.username) {
-        initUserProfile(user, birthday);
+        await initUserProfile(user);
         cb();
       }
     } catch (error) {
@@ -178,7 +190,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       }
 
       if (user && !profile?.username) {
-        initUserProfile(user, birthday);
+        initUserProfile(user);
         cb();
       }
     } catch (error) {
@@ -216,6 +228,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     signOut,
     currentUser,
     setCurrentUser,
+    loading,
   };
 
   return (

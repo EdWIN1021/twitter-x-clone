@@ -1,22 +1,37 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import PasswordInput from "../ui/PasswordInput";
+import { SignUpProps } from "../types";
+import { monthData } from "../constants";
 
-const SignUpPasswordForm = () => {
-  const { inputFields, setInputFields, signUp } = useContext(AuthContext);
-  const { password } = inputFields;
+const SignUpPasswordForm: React.FC<SignUpProps> = ({
+  inputFields,
+  setInputFields,
+}) => {
+  const { signUp } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { email, password, name } = inputFields;
+
+  const birthday = useMemo(
+    () =>
+      new Date(
+        Number(inputFields.year),
+        monthData.indexOf("January") + 1,
+        Number(inputFields.day),
+      ),
+    [inputFields],
+  );
 
   return (
-    <div className="flex flex-col max-w-[400px] mx-auto">
-      <h2 className="text-[31px] font-bold mt-7">You'll need a password</h2>
-      <p className="text-[rgb(83,100,113)] text-[14px] mb-7">
+    <div className="mx-auto flex max-w-[400px] flex-col">
+      <h2 className="mt-7 text-[31px] font-bold">You'll need a password</h2>
+      <p className="mb-7 text-[14px] text-[rgb(83,100,113)]">
         Make sure it's 8 characters or more.
       </p>
 
       <PasswordInput
-        value={password}
+        value={inputFields.password}
         name="password"
         onChange={(e) =>
           setInputFields({ ...inputFields, [e.target.name]: e.target.value })
@@ -25,10 +40,14 @@ const SignUpPasswordForm = () => {
 
       <button
         // disabled={!!password}
-        onClick={() => signUp(() => navigate("/home"))}
-        className={`text-white text-[17px] font-bold ${
-          !password ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"
-        }  rounded-full py-3.5 mb-2 w-full cursor-pointer mt-[327px]`}
+        onClick={() =>
+          signUp(email, password, birthday, name, () => navigate("/home"))
+        }
+        className={`text-[17px] font-bold text-white ${
+          !inputFields.password
+            ? "bg-[rgba(0,0,0,0.5)]"
+            : "bg-[rgba(15,20,25,1)]"
+        }  mb-2 mt-[327px] w-full cursor-pointer rounded-full py-3.5`}
       >
         Sign Up
       </button>

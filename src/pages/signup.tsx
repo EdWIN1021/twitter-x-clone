@@ -3,18 +3,34 @@ import SignUpForm from "../components/SignUpForm";
 import SignUpPasswordForm from "../components/SignUpPasswordForm";
 import Overlay from "../ui/Overlay";
 import Modal from "../ui/Modal";
+import { useState } from "react";
 
 const SignUp = () => {
+  const [inputFields, setInputFields] = useState({
+    email: "",
+    name: "",
+    year: "",
+    day: "",
+    month: "",
+    password: "",
+  });
+
   return (
     <>
       <Overlay />
       <Stepper>
         <Modal>
           <Step index={1}>
-            <SignUpForm />
+            <SignUpForm
+              inputFields={inputFields}
+              setInputFields={setInputFields}
+            />
           </Step>
           <Step index={2}>
-            <SignUpPasswordForm />
+            <SignUpPasswordForm
+              inputFields={inputFields}
+              setInputFields={setInputFields}
+            />
           </Step>
         </Modal>
       </Stepper>

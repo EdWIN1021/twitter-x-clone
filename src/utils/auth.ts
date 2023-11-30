@@ -26,10 +26,12 @@ export const getUserProfile = async (id: string) => {
   return null;
 };
 
-export const initUserProfile = async (user: User, birthday: Date) => {
+export const initUserProfile = async (user: User, birthday?: Date) => {
   await setDoc(doc(db, "users", user?.uid), {
+    displayName: user.displayName,
+    photoURL: user.photoURL,
     following: arrayUnion(user?.uid),
     username: "",
-    birthday,
+    birthday: birthday || "",
   });
 };

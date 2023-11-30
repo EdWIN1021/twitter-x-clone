@@ -1,17 +1,20 @@
-import { Outlet, redirect } from "react-router-dom";
-import { getUser } from "../utils/auth";
-
-export const Loader = async () => {
-  try {
-    await getUser();
-  } catch (error) {
-    return redirect("/");
-  }
-  return null;
-};
+import { Navigate, Outlet } from "react-router-dom";
+import { auth } from "../lib/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Loader from "../components/Loader";
 
 const Protect = () => {
-  return <Outlet />;
+  const [user, loading, error] = useAuthState(auth);
+
+  return (
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>{user && !error ? <Outlet /> : <Navigate to="/" replace={true} />}</>
+      )}
+    </>
+  );
 };
 
 export default Protect;

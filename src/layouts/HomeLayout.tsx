@@ -16,6 +16,8 @@ export const Loader = async () => {
       if (!data?.username) {
         return redirect("/username");
       }
+    } else {
+      return redirect("/");
     }
   } catch (error) {
     console.log(error);

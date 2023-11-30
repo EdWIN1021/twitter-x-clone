@@ -9,7 +9,7 @@ import SignIn from "./pages/signin";
 import ErrorPage from "./pages/error-page";
 
 import Username from "./pages/username";
-import Protect, { Loader as protectLoader } from "./pages/protect";
+import Protect from "./pages/protect";
 
 import RootLayout from "./layouts/RootLayout";
 import HomeLayout, { Loader as homeLayoutLoader } from "./layouts/HomeLayout";
@@ -37,7 +37,6 @@ const router = createBrowserRouter([
   },
   {
     element: <Protect />,
-    loader: protectLoader,
     children: [
       {
         element: <HomeLayout />,
@@ -47,10 +46,6 @@ const router = createBrowserRouter([
             path: "/home",
             element: <Home />,
           },
-          // {
-          //   path: "/explore",
-          //   element: <Explore />,
-          // },
         ],
       },
       {

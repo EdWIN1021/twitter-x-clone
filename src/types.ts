@@ -40,3 +40,7 @@ export interface SignInProps {
   inputFields: SignInInputFields;
   setInputFields: Dispatch<SetStateAction<SignInInputFields>>;
 }
+
+export enum AuthErrorMessage {
+  EMAIL_ALREADY_IN_USE = "auth/email-already-in-use",
+}

@@ -24,6 +24,7 @@ import { auth } from "../lib/firebase";
 import { FirebaseError } from "firebase/app";
 
 import { getUserProfile, initUserProfile } from "../utils/auth";
+import { firebaseErrorHandler } from "../utils/error";
 
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
@@ -103,8 +104,10 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         cb();
       }
     } catch (error) {
-      console.log(error);
-      console.log((error as FirebaseError).message);
+      if (error instanceof FirebaseError) {
+        console.log(error);
+        firebaseErrorHandler(error.message);
+      }
     }
   };
 

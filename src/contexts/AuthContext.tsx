@@ -105,7 +105,6 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       }
     } catch (error) {
       if (error instanceof FirebaseError) {
-        console.log(error);
         firebaseErrorHandler(error.message);
       }
     }
@@ -121,7 +120,9 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
       if (userCredential?.user) cb();
     } catch (error) {
-      console.log((error as FirebaseError).message);
+      if (error instanceof FirebaseError) {
+        firebaseErrorHandler(error.message);
+      }
     }
   };
 

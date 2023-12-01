@@ -9,7 +9,7 @@ const Search = () => {
 
   return (
     <div>
-      <div className="p-7">
+      <div className="px-7 py-4">
         <div
           className={clsx("flex rounded-full bg-[rgba(247,249,249)] p-4", {
             "border border-primary": active,
@@ -30,7 +30,7 @@ const Search = () => {
         </div>
       </div>
 
-      <div className="p-7">
+      <div className="px-7">
         <div className="rounded-2xl bg-[rgba(247,249,249)]">
           <h2 className="px-4 py-3 text-[20px] font-extrabold">
             {" "}

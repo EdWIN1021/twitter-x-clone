@@ -21,7 +21,6 @@ const useUsers = () => {
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => data.push(doc.data() as CurrentUser));
 
-        console.log(data);
         setUsers(data);
       } catch (err) {
         console.log(err);

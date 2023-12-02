@@ -1,0 +1,48 @@
+import { useState } from "react";
+import { CurrentUser } from "../types";
+
+const UserItem: React.FC<{
+  user: CurrentUser;
+  following: string[];
+  handleClick: (id: string) => void;
+}> = ({ user, following, handleClick }) => {
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  return (
+    <div className="flex items-center px-4 py-3" key={user.username}>
+      <div className="mr-3 w-10 cursor-pointer">
+        <img
+          className="rounded-full"
+          src={user.photoURL || "/default_profile.png"}
+          alt="default..."
+        />
+      </div>
+
+      <div className="mr-12 flex flex-1 flex-col text-[15px]">
+        <span className="font-bold">{user.displayName}</span>
+        <span className="text-label">@{user.username}</span>
+      </div>
+
+      {following?.includes(user.userId) || isFollowing ? (
+        <button
+          className="rounded-full bg-[rgb(0,0,0,0.2)] px-3 py-1 text-[14px] font-bold text-white"
+          disabled
+        >
+          Following
+        </button>
+      ) : (
+        <button
+          className="rounded-full bg-[rgb(15,20,25)] px-3 py-1 text-[14px] font-bold text-white"
+          onClick={() => {
+            handleClick(user.userId);
+            setIsFollowing(true);
+          }}
+        >
+          Follow
+        </button>
+      )}
+    </div>
+  );
+};
+
+export default UserItem;

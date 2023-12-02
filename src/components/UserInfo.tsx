@@ -8,7 +8,7 @@ const UserInfo: React.FC = () => {
   const [open, toggle] = useState(false);
   const { currentUser } = useContext(AuthContext);
 
-    return (
+  return (
     <div className="relative">
       <>
         <div

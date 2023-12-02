@@ -37,5 +37,6 @@ export const initUserProfile = async (
     following: arrayUnion(user?.uid, "QSMl8KEEEsagd4fIbLOsoAHfLNA2"),
     username: "",
     birthday: birthday || "",
+    userId: user?.uid,
   });
 };

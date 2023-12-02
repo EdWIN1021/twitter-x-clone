@@ -132,9 +132,6 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       const user = result.user as CurrentUser;
       const profile = await getUserProfile(user?.uid);
 
-      console.log(user);
-      console.log(profile);
-
       if (user && profile?.username) {
         cb();
       }

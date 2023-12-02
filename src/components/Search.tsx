@@ -1,11 +1,23 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useUsers from "../hooks/useUsers";
+import { db } from "../lib/firebase";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Search = () => {
   const { users } = useUsers();
   const [active, setActive] = useState(false);
+  const { currentUser } = useContext(AuthContext);
+
+  const handleClick = async (id: string) => {
+    if (currentUser) {
+      await updateDoc(doc(db, "users", currentUser?.uid), {
+        following: arrayUnion(id),
+      });
+    }
+  };
 
   return (
     <div>
@@ -53,9 +65,21 @@ const Search = () => {
                   <span className="text-label">@{user.username}</span>
                 </div>
 
-                <button className="rounded-full bg-[rgb(15,20,25)] px-3 py-1 text-[14px] font-bold text-white">
-                  Follow
-                </button>
+                {currentUser?.following?.includes(user.userId) ? (
+                  <button
+                    className="rounded-full bg-[rgb(0,0,0,0.2)] px-3 py-1 text-[14px] font-bold text-white"
+                    disabled
+                  >
+                    Following
+                  </button>
+                ) : (
+                  <button
+                    className="rounded-full bg-[rgb(15,20,25)] px-3 py-1 text-[14px] font-bold text-white"
+                    onClick={() => handleClick(user.userId)}
+                  >
+                    Follow
+                  </button>
+                )}
               </div>
             ))}
           </>

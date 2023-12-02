@@ -5,6 +5,7 @@ export interface CurrentUser extends User {
   name: string;
   username: string;
   following?: string[];
+  userId: string;
 }
 
 export interface Tweet {

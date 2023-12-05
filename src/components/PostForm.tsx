@@ -74,7 +74,10 @@ const PostForm = () => {
 
   return (
     <>
-      <form className="flex border-b px-4 pt-4" onSubmit={handleSubmit}>
+      <form
+        className="hidden border-b px-4 pt-4 sm:flex"
+        onSubmit={handleSubmit}
+      >
         <div className="mr-3 w-10 cursor-pointer">
           {currentUser ? (
             <img

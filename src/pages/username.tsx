@@ -38,7 +38,7 @@ const Username = () => {
       ) : (
         <>
           <Overlay />
-          <Modal showCloseButton={false}>
+          <Modal showCloseButton={false} resetFields={() => setInput("")}>
             <form className="p-10" onSubmit={handleSubmit}>
               <Typography variant="h2" title="What Should we call you?" />
 

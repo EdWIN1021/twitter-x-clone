@@ -28,13 +28,13 @@ const PasswordInput: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({
       />
       <label
         className={clsx(
-          `absolute cursor-text duration-200 text-label`,
+          `absolute cursor-text text-label duration-200`,
           {
-            "left-[5%] center-y": !isActive,
+            "center-y left-[5%]": !isActive,
           },
           {
             "left-[3%] top-[20%] text-xs text-primary": isActive,
-          }
+          },
         )}
         htmlFor={"password"}
       >
@@ -42,7 +42,7 @@ const PasswordInput: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({
       </label>
 
       <div
-        className=" absolute w-5 center-y right-4 cursor-pointer"
+        className=" center-y absolute right-4 w-5 cursor-pointer"
         onClick={() => toggle((show) => !show)}
       >
         {show ? <EyeSlashIcon /> : <EyeIcon />}

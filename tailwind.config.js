@@ -11,6 +11,9 @@ export default {
       height: {
         input: "60px",
       },
+      screens: {
+        xl: "1440px",
+      },
     },
   },
   plugins: [],

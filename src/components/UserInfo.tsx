@@ -9,10 +9,10 @@ const UserInfo: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
 
   return (
-    <div className="relative">
+    <div className="relative hidden">
       <>
         <div
-          className="w-[244px] cursor-pointer rounded-full px-3 py-1 hover:bg-hover-gray"
+          className="cursor-pointer rounded-full px-3 py-1 hover:bg-hover-gray"
           onClick={() => toggle((open) => !open)}
         >
           <div className="flex items-center gap-2.5">
@@ -28,27 +28,29 @@ const UserInfo: React.FC = () => {
               )}
             </div>
 
-            <div className="flex flex-col text-[15px]">
-              <>
-                <span className="whitespace-nowrap font-bold">
-                  {currentUser ? (
-                    currentUser?.displayName
-                  ) : (
-                    <Skeleton width={123} />
-                  )}
-                </span>
+            <div className="hidden">
+              <div className="flex flex-col text-[15px]">
+                <>
+                  <span className="whitespace-nowrap font-bold">
+                    {currentUser ? (
+                      currentUser?.displayName
+                    ) : (
+                      <Skeleton width={123} />
+                    )}
+                  </span>
 
-                <span className="self-start text-label">
-                  {currentUser ? (
-                    `@${currentUser!.username}`
-                  ) : (
-                    <Skeleton width={75} />
-                  )}
-                </span>
-              </>
+                  <span className="self-start text-label">
+                    {currentUser ? (
+                      `@${currentUser!.username}`
+                    ) : (
+                      <Skeleton width={75} />
+                    )}
+                  </span>
+                </>
+              </div>
+
+              <EllipsisHorizontalIcon className="ml-7 w-7 cursor-pointer" />
             </div>
-
-            <EllipsisHorizontalIcon className="ml-7 w-7 cursor-pointer" />
           </div>
         </div>
 

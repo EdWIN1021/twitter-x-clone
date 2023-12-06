@@ -9,53 +9,49 @@ const UserInfo: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
 
   return (
-    <div className="relative self-center xl:self-auto">
-      <>
-        <div
-          className="cursor-pointer rounded-full px-3 py-1 hover:bg-hover-gray"
-          onClick={() => toggle((open) => !open)}
-        >
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 cursor-pointer">
-              {currentUser ? (
-                <img
-                  className="rounded-full"
-                  src={currentUser?.photoURL || "/default_profile.png"}
-                  alt="default..."
-                />
-              ) : (
-                <Skeleton circle width={30} height={30} />
-              )}
-            </div>
+    <div className="relative max-w-[260px] self-center xl:self-auto">
+      <div
+        className="cursor-pointer rounded-full px-3 py-1 hover:bg-hover-gray"
+        onClick={() => toggle((open) => !open)}
+      >
+        <div className="flex items-center gap-2.5">
+          <div className="w-10 cursor-pointer">
+            {currentUser ? (
+              <img
+                className="rounded-full"
+                src={currentUser?.photoURL || "/default_profile.png"}
+                alt="default..."
+              />
+            ) : (
+              <Skeleton circle width={30} height={30} />
+            )}
+          </div>
 
-            <div className="hidden">
-              <div className="flex flex-col text-[15px]">
-                <>
-                  <span className="whitespace-nowrap font-bold">
-                    {currentUser ? (
-                      currentUser?.displayName
-                    ) : (
-                      <Skeleton width={123} />
-                    )}
-                  </span>
+          <div className="hidden  flex-1 flex-nowrap xl:block">
+            <div className="flex flex-col text-[15px]">
+              <span className="whitespace-nowrap font-bold">
+                {currentUser ? (
+                  currentUser?.displayName
+                ) : (
+                  <Skeleton width={123} />
+                )}
+              </span>
 
-                  <span className="self-start text-label">
-                    {currentUser ? (
-                      `@${currentUser!.username}`
-                    ) : (
-                      <Skeleton width={75} />
-                    )}
-                  </span>
-                </>
-              </div>
-
-              <EllipsisHorizontalIcon className="ml-7 w-7 cursor-pointer" />
+              <span className="self-start text-label">
+                {currentUser ? (
+                  `@${currentUser!.username}`
+                ) : (
+                  <Skeleton width={75} />
+                )}
+              </span>
             </div>
           </div>
-        </div>
 
-        {open && <LogOut toggle={toggle} username={currentUser?.username} />}
-      </>
+          <EllipsisHorizontalIcon className="ml-7 hidden  w-7 cursor-pointer" />
+        </div>
+      </div>
+
+      {open && <LogOut toggle={toggle} username={currentUser?.username} />}
     </div>
   );
 };

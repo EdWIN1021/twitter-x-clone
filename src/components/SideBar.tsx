@@ -15,36 +15,74 @@ import {
 import NavLink from "./NavLink";
 import UserInfo from "./UserInfo";
 
+const links = [
+  {
+    icon: <Logo />,
+  },
+  {
+    title: "Home",
+    icon: <HomeIcon />,
+  },
+  {
+    title: "Explore",
+    icon: <MagnifyingGlassIcon />,
+  },
+  {
+    title: "Notifications",
+    icon: <BellIcon />,
+  },
+  {
+    title: "Messages",
+    icon: <EnvelopeIcon />,
+  },
+  {
+    title: "Lists",
+    icon: <QueueListIcon />,
+  },
+  {
+    title: "Bookmarks",
+    icon: <BookmarkIcon />,
+  },
+  {
+    title: "Communities",
+    icon: <UsersIcon />,
+  },
+  {
+    title: "Premium",
+    icon: <Logo />,
+  },
+  {
+    title: "Profile",
+    icon: <UserIcon />,
+  },
+  {
+    title: "More",
+    icon: <EllipsisHorizontalCircleIcon />,
+  },
+];
+
 const SideBar = () => {
   return (
-    <div className="mb-5 mt-4 hidden md:block xl:px-[100px]">
-      <div className="flex flex-col items-center">
-        <div className=" w-full justify-center px-7 md:flex md:justify-start">
-          <Logo className="mb-2 w-7" />
-        </div>
-        <ul className="mb-3 flex-1 text-xl ">
-          <NavLink icon={<HomeIcon />} title={"Home"} to={"/home"} />
-          <NavLink icon={<MagnifyingGlassIcon />} title={"Explore"} />
-          <NavLink icon={<BellIcon />} title={"Notifications"} />
-          <NavLink icon={<EnvelopeIcon />} title={"Messages"} />
-          <NavLink icon={<QueueListIcon />} title={"Lists"} />
-          <NavLink icon={<BookmarkIcon />} title={"Bookmarks"} />
-          <NavLink icon={<UsersIcon />} title={"Communities"} />
-          <NavLink icon={<Logo />} title={"Premium"} />
-          <NavLink icon={<UserIcon />} title={"Profile"} />
-          <NavLink icon={<EllipsisHorizontalCircleIcon />} title={"More"} />
+    <div className="my-5 flex flex-col xl:pr-10">
+      <div className="flex flex-1 flex-col items-end">
+        <ul className="text-xl">
+          {links.map((link, index) => (
+            <li key={index}>
+              <NavLink icon={link.icon} title={link.title} />
+            </li>
+          ))}
         </ul>
 
         <Button
-          className="hidden bg-primary px-10 py-2 xl:block"
-          title={"Post"}
-        />
-        <Button
-          className="w-10 xl:hidden"
+          className="mt-5 w-10 self-center xl:hidden"
           icon={<img src="/post-icon.svg" />}
         />
-      </div>
 
+        <Button
+          className="mt-5 hidden bg-primary px-10 py-2 xl:block "
+          title={"Post"}
+        />
+      </div>
       <UserInfo />
     </div>
   );

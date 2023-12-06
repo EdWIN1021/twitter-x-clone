@@ -12,7 +12,8 @@ export default {
         input: "60px",
       },
       screens: {
-        xl: "1440px",
+        xs: "500px",
+        xl: "1264px",
       },
     },
   },

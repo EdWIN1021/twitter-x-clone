@@ -3,8 +3,7 @@ import Search from "../components/Search";
 
 const Home = () => {
   return (
-    //flex
-    <div className="w-full max-w-[1350px] lg:flex">
+    <div className="flex">  
       <Main />
       <Search />
     </div>

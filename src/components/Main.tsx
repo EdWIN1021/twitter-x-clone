@@ -4,7 +4,7 @@ import Tweets from "./Tweets";
 
 const Main = () => {
   return (
-    <div className="flex-1 justify-center overflow-y-auto border-x ">
+    <div className="min-h-[100vh] w-[600px] border-x">
       <MainTab />
       <PostForm />
       <Tweets />

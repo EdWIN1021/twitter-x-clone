@@ -21,7 +21,7 @@ const Search = () => {
   };
 
   return (
-    <div className="hidden lg:block xl:flex-1">
+    <div className="">
       <div className="px-7 py-4">
         <div
           className={clsx("flex rounded-full bg-[rgba(247,249,249)] p-4", {

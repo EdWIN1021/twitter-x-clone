@@ -9,7 +9,7 @@ const UserInfo: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
 
   return (
-    <div className="relative hidden">
+    <div className="relative self-center xl:self-auto">
       <>
         <div
           className="cursor-pointer rounded-full px-3 py-1 hover:bg-hover-gray"

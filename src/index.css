@@ -31,6 +31,10 @@ input {
   display: block;
 }
 
+li {
+  list-style-type: none;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }

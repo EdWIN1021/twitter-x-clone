@@ -21,12 +21,35 @@ const PostForm = () => {
   const [open, toggle] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const { currentUser } = useContext(AuthContext);
+  const smileRef = useRef<HTMLDivElement>(null);
+
+  const [leftPosition, setLeftPosition] = useState(0);
 
   useEffect(() => {
     textAreaRef.current!.style.height = "auto";
     textAreaRef.current!.style.height =
       textAreaRef.current!.scrollHeight + "px";
   }, [content]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setTimeout(() => {
+        const divElement = smileRef.current;
+        if (divElement) {
+          const rect = divElement.getBoundingClientRect();
+          const currentLeft = rect.left;
+          setLeftPosition(currentLeft);
+        }
+      }, 500);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleEmoji = (emojiObject: { emoji: string }) => {
     setContent((pre) => pre + emojiObject.emoji);
@@ -134,6 +157,7 @@ const PostForm = () => {
                 <PhotoIcon className="w-5 stroke-primary stroke-[2.5px]" />
               </div>
               <div
+                ref={smileRef}
                 className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
                 onClick={() => toggle(true)}
               >
@@ -158,7 +182,13 @@ const PostForm = () => {
         </div>
       </form>
 
-      {open && <EmojiModal handleEmoji={handleEmoji} toggle={toggle} />}
+      {open && (
+        <EmojiModal
+          leftPosition={leftPosition}
+          handleEmoji={handleEmoji}
+          toggle={toggle}
+        />
+      )}
     </>
   );
 };

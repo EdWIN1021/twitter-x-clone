@@ -141,7 +141,7 @@ const PostForm = () => {
             </div>
           )}
 
-          <div className="relative mt-4 flex items-center border-t py-2">
+          <div className="mt-4 flex items-center border-t py-2">
             <input
               type="file"
               className="hidden"
@@ -154,25 +154,25 @@ const PostForm = () => {
                 className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
                 onClick={() => fileInputRef.current?.click()}
               >
-                <PhotoIcon className="w-5 stroke-primary stroke-[2.5px]" />
+                <PhotoIcon className="stroke-primary-blue w-5 stroke-[2.5px]" />
               </div>
               <div
                 ref={smileRef}
                 className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
                 onClick={() => toggle(true)}
               >
-                <FaceSmileIcon className="w-5 stroke-primary stroke-[2.5px]" />
+                <FaceSmileIcon className="stroke-primary-blue w-5 stroke-[2.5px]" />
               </div>
 
               <div className="cursor-pointer rounded-full p-2 hover:bg-hover-gray">
-                <MapPinIcon className="w-5 stroke-primary stroke-[2.5px] opacity-50" />
+                <MapPinIcon className="stroke-primary-blue w-5 stroke-[2.5px] opacity-50" />
               </div>
             </div>
 
             <button
               disabled={!content}
               className={clsx(
-                "rounded-full bg-primary px-4 py-1.5 font-bold text-white ",
+                "bg-primary-blue rounded-full px-4 py-1.5 font-bold text-white",
                 { "opacity-50": !content },
               )}
             >

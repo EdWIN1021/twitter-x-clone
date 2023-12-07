@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "../ui/Button";
 import Logo from "../ui/Logo";
 import {
@@ -14,6 +16,8 @@ import {
 
 import NavLink from "./NavLink";
 import UserInfo from "./UserInfo";
+import PostFormModal from "./PostFormModal";
+import { useState } from "react";
 
 const links = [
   {
@@ -62,29 +66,36 @@ const links = [
 ];
 
 const SideBar = () => {
+  const [open, toggle] = useState(false);
+
   return (
-    <div className="my-5 hidden flex-col xs:flex xl:pr-10">
-      <div className="flex flex-1 flex-col items-end">
-        <ul className="text-xl">
-          {links.map((link, index) => (
-            <li key={index}>
-              <NavLink icon={link.icon} title={link.title} />
-            </li>
-          ))}
-        </ul>
+    <>
+      <div className="my-5 hidden flex-col xs:flex xl:pr-10">
+        <div className="flex flex-1 flex-col items-end">
+          <ul className="text-xl">
+            {links.map((link, index) => (
+              <li key={index}>
+                <NavLink icon={link.icon} title={link.title} />
+              </li>
+            ))}
+          </ul>
 
-        <Button
-          className="mt-5 w-10 self-center xl:hidden"
-          icon={<img src="/post-icon.svg" />}
-        />
+          <Button
+            className="mt-5 w-10 self-center xl:hidden"
+            icon={<img src="/post-icon.svg" />}
+          />
 
-        <Button
-          className="mt-5 hidden bg-primary px-10 py-2 xl:block "
-          title={"Post"}
-        />
+          <Button
+            className="bg-primary-blue hover:bg-dark-blue mt-5 hidden px-10 py-2 xl:block "
+            title={"Post"}
+            onClick={() => toggle(true)}
+          />
+        </div>
+        <UserInfo />
       </div>
-      <UserInfo />
-    </div>
+
+      {open && <PostFormModal toggle={toggle} />}
+    </>
   );
 };
 

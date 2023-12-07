@@ -1,6 +1,13 @@
-const Overlay: React.FC = () => {
+import { Dispatch, SetStateAction } from "react";
+
+const Overlay: React.FC<{
+  toggle?: Dispatch<SetStateAction<boolean>>;
+}> = ({ toggle }) => {
   return (
-    <div className="absolute bg-[rgba(0,0,0,0.40)] top-0 w-full h-full flex justify-center items-center"></div>
+    <div
+      className="absolute top-0 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.40)]"
+      onClick={() => toggle?.(false)}
+    ></div>
   );
 };
 

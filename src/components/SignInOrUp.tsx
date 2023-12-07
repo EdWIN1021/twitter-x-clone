@@ -63,7 +63,7 @@ const SignInOrUp = () => {
 
               <Link
                 to="signup"
-                className="mb-2 flex h-[40px] w-[300px] items-center justify-center rounded-full bg-[rgb(29,155,240)] px-4 text-[15px] font-bold leading-5 text-[rgb(255,255,255)] hover:bg-[rgb(26,140,216)]"
+                className="bg-primary-blue hover:bg-dark-blue mb-2 flex h-[40px] w-[300px] items-center justify-center rounded-full px-4 text-[15px] font-bold leading-5 text-[rgb(255,255,255)]"
               >
                 <span>Create account</span>
               </Link>
@@ -71,15 +71,15 @@ const SignInOrUp = () => {
 
             <p className="mb-4 w-[300px] text-[11px] text-[rgb(83,100,113)]">
               By signing up, you agree to the{" "}
-              <span className="cursor-pointer text-[rgb(29,155,240)] hover:underline">
+              <span className="text-primary-blue cursor-pointer hover:underline">
                 Terms of Service
               </span>{" "}
               and
-              <span className="cursor-pointer text-[rgb(29,155,240)] hover:underline">
+              <span className="text-primary-blue cursor-pointer hover:underline">
                 Privacy Policy
               </span>
               , including{" "}
-              <span className="cursor-pointer text-[rgb(29,155,240)] hover:underline">
+              <span className="text-primary-blue cursor-pointer hover:underline">
                 Cookie Use.
               </span>
             </p>

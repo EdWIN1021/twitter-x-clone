@@ -4,17 +4,20 @@ import { createPortal } from "react-dom";
 
 import { StepperContext } from "./Stepper";
 import { useNavigate } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 
 interface ModalProps {
   children: React.ReactNode;
   showCloseButton?: boolean;
-  resetFields: () => void;
+  resetFields?: () => void;
+  className?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
   children,
   showCloseButton = true,
   resetFields,
+  className,
 }) => {
   const { prevStep, activeStep } = useContext(StepperContext);
 
@@ -22,7 +25,12 @@ const Modal: React.FC<ModalProps> = ({
 
   return createPortal(
     <div>
-      <div className="absolute left-1/2 top-1/2 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white p-4 shadow-xl ">
+      <div
+        className={twMerge(
+          `absolute left-1/2 top-1/2 w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white p-4 shadow-xl`,
+          className,
+        )}
+      >
         {showCloseButton && (
           <>
             {activeStep < 2 ? (
@@ -30,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({
                 <XMarkIcon
                   onClick={() => {
                     navigate("/");
-                    resetFields();
+                    resetFields?.();
                   }}
                   className="left-[3%] top-[3%]  h-[20px] w-[20px] cursor-pointer"
                 />

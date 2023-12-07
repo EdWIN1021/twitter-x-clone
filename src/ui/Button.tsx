@@ -6,9 +6,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: React.ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({ title, className, icon }) => {
+const Button: React.FC<ButtonProps> = ({ title, className, icon, ...rest }) => {
   return (
-    <button className={twMerge("w-full rounded-full text-white", className)}>
+    <button
+      {...rest}
+      className={twMerge("w-full rounded-full text-white", className)}
+    >
       {icon}
       {title}
     </button>

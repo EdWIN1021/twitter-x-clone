@@ -53,11 +53,13 @@ const Search = () => {
           <>
             {users?.map((user) => (
               <div key={user?.userId}>
-                <UserItem
-                  user={user}
-                  following={currentUser?.following || []}
-                  handleClick={handleClick}
-                />
+                {!currentUser?.following?.includes(user?.userId) && (
+                  <UserItem
+                    user={user}
+                    following={currentUser?.following || []}
+                    handleClick={handleClick}
+                  />
+                )}
               </div>
             ))}
           </>

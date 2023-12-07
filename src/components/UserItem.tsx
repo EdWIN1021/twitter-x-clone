@@ -19,7 +19,7 @@ const UserItem: React.FC<{
       </div>
 
       <div className="mr-12 flex flex-1 flex-col text-[15px]">
-        <span className="font-bold">{user.displayName}</span>
+        <span className="whitespace-nowrap font-bold">{user.displayName}</span>
         <span className="text-label">@{user.username}</span>
       </div>
 

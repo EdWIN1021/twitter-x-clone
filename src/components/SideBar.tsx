@@ -1,5 +1,3 @@
-"use client";
-
 import Button from "../ui/Button";
 import Logo from "../ui/Logo";
 import {

@@ -4,7 +4,7 @@ import Tweets from "./Tweets";
 
 const Main = () => {
   return (
-    <div className="min-h-[100vh] border-x xl:w-[600px]">
+    <div className="min-h-[100vh] w-full max-w-[600px] border-x">
       <MainTab />
       <PostForm />
       <Tweets />

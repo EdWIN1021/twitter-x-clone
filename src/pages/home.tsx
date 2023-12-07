@@ -3,7 +3,7 @@ import Search from "../components/Search";
 
 const Home = () => {
   return (
-    <div className="flex">  
+    <div className="flex max-w-[900px] flex-1">
       <Main />
       <Search />
     </div>

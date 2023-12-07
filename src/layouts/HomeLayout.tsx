@@ -8,9 +8,9 @@ const HomeLayout = () => {
   const { currentUser } = useContext(AuthContext);
 
   return (
-    <>
+    <div>
       {currentUser?.username ? (
-        <div className="flex h-[100vh] w-full justify-center">
+        <div className="flex h-[100vh] justify-center">
           <SideBar />
 
           <Outlet />
@@ -19,7 +19,7 @@ const HomeLayout = () => {
       ) : (
         <Navigate to="/username" />
       )}
-    </>
+    </div>
   );
 };
 

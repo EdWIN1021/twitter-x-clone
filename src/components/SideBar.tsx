@@ -63,7 +63,7 @@ const links = [
 
 const SideBar = () => {
   return (
-    <div className="my-5 flex flex-col xl:pr-10">
+    <div className="my-5 hidden flex-col xs:flex xl:pr-10">
       <div className="flex flex-1 flex-col items-end">
         <ul className="text-xl">
           {links.map((link, index) => (

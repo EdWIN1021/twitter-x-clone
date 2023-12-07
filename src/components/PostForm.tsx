@@ -145,6 +145,7 @@ const PostForm = () => {
             <input
               type="file"
               className="hidden"
+              accept="image/*"
               onChange={handleImage}
               ref={fileInputRef}
             />
@@ -154,25 +155,25 @@ const PostForm = () => {
                 className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
                 onClick={() => fileInputRef.current?.click()}
               >
-                <PhotoIcon className="stroke-primary-blue w-5 stroke-[2.5px]" />
+                <PhotoIcon className="w-5 stroke-primary-blue stroke-[2.5px]" />
               </div>
               <div
                 ref={smileRef}
                 className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
                 onClick={() => toggle(true)}
               >
-                <FaceSmileIcon className="stroke-primary-blue w-5 stroke-[2.5px]" />
+                <FaceSmileIcon className="w-5 stroke-primary-blue stroke-[2.5px]" />
               </div>
 
               <div className="cursor-pointer rounded-full p-2 hover:bg-hover-gray">
-                <MapPinIcon className="stroke-primary-blue w-5 stroke-[2.5px] opacity-50" />
+                <MapPinIcon className="w-5 stroke-primary-blue stroke-[2.5px] opacity-50" />
               </div>
             </div>
 
             <button
               disabled={!content}
               className={clsx(
-                "bg-primary-blue rounded-full px-4 py-1.5 font-bold text-white",
+                "rounded-full bg-primary-blue px-4 py-1.5 font-bold text-white",
                 { "opacity-50": !content },
               )}
             >

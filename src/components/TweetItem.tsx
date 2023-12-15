@@ -22,7 +22,6 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
           <span className="font-bold">{tweet.displayName}</span>
           <span className="ml-1 text-label">@{tweet.username} &#8226; 18h</span>
         </div>
-
         <p>{tweet?.content}</p>
         {tweet?.postImageUrl && (
           <div className="relative mt-2 h-[288px] w-full overflow-hidden rounded-2xl">
@@ -30,23 +29,23 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
           </div>
         )}
 
-        <div className="flex justify-around pt-3">
-          <div className="flex items-center text-[13px] text-label">
-            <div className="cursor-pointer rounded-full p-2 hover:bg-hover-gray">
+        <div className="flex justify-around pt-3 text-[13px]">
+          <div className="group flex cursor-pointer items-center text-label hover:text-[rgba(29,155,240)]">
+            <div className="rounded-full p-2 group-hover:bg-[rgba(29,155,240,0.2)]">
               <ChatBubbleOvalLeftIcon className="w-5  stroke-[2px]" />
             </div>
             <span>12k</span>
           </div>
 
-          <div className="flex items-center text-[13px] text-label">
-            <div className="cursor-pointer rounded-full p-2 hover:bg-hover-gray">
+          <div className="group flex cursor-pointer  items-center text-label hover:text-[rgba(0,186,124)]">
+            <div className="rounded-full p-2 group-hover:bg-[rgba(0,186,124,0.1)]">
               <ArrowPathRoundedSquareIcon className="w-5 stroke-[2px]" />
             </div>
             <span>17k</span>
           </div>
 
-          <div className="flex items-center text-[13px] text-label">
-            <div className="cursor-pointer rounded-full p-2 hover:bg-hover-gray ">
+          <div className="group flex cursor-pointer items-center text-label hover:text-[rgb(249,24,128)]">
+            <div className="rounded-full p-2  group-hover:bg-[rgba(249,24,128,0.1)]">
               <HeartIcon className="w-5 stroke-[2px]" />
             </div>
             <span>110k</span>

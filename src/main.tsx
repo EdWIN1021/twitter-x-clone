@@ -15,6 +15,8 @@ import AuthProvider from "./contexts/AuthContext";
 import "./index.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import "react-toastify/dist/ReactToastify.css";
+import Main from "./components/Main";
+import { PostDetail } from "./components/PostDetail";
 
 const router = createHashRouter([
   {
@@ -48,6 +50,16 @@ const router = createHashRouter([
               {
                 path: "home",
                 element: <Home />,
+                children: [
+                  {
+                    index: true,
+                    element: <Main />,
+                  },
+                  {
+                    path: "post/:id",
+                    element: <PostDetail />,
+                  },
+                ],
               },
             ],
           },

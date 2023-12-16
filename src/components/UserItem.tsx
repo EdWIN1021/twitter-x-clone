@@ -32,7 +32,7 @@ const UserItem: React.FC<{
         </button>
       ) : (
         <button
-          className="bg-btn-black rounded-full px-3 py-1 text-sm font-bold text-white"
+          className="rounded-full bg-[rgb(15,20,25)] px-3 py-1 text-sm font-bold text-white"
           onClick={() => {
             handleClick(user.userId);
             setIsFollowing(true);

@@ -12,7 +12,6 @@ const HomeLayout = () => {
       {currentUser?.username ? (
         <div className="flex h-[100vh] justify-center">
           <SideBar />
-
           <Outlet />
           <AppBar />
         </div>

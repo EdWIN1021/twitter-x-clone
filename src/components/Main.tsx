@@ -11,7 +11,7 @@ const Main = () => {
       <MainTab tab={tab} setTab={setTab} />
       {tab === 0 && (
         <>
-          <PostForm />
+          <PostForm placeholder={"What is happening?!"} type={"Post"} />
           <Tweets />
         </>
       )}

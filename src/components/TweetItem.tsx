@@ -10,6 +10,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
   const { currentUser } = useContext(AuthContext);
@@ -33,9 +34,9 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
   };
 
   return (
-    <>
+    <Link to={`/home/post/${tweet.tweetId}`} state={{ tweet }}>
       {currentUser && (
-        <div className="flex border-b px-4 pb-3 pt-4">
+        <div className="flex border-b px-4 pb-3 pt-4 hover:bg-[rgba(0,0,0,0.03)]">
           <div className="mr-3 w-10 cursor-pointer">
             <img
               className="rounded-full"
@@ -94,7 +95,7 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
           </div>
         </div>
       )}
-    </>
+    </Link>
   );
 };
 

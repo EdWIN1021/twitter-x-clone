@@ -14,7 +14,13 @@ import { db, storage } from "../lib/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import Skeleton from "react-loading-skeleton";
 
-const PostForm = () => {
+const PostForm = ({
+  placeholder,
+  type,
+}: {
+  placeholder: string;
+  type: "Post" | "Reply";
+}) => {
   const [content, setContent] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -60,6 +66,7 @@ const PostForm = () => {
     e.preventDefault();
 
     if (currentUser) {
+      // type or reply
       const postRes = await createPost(
         currentUser?.uid,
         content,
@@ -117,7 +124,7 @@ const PostForm = () => {
           <textarea
             ref={textAreaRef}
             className="w-full  resize-none overflow-hidden pb-9 text-xl outline-none"
-            placeholder="What is happening?!"
+            placeholder={placeholder}
             rows={1}
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -177,7 +184,7 @@ const PostForm = () => {
                 { "opacity-50": !content },
               )}
             >
-              Post
+              {type}
             </button>
           </div>
         </div>

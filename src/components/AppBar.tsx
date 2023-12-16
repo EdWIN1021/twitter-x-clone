@@ -7,7 +7,7 @@ import {
 
 const AppBar = () => {
   return (
-    <div className="xs:hidden absolute bottom-0 flex w-full justify-around p-3">
+    <div className="absolute bottom-0 flex w-full justify-around p-3 xs:hidden">
       <li>
         <HomeIcon className="w-8" />
       </li>

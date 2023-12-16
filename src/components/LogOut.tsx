@@ -2,10 +2,12 @@ import { Dispatch, SetStateAction, useContext, useEffect, useRef } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const LogOut: React.FC<{
+interface LogOutProps {
   toggle: Dispatch<SetStateAction<boolean>>;
   username?: string;
-}> = ({ toggle, username }) => {
+}
+
+const LogOut: React.FC<LogOutProps> = ({ toggle, username }) => {
   const { signOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const logOutRef = useRef<HTMLDivElement>(null);
@@ -16,7 +18,7 @@ const LogOut: React.FC<{
 
   return (
     <div
-      className="absolute top-[-110%] z-50  cursor-pointer rounded-xl bg-white px-2 py-3 text-[15px] font-bold shadow-[0_0_15px_rgba(101,119,134,0.2)] outline-none"
+      className="absolute top-[-110%] z-50  cursor-pointer rounded-xl bg-white px-2 py-3 font-bold shadow-[0_0_15px_rgba(101,119,134,0.2)] outline-none"
       tabIndex={0}
       onBlur={() => toggle(false)}
       ref={logOutRef}

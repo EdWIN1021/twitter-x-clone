@@ -20,10 +20,10 @@ const DropDown: FC<DropDownProps> = ({ variant, type, data, ...rest }) => {
   return (
     <div
       className={clsx(
-        `${sizes[variant]} border rounded-md h-[60px]  relative overflow-hidden `,
+        `${sizes[variant]} relative h-[60px] overflow-hidden  rounded-md border `,
         {
           "border-2 border-[#1D9BF0]": isActive,
-        }
+        },
       )}
       onFocus={() => setIsActive(true)}
       onBlur={() => setIsActive(false)}
@@ -31,10 +31,10 @@ const DropDown: FC<DropDownProps> = ({ variant, type, data, ...rest }) => {
       <label
         htmlFor={type}
         className={clsx(
-          "absolute block text-[13px] text-[rgb(83,100,113)] left-3 pt-2",
+          "absolute left-3 block pt-2 text-sm text-[rgb(83,100,113)]",
           {
             "text-[#1D9BF0]": isActive,
-          }
+          },
         )}
       >
         {type}
@@ -43,7 +43,7 @@ const DropDown: FC<DropDownProps> = ({ variant, type, data, ...rest }) => {
       <select
         {...rest}
         id={type}
-        className="w-full outline-none appearance-none h-full pt-7 pb-2 pl-2 pr-2 cursor-pointer"
+        className="h-full w-full cursor-pointer appearance-none pb-2 pl-2 pr-2 pt-7 outline-none"
       >
         <option value=""></option>
         {data?.map((item, index) => (
@@ -53,7 +53,7 @@ const DropDown: FC<DropDownProps> = ({ variant, type, data, ...rest }) => {
         ))}
       </select>
 
-      <ChevronDownIcon className="absolute w-[20px] h-[20px] top-1/2 -translate-y-1/2 right-2" />
+      <ChevronDownIcon className="absolute right-2 top-1/2 h-[20px] w-[20px] -translate-y-1/2" />
     </div>
   );
 };

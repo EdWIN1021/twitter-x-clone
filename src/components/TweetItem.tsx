@@ -45,7 +45,7 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
           </div>
 
           <div className="flex-1">
-            <div className="text-[15px]">
+            <div>
               <span className="font-bold">{tweet.displayName}</span>
               <span className="ml-1 text-label">
                 @{tweet.username} &middot; 18h
@@ -62,7 +62,7 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
               </div>
             )}
 
-            <div className="flex justify-around pt-3 text-[13px]">
+            <div className="flex justify-around pt-3 text-sm">
               <div className="group flex cursor-pointer items-center text-label hover:text-[rgba(29,155,240)]">
                 <div className="rounded-full p-2 group-hover:bg-[rgba(29,155,240,0.2)]">
                   <ChatBubbleOvalLeftIcon className="w-5  stroke-[2px]" />

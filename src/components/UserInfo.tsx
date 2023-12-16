@@ -28,7 +28,7 @@ const UserInfo: React.FC = () => {
           </div>
 
           <div className="hidden  flex-1 flex-nowrap xl:block">
-            <div className="flex flex-col text-[15px]">
+            <div className="flex flex-col">
               <span className="whitespace-nowrap font-bold">
                 {currentUser ? (
                   currentUser?.displayName

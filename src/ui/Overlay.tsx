@@ -5,7 +5,7 @@ const Overlay: React.FC<{
 }> = ({ toggle }) => {
   return (
     <div
-      className="absolute top-0 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.40)]"
+      className="absolute top-0 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.4)]"
       onClick={() => toggle?.(false)}
     ></div>
   );

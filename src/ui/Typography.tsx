@@ -14,11 +14,11 @@ const Typography: React.FC<TypographyProps> = ({
   switch (variant) {
     case "h2":
       return (
-        <h2 className={twMerge("text-[31px] font-bold", className)}>{title}</h2>
+        <h2 className={twMerge("text-3xl font-bold", className)}>{title}</h2>
       );
     case "p":
       return (
-        <p className={twMerge("text-[rgb(83,100,113)] text-[14px]", className)}>
+        <p className={twMerge("text-sm text-[rgb(83,100,113)]", className)}>
           {title}
         </p>
       );

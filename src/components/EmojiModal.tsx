@@ -2,13 +2,17 @@ import { createPortal } from "react-dom";
 import EmojiPicker from "emoji-picker-react";
 import { Dispatch, SetStateAction } from "react";
 
-const EmojiModal: React.FC<{
+interface EmojiModalProps {
   handleEmoji: (emojiObject: { emoji: string }) => void;
   toggle: Dispatch<SetStateAction<boolean>>;
   leftPosition: number;
-}> = ({ handleEmoji, toggle, leftPosition }) => {
-  console.log(leftPosition);
+}
 
+const EmojiModal: React.FC<EmojiModalProps> = ({
+  handleEmoji,
+  toggle,
+  leftPosition,
+}) => {
   return createPortal(
     <>
       <div

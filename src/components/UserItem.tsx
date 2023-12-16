@@ -18,21 +18,21 @@ const UserItem: React.FC<{
         />
       </div>
 
-      <div className="mr-12 flex flex-1 flex-col text-[15px]">
+      <div className="mr-12 flex flex-1 flex-col">
         <span className="whitespace-nowrap font-bold">{user.displayName}</span>
         <span className="text-label">@{user.username}</span>
       </div>
 
       {following?.includes(user.userId) || isFollowing ? (
         <button
-          className="rounded-full bg-[rgb(0,0,0,0.2)] px-3 py-1 text-[14px] font-bold text-white"
+          className="bg-btn-black rounded-full px-3 py-1 text-sm font-bold text-white"
           disabled
         >
           Following
         </button>
       ) : (
         <button
-          className="rounded-full bg-[rgb(15,20,25)] px-3 py-1 text-[14px] font-bold text-white"
+          className="bg-btn-black rounded-full px-3 py-1 text-sm font-bold text-white"
           onClick={() => {
             handleClick(user.userId);
             setIsFollowing(true);

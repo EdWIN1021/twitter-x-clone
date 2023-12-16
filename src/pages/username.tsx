@@ -61,7 +61,7 @@ const Username = () => {
               <button
                 disabled={!input}
                 type="submit"
-                className={`text-[17px] font-bold text-white ${
+                className={`text-lg font-bold text-white ${
                   !input ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"
                 }  mb-2 mt-[327px] w-full cursor-pointer rounded-full py-3.5`}
               >

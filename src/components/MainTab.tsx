@@ -11,7 +11,7 @@ const MainTab: React.FC<{
         onClick={() => setTab(0)}
       >
         <div
-          className={`inline-block h-full text-[15px] font-semibold text-label ${
+          className={`inline-block h-full font-semibold text-label ${
             tab === 0 &&
             "border-primary-blue border-b-[3px] font-bold text-black"
           } `}
@@ -27,7 +27,7 @@ const MainTab: React.FC<{
         onClick={() => setTab(1)}
       >
         <div
-          className={`inline-block h-full text-[15px] font-semibold text-label ${
+          className={`inline-block h-full  font-semibold text-label ${
             tab === 1 &&
             "border-primary-blue border-b-[3px] font-bold text-black"
           } `}

@@ -25,8 +25,8 @@ const SignUpPasswordForm: React.FC<SignUpProps> = ({
 
   return (
     <div className="mx-auto flex max-w-[400px] flex-col">
-      <h2 className="mt-7 text-[31px] font-bold">You'll need a password</h2>
-      <p className="mb-7 text-[14px] text-[rgb(83,100,113)]">
+      <h2 className="mt-7 text-3xl font-bold">You'll need a password</h2>
+      <p className="mb-7 text-sm text-[rgb(83,100,113)]">
         Make sure it's 8 characters or more.
       </p>
 
@@ -43,7 +43,7 @@ const SignUpPasswordForm: React.FC<SignUpProps> = ({
         onClick={() =>
           signUp(email, password, birthday, name, () => navigate("/home"))
         }
-        className={`text-[17px] font-bold text-white ${
+        className={`text-lg font-bold text-white ${
           !inputFields.password
             ? "bg-[rgba(0,0,0,0.5)]"
             : "bg-[rgba(15,20,25,1)]"

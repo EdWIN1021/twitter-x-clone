@@ -18,18 +18,18 @@ const SignInOrUp = () => {
             />
           </div>
 
-          <div className="flex flex-col justify-center lg:basis-[55%] xl:basis-[50%] ">
-            <h1 className="my-10 text-[40px] font-bold leading-[52px] tracking-[-0.8px] sm:text-[64px] sm:tracking-[-1.2px]">
+          <div className="flex flex-col justify-center lg:basis-[55%] xl:basis-[50%]">
+            <h1 className="my-10 text-4xl font-bold leading-[52px] tracking-[-0.8px] sm:text-6xl sm:tracking-[-1.2px]">
               Happening now
             </h1>
 
-            <h2 className="mb-5 text-2xl font-bold leading-7 sm:text-[31px]">
+            <h2 className="mb-5 text-2xl font-bold leading-7 sm:text-3xl">
               Join today.
             </h2>
 
             <div>
               <div
-                className="mb-4 flex h-[40px] w-[300px] items-center justify-center gap-2 rounded-full border border-[rgb(207,217,222)] text-[14px] hover:bg-[rgba(29,155,240,0.1)] active:bg-[rgba(66,133,244,.1)]"
+                className="mb-4 flex h-[40px] w-[300px] items-center justify-center gap-2 rounded-full border border-[rgb(207,217,222)] text-sm hover:bg-[rgba(29,155,240,0.1)] active:bg-[rgba(66,133,244,.1)]"
                 onClick={() => signInWithGoogle(() => navigate("/home"))}
               >
                 <img
@@ -44,7 +44,7 @@ const SignInOrUp = () => {
 
               <div
                 onClick={() => signInWithGithub(() => navigate("/home"))}
-                className="flex h-[40px] w-[300px] items-center justify-center gap-2 rounded-full border border-[rgb(207,217,222)] text-[14px] hover:bg-[rgb(230,230,230)] active:bg-[rgb(204,204,204)]"
+                className="flex h-[40px] w-[300px] items-center justify-center gap-2 rounded-full border border-[rgb(207,217,222)] text-sm hover:bg-[rgb(230,230,230)] active:bg-[rgb(204,204,204)]"
               >
                 <img
                   src="/github.svg"
@@ -63,34 +63,34 @@ const SignInOrUp = () => {
 
               <Link
                 to="signup"
-                className="bg-primary-blue hover:bg-dark-blue mb-2 flex h-[40px] w-[300px] items-center justify-center rounded-full px-4 text-[15px] font-bold leading-5 text-[rgb(255,255,255)]"
+                className="mb-2 flex h-[40px] w-[300px] items-center justify-center rounded-full bg-primary-blue px-4 font-bold leading-5 text-[rgb(255,255,255)] hover:bg-dark-blue"
               >
                 <span>Create account</span>
               </Link>
             </div>
 
-            <p className="mb-4 w-[300px] text-[11px] text-[rgb(83,100,113)]">
+            <p className="mb-4 w-[300px] text-xs text-[rgb(83,100,113)]">
               By signing up, you agree to the{" "}
-              <span className="text-primary-blue cursor-pointer hover:underline">
+              <span className="cursor-pointer text-primary-blue hover:underline">
                 Terms of Service
               </span>{" "}
               and
-              <span className="text-primary-blue cursor-pointer hover:underline">
+              <span className="cursor-pointer text-primary-blue hover:underline">
                 Privacy Policy
               </span>
               , including{" "}
-              <span className="text-primary-blue cursor-pointer hover:underline">
+              <span className="cursor-pointer text-primary-blue hover:underline">
                 Cookie Use.
               </span>
             </p>
 
-            <h2 className="mb-4 mt-10 text-[17px] font-bold leading-5">
+            <h2 className="mb-4 mt-10 text-lg font-bold leading-5">
               Already have an account?
             </h2>
 
             <Link
               to="signin"
-              className="flex h-[40px] w-[300px] items-center justify-center rounded-full border border-[rgb(207,217,222)] px-4 text-[15px] font-bold leading-5 text-[rgb(29,155,240)] hover:bg-[rgba(29,155,240,0.1)]"
+              className="flex h-[40px] w-[300px] items-center justify-center rounded-full border border-[rgb(207,217,222)] px-4  font-bold leading-5 text-[rgb(29,155,240)] hover:bg-[rgba(29,155,240,0.1)]"
             >
               <span>Sign in</span>
             </Link>

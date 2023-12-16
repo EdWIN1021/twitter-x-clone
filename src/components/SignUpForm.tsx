@@ -26,7 +26,7 @@ const SignUpForm: React.FC<SignUpProps> = ({ inputFields, setInputFields }) => {
 
   return (
     <div className="mx-auto flex max-w-[400px] flex-col">
-      <h2 className="my-7 text-[31px] font-bold">Create your account</h2>
+      <h2 className="my-7 text-3xl font-bold">Create your account</h2>
 
       <div className="flex flex-col gap-5">
         <TextInput
@@ -48,8 +48,8 @@ const SignUpForm: React.FC<SignUpProps> = ({ inputFields, setInputFields }) => {
         />
       </div>
 
-      <h3 className="mb-2 mt-10 text-[15px] font-bold">Date of birth</h3>
-      <p className="text-[14px] text-[rgb(83,100,113)]">
+      <h3 className="mb-2 mt-10 font-bold">Date of birth</h3>
+      <p className="text-sm text-[rgb(83,100,113)]">
         This will not be shown publicly. Confirm your own age, even if this
         account is for a business, a pet, or something else.
       </p>
@@ -84,7 +84,7 @@ const SignUpForm: React.FC<SignUpProps> = ({ inputFields, setInputFields }) => {
       <button
         onClick={() => nextStep()}
         disabled={isDisabled}
-        className={`text-[17px] font-bold text-white ${
+        className={`text-lg font-bold text-white ${
           isDisabled ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"
         }  mb-2 mt-20 w-full cursor-pointer rounded-full py-3.5`}
       >

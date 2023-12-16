@@ -25,7 +25,7 @@ const Search = () => {
       <div className="px-7 py-4">
         <div
           className={clsx("flex rounded-full bg-[rgba(247,249,249)] p-4", {
-            "border border-primary": active,
+            "border-primary border": active,
           })}
         >
           <MagnifyingGlassIcon
@@ -45,10 +45,7 @@ const Search = () => {
 
       <div className="px-7">
         <div className="rounded-2xl bg-[rgba(247,249,249)]">
-          <h2 className="px-4 py-3 text-[20px] font-extrabold">
-            {" "}
-            Who to follow
-          </h2>
+          <h2 className="px-4 py-3 text-lg font-extrabold"> Who to follow</h2>
 
           <>
             {users?.map((user) => (

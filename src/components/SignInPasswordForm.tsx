@@ -16,7 +16,7 @@ const SignInPasswordForm: React.FC<SignInProps> = ({
 
   return (
     <div className="mx-auto flex max-w-[400px] flex-col">
-      <h2 className="mt-7 text-[31px] font-bold ">Enter your password</h2>
+      <h2 className="mt-7 text-3xl font-bold ">Enter your password</h2>
 
       <div className="my-3">
         <TextInput
@@ -38,9 +38,7 @@ const SignInPasswordForm: React.FC<SignInProps> = ({
       />
 
       <Link to="/">
-        <span className="text-[13px] text-[rgb(29,155,240)]">
-          Forgot password?
-        </span>
+        <span className="text-sm text-[rgb(29,155,240)]">Forgot password?</span>
       </Link>
 
       <button
@@ -49,14 +47,14 @@ const SignInPasswordForm: React.FC<SignInProps> = ({
             navigate("/home"),
           )
         }
-        className={`text-[17px] font-bold text-white ${
+        className={`text-lg font-bold text-white ${
           !password ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(15,20,25,1)]"
         }  mb-2 mt-[200px] w-full cursor-pointer rounded-full py-3.5`}
       >
         Log In
       </button>
 
-      <p className="m-[10px] self-start text-[15px] text-[rgb(83,100,113)]">
+      <p className="m-[10px] self-start text-[rgb(83,100,113)]">
         Don't have an account?{" "}
         <Link className="text-[rgb(29,155,240)]" to="/signup">
           Sign up

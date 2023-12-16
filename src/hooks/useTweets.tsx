@@ -31,9 +31,8 @@ const useTweets = () => {
 
         unsubscribe = onSnapshot(q, async (querySnapshot) => {
           const posts = [] as Tweet[];
-
           querySnapshot.forEach((doc) => {
-            posts.push(doc.data() as Tweet);
+            posts.push({ ...doc.data(), tweetId: doc.id } as Tweet);
           });
           setTweets(posts);
         });

@@ -9,6 +9,7 @@ export interface CurrentUser extends User {
 }
 
 export interface Tweet {
+  tweetId: string;
   content: string;
   displayName: string;
   photoURL: string;
@@ -16,6 +17,7 @@ export interface Tweet {
   timestamp: Date;
   userId: string;
   username: string;
+  likes: string[];
 }
 
 export interface SignUpInputFields {

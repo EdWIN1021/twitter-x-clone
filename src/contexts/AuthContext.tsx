@@ -41,8 +41,8 @@ interface AuthContextProps {
   signInWithGoogle: (cb: () => void) => void;
   signInWithGithub: (cb: () => void) => void;
   signOut: (cb: () => void) => void;
-  currentUser: CurrentUser | null;
   setCurrentUser: Dispatch<SetStateAction<CurrentUser | null>>;
+  currentUser: CurrentUser | null;
   loading: boolean;
 }
 
@@ -51,9 +51,9 @@ export const AuthContext = createContext<AuthContextProps>({
   signIn: () => {},
   signInWithGoogle: () => {},
   signInWithGithub: () => {},
-  currentUser: null,
   signOut: () => {},
   setCurrentUser: () => {},
+  currentUser: null,
   loading: true,
 });
 
@@ -178,8 +178,8 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     signInWithGoogle,
     signInWithGithub,
     signOut,
-    currentUser,
     setCurrentUser,
+    currentUser,
     loading,
   };
 

@@ -49,7 +49,7 @@ const SignUpForm: React.FC<SignUpProps> = ({ inputFields, setInputFields }) => {
       </div>
 
       <h3 className="mb-2 mt-10 font-bold">Date of birth</h3>
-      <p className="text-sm text-[rgb(83,100,113)]">
+      <p className="text-sm text-label">
         This will not be shown publicly. Confirm your own age, even if this
         account is for a business, a pet, or something else.
       </p>

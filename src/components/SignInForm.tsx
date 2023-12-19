@@ -13,9 +13,7 @@ const SignInForm: React.FC<SignInProps> = ({ inputFields, setInputFields }) => {
 
   return (
     <div className="mx-auto flex h-[580px] max-w-[300px] flex-col items-center">
-      <h2 className="mb-7 mt-3 self-start text-3xl font-bold">
-        Sign in to X
-      </h2>
+      <h2 className="mb-7 mt-3 self-start text-3xl font-bold">Sign in to X</h2>
 
       <div
         className="my-3 mb-4 flex h-[38px] w-full items-center justify-center gap-2 rounded-full border border-[rgb(207,217,222)] text-sm hover:bg-[rgba(29,155,240,0.1)] active:bg-[rgba(66,133,244,.1)]"
@@ -72,7 +70,7 @@ const SignInForm: React.FC<SignInProps> = ({ inputFields, setInputFields }) => {
         Forgot password?
       </button>
 
-      <p className="mt-[40px] self-start  text-[rgb(83,100,113)]">
+      <p className="mt-[40px] self-start  text-label">
         Don't have an account?{" "}
         <Link className="text-[rgb(29,155,240)]" to="/signup">
           Sign up

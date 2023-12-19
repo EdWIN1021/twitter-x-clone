@@ -26,7 +26,7 @@ const SignUpPasswordForm: React.FC<SignUpProps> = ({
   return (
     <div className="mx-auto flex max-w-[400px] flex-col">
       <h2 className="mt-7 text-3xl font-bold">You'll need a password</h2>
-      <p className="mb-7 text-sm text-[rgb(83,100,113)]">
+      <p className="mb-7 text-sm text-label">
         Make sure it's 8 characters or more.
       </p>
 

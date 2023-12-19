@@ -17,7 +17,12 @@ export const PostDetail = () => {
       </div>
 
       <TweetItem tweet={state.tweet} />
-      <PostForm placeholder={"Post your reply"} type={"Reply"} />
+
+      <PostForm
+        placeholder={"Post your reply"}
+        type={"Reply"}
+        tweetId={state.tweet.tweetId}
+      />
     </div>
   );
 };

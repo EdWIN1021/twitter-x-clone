@@ -30,12 +30,9 @@ const DropDown: FC<DropDownProps> = ({ variant, type, data, ...rest }) => {
     >
       <label
         htmlFor={type}
-        className={clsx(
-          "absolute left-3 block pt-2 text-sm text-[rgb(83,100,113)]",
-          {
-            "text-[#1D9BF0]": isActive,
-          },
-        )}
+        className={clsx("absolute left-3 block pt-2 text-sm text-label", {
+          "text-[#1D9BF0]": isActive,
+        })}
       >
         {type}
       </label>

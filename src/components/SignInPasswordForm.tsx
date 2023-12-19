@@ -54,7 +54,7 @@ const SignInPasswordForm: React.FC<SignInProps> = ({
         Log In
       </button>
 
-      <p className="m-[10px] self-start text-[rgb(83,100,113)]">
+      <p className="m-[10px] self-start text-label">
         Don't have an account?{" "}
         <Link className="text-[rgb(29,155,240)]" to="/signup">
           Sign up

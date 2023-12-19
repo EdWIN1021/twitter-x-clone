@@ -69,7 +69,7 @@ const SignInOrUp = () => {
               </Link>
             </div>
 
-            <p className="mb-4 w-[300px] text-xs text-[rgb(83,100,113)]">
+            <p className="mb-4 w-[300px] text-xs text-label">
               By signing up, you agree to the{" "}
               <span className="cursor-pointer text-primary-blue hover:underline">
                 Terms of Service

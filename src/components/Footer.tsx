@@ -24,7 +24,7 @@ export const Footer = () => {
   return (
     <div>
       <nav>
-        <ul className="flex flex-wrap justify-center gap-2 px-4 py-3 text-sm text-[rgb(83,100,113)]">
+        <ul className="flex flex-wrap justify-center gap-2 px-4 py-3 text-sm text-label">
           {footerLinks.map((link) => (
             <li key={link}>{link}</li>
           ))}

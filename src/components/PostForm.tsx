@@ -17,9 +17,11 @@ import Skeleton from "react-loading-skeleton";
 const PostForm = ({
   placeholder,
   type,
+  tweetId,
 }: {
   placeholder: string;
   type: "Post" | "Reply";
+  tweetId?: string;
 }) => {
   const [content, setContent] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -66,7 +68,9 @@ const PostForm = ({
     e.preventDefault();
 
     if (currentUser) {
-      // type or reply
+      // todo: type or reply
+      console.log(tweetId);
+
       const postRes = await createPost(
         currentUser?.uid,
         content,

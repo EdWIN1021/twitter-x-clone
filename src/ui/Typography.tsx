@@ -18,9 +18,7 @@ const Typography: React.FC<TypographyProps> = ({
       );
     case "p":
       return (
-        <p className={twMerge("text-sm text-[rgb(83,100,113)]", className)}>
-          {title}
-        </p>
+        <p className={twMerge("text-sm text-label", className)}>{title}</p>
       );
   }
 };

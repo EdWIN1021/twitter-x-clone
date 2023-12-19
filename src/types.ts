@@ -14,10 +14,13 @@ export interface Tweet {
   displayName: string;
   photoURL: string;
   postImageUrl: string;
-  timestamp: Date;
+  timestamp: Timestamp;
   userId: string;
   username: string;
   likes: string[];
+}
+export interface Timestamp extends Date {
+  toDate: () => Date;
 }
 
 export interface SignUpInputFields {

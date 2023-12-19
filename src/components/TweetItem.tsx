@@ -11,6 +11,7 @@ import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
+import { getDateRange } from "../utils/date";
 
 const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
   const { currentUser } = useContext(AuthContext);
@@ -49,7 +50,8 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
             <div>
               <span className="font-bold">{tweet.displayName}</span>
               <span className="ml-1 text-label">
-                @{tweet.username} &middot; 18h
+                @{tweet.username} &middot;{" "}
+                {getDateRange(tweet.timestamp.toDate())}
               </span>
             </div>
             <p>{tweet?.content}</p>
@@ -65,7 +67,7 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
 
             <div className="flex justify-around pt-3 text-sm">
               <div className="group flex cursor-pointer items-center text-label hover:text-primary-blue">
-                <div className="group-hover:bg-secondary-blue rounded-full p-2">
+                <div className="rounded-full p-2 group-hover:bg-secondary-blue">
                   <ChatBubbleOvalLeftIcon className="w-5  stroke-[2px]" />
                 </div>
                 <span>12k</span>

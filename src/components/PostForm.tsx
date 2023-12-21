@@ -11,7 +11,7 @@ import EmojiModal from "./EmojiModal";
 import { AuthContext } from "../contexts/AuthContext";
 import { createPost } from "../utils/post";
 import { db, storage } from "../lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import Skeleton from "react-loading-skeleton";
 
 const PostForm = ({
@@ -20,7 +20,7 @@ const PostForm = ({
   tweetId,
 }: {
   placeholder: string;
-  type: "Post" | "Reply";
+  type: "post" | "reply";
   tweetId?: string;
 }) => {
   const [content, setContent] = useState("");
@@ -68,9 +68,6 @@ const PostForm = ({
     e.preventDefault();
 
     if (currentUser) {
-      // todo: type or reply
-      console.log(tweetId);
-
       const postRes = await createPost(
         currentUser?.uid,
         content,
@@ -78,6 +75,17 @@ const PostForm = ({
         currentUser?.photoURL,
         currentUser?.username,
       );
+
+      if (type === "reply" && tweetId) {
+        await updateDoc(doc(db, "posts", tweetId), {
+          replies: arrayUnion(postRes?.id),
+        });
+      }
+
+      await updateDoc(doc(db, "posts", postRes?.id), {
+        tweetId: postRes?.id,
+        likes: [],
+      });
 
       if (
         fileInputRef.current?.files &&

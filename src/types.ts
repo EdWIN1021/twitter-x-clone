@@ -18,6 +18,7 @@ export interface Tweet {
   userId: string;
   username: string;
   likes: string[];
+  replies: string[];
 }
 export interface Timestamp extends Date {
   toDate: () => Date;

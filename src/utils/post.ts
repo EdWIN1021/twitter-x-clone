@@ -6,9 +6,28 @@ export const createPost = async (
   content: string,
   displayName: string | null,
   photoURL: string | null,
-  username?: string
+  username?: string,
 ) => {
   const docRef = await addDoc(collection(db, "posts"), {
+    userId,
+    content,
+    displayName,
+    photoURL,
+    username,
+    timestamp: serverTimestamp(),
+  });
+
+  return docRef;
+};
+
+export const createReply = async (
+  userId: string,
+  content: string,
+  displayName: string | null,
+  photoURL: string | null,
+  username?: string,
+) => {
+  const docRef = await addDoc(collection(db, "replies"), {
     userId,
     content,
     displayName,

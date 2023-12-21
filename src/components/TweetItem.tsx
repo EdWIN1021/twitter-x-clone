@@ -44,7 +44,7 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
         navigate(`/home/post/${tweet.tweetId}`, { state: { tweet } })
       }
     >
-      {currentUser && (
+      {currentUser && tweet && (
         <div className="flex border-b px-4 pb-3 pt-4 hover:bg-[rgba(0,0,0,0.03)]">
           <div className="mr-3 w-10 cursor-pointer">
             <img
@@ -59,7 +59,7 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
               <span className="font-bold">{tweet.displayName}</span>
               <span className="ml-1 text-label">
                 @{tweet.username} &middot;{" "}
-                {getDateRange(tweet.timestamp.toDate())}
+                {getDateRange(tweet?.timestamp?.toDate())}
               </span>
             </div>
             <p>{tweet?.content}</p>
@@ -78,7 +78,7 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
                 <div className="rounded-full p-2 group-hover:bg-secondary-blue">
                   <ChatBubbleOvalLeftIcon className="w-5  stroke-[2px]" />
                 </div>
-                <span>12k</span>
+                <span>{tweet?.replies?.length}</span>
               </div>
 
               <div className="group flex cursor-pointer  items-center text-label hover:text-[rgba(0,186,124)]">
@@ -99,7 +99,7 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
                     })}
                   />
                 </div>
-                <span>{tweet?.likes.length > 0 ? tweet?.likes.length : 0}</span>
+                <span>{tweet?.likes?.length}</span>
               </div>
             </div>
           </div>

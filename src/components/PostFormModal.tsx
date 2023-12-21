@@ -17,7 +17,7 @@ const PostFormModal: React.FC<{
         />
 
         <div className="py-5">
-          <PostForm placeholder={"What is happening?!"} type={"Post"} />
+          <PostForm placeholder={"What is happening?!"} type={"post"} />
         </div>
       </div>
     </>,

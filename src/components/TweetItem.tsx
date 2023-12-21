@@ -10,11 +10,12 @@ import { AuthContext } from "../contexts/AuthContext";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getDateRange } from "../utils/date";
 
 const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
   const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const isLiked = useMemo(() => {
     if (currentUser) {
@@ -22,7 +23,9 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
     }
   }, [tweet.likes, currentUser]);
 
-  const handleLike = async () => {
+  const handleLike = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+
     if (!isLiked) {
       await updateDoc(doc(db, "posts", tweet.tweetId), {
         likes: arrayUnion(currentUser?.uid),
@@ -35,7 +38,12 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
   };
 
   return (
-    <Link to={`/home/post/${tweet.tweetId}`} state={{ tweet }}>
+    <div
+      className="cursor-pointer"
+      onClick={() =>
+        navigate(`/home/post/${tweet.tweetId}`, { state: { tweet } })
+      }
+    >
       {currentUser && (
         <div className="flex border-b px-4 pb-3 pt-4 hover:bg-[rgba(0,0,0,0.03)]">
           <div className="mr-3 w-10 cursor-pointer">
@@ -97,7 +105,7 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
           </div>
         </div>
       )}
-    </Link>
+    </div>
   );
 };
 

@@ -85,6 +85,7 @@ const PostForm = ({
       await updateDoc(doc(db, "posts", postRes?.id), {
         tweetId: postRes?.id,
         likes: [],
+        replies: [],
       });
 
       if (

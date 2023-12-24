@@ -7,13 +7,18 @@ const useTweets = () => {
 
   useEffect(() => {
     (async () => {
-      const { data, error } = await supabase.from("tweets").select(
-        `
+      const { data, error } = await supabase
+        .from("tweets")
+        .select(
+          `
         id,
         content,
-        profiles(id, full_name, avatar_url)
+        type,
+        created_at,
+        profiles(id, full_name, avatar_url, username)
       `,
-      );
+        )
+        .eq("type", "post");
 
       if (data && !error) {
         setTweets(data as Tweet[]);

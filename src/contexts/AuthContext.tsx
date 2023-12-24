@@ -1,4 +1,12 @@
-import { ReactNode, createContext, FC, useEffect, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  FC,
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { supabase } from "../lib/supabase";
 import { User } from "@supabase/supabase-js";
 import { Profiles } from "../types";
@@ -8,12 +16,14 @@ interface AuthContextProps {
   currentUser: User | null | undefined;
   profile: Profiles | null;
   loading: boolean;
+  setProfile: Dispatch<SetStateAction<Profiles | null>>;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
   currentUser: null,
   profile: null,
   loading: true,
+  setProfile: () => {},
 });
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -55,6 +65,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     currentUser,
     profile,
     loading,
+    setProfile,
   };
 
   return (

@@ -10,14 +10,16 @@ import EmojiModal from "./EmojiModal";
 import { AuthContext } from "../contexts/AuthContext";
 import Skeleton from "react-loading-skeleton";
 import { createTweet } from "../utils/tweet";
+import { Tweet } from "../types";
 
 const PostForm = ({
   placeholder,
   type,
+  tweet,
 }: {
   placeholder: string;
   type: "post" | "reply";
-  tweetId?: string;
+  tweet?: Tweet;
 }) => {
   const [content, setContent] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -62,23 +64,10 @@ const PostForm = ({
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (currentUser) {
-      //create post
-      const response = await createTweet(currentUser?.id, content);
-      console.log(response);
+      await createTweet(currentUser?.id, content, type, tweet?.id);
     }
 
     // if (currentUser) {
-
-    //   if (type === "reply" && tweetId) {
-    //     await updateDoc(doc(db, "posts", tweetId), {
-    //       replies: arrayUnion(postRes?.id),
-    //     });
-    //   }
-
-    //   await updateDoc(doc(db, "posts", postRes?.id), {
-    //     tweetId: postRes?.id,
-    //     likes: [],
-    //   });
 
     //   if (
     //     fileInputRef.current?.files &&

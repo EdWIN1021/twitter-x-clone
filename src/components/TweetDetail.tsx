@@ -3,25 +3,20 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import TweetItem from "./TweetItem";
 import PostForm from "./PostForm";
 import { useEffect, useState } from "react";
-import { Tweet } from "../types";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../lib/firebase";
+import { Reply } from "../types";
+import { getReplies } from "../utils/tweet";
 
-export const PostDetail = () => {
+const TweetDetail = () => {
   const { state } = useLocation();
-  const [replies, setReplies] = useState<Tweet[]>([]);
+  const [replies, setReplies] = useState<Reply[]>([]);
 
   useEffect(() => {
-    // change to realtime
     (async () => {
-      const data = [] as Tweet[];
-      const q = query(
-        collection(db, "posts"),
-        where("tweetId", "in", state.tweet.replies),
-      );
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => data.push(doc.data() as Tweet));
-      setReplies(data);
+      const response = await getReplies(state.tweet.id);
+      if (response.status === 200) {
+        console.log(response);
+        setReplies(response.data as Reply[]);
+      }
     })();
 
     return () => setReplies([]);
@@ -41,12 +36,14 @@ export const PostDetail = () => {
       <PostForm
         placeholder={"Post your reply"}
         type={"reply"}
-        tweetId={state.tweet.tweetId}
+        tweet={state.tweet}
       />
 
       {replies.map((reply) => (
-        <TweetItem key={reply.tweetId} tweet={reply} />
+        <TweetItem key={reply.id} tweet={reply} />
       ))}
     </div>
   );
 };
+
+export default TweetDetail;

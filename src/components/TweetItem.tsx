@@ -1,59 +1,79 @@
-import { useContext } from "react";
-import { Tweet } from "../types";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { Like, Reply, Tweet } from "../types";
 
 import {
   ChatBubbleOvalLeftIcon,
   ArrowPathRoundedSquareIcon,
+  HeartIcon,
 } from "@heroicons/react/24/outline";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-// import { getDateRange } from "../utils/date";
+import { getDateRange } from "../utils/date";
+import { createLikes, getTotalLikes, getTotalReplies } from "../utils/tweet";
+import clsx from "clsx";
 
-const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
+const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
   const { currentUser } = useContext(AuthContext);
+  const [totalReplies, setTotalReplies] = useState<number | null>(0);
+  const [likes, setTotalLikes] = useState<Like[] | []>([]);
   const navigate = useNavigate();
 
-  // const isLiked = useMemo(() => {
-  //   if (currentUser) {
-  //     return tweet.likes.includes(currentUser?.uid);
-  //   }
-  // }, [tweet.likes, currentUser]);
+  useEffect(() => {
+    (async () => {
+      if (tweet) {
+        const response = await getTotalReplies(tweet?.id);
+        if (response.status === 200) {
+          setTotalReplies(response.count);
+        }
+      }
+    })();
+  }, [tweet]);
+
+  useEffect(() => {
+    (async () => {
+      if (tweet) {
+        const response = await getTotalLikes(tweet?.id);
+        if (response.status === 200) {
+          setTotalLikes(response?.data as Like[]);
+        }
+      }
+    })();
+  }, [tweet]);
+
+  const isLiked = useMemo(() => {
+    if (currentUser) {
+      return likes?.some((like) => like.user_id === currentUser?.id);
+    }
+  }, [likes, currentUser]);
 
   const handleLike = async (event: React.MouseEvent) => {
     event.stopPropagation();
-
-    // if (!isLiked) {
-    //   await updateDoc(doc(db, "posts", tweet.tweetId), {
-    //     likes: arrayUnion(currentUser?.uid),
-    //   });
-    // } else {
-    //   await updateDoc(doc(db, "posts", tweet.tweetId), {
-    //     likes: arrayRemove(currentUser?.uid),
-    //   });
-    // }
+    if (currentUser) {
+      await createLikes(currentUser?.id, tweet?.id);
+    }
   };
 
   return (
     <div
       className="cursor-pointer"
-      onClick={() => navigate(`/home/post/${tweet.id}`, { state: { tweet } })}
+      onClick={() => navigate(`/home/tweet/${tweet.id}`, { state: { tweet } })}
     >
       {currentUser && tweet && (
         <div className="flex border-b px-4 pb-3 pt-4 hover:bg-[rgba(0,0,0,0.03)]">
           <div className="mr-3 w-10 cursor-pointer">
             <img
               className="rounded-full"
-              src={tweet?.profiles.avatar_url || "/default_profile.png"}
+              src={tweet?.profiles?.avatar_url || "/default_profile.png"}
               alt="default..."
             />
           </div>
 
           <div className="flex-1">
             <div>
-              <span className="font-bold">{tweet.profiles.full_name}</span>
+              <span className="font-bold">{tweet.profiles?.full_name}</span>
               <span className="ml-1 text-label">
-                {/* @{tweet.profiles.full_name} &middot;{" "} */}
-                {/* {getDateRange(tweet?.timestamp?.toDate())} */}
+                @{tweet.profiles?.username} &middot;{" "}
+                {getDateRange(new Date(tweet.created_at))}
               </span>
             </div>
             <p>{tweet?.content}</p>
@@ -68,7 +88,7 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
                 <div className="rounded-full p-2 group-hover:bg-secondary-blue">
                   <ChatBubbleOvalLeftIcon className="w-5  stroke-[2px]" />
                 </div>
-                <span>{tweet?.replies?.length}</span>
+                <span>{totalReplies}</span>
               </div>
 
               <div className="group flex cursor-pointer  items-center text-label hover:text-[rgba(0,186,124)]">
@@ -83,13 +103,13 @@ const TweetItem: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
                 onClick={handleLike}
               >
                 <div className="rounded-full p-2  group-hover:bg-[rgba(249,24,128,0.1)]">
-                  {/* <HeartIcon
+                  <HeartIcon
                     className={clsx("w-5", {
                       "fill-[rgb(249,24,128)] text-[rgb(249,24,128)]": isLiked,
                     })}
-                  /> */}
+                  />
                 </div>
-                <span>{tweet?.likes?.length}</span>
+                <span>{likes.length}</span>
               </div>
             </div>
           </div>

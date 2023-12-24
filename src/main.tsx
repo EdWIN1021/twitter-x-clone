@@ -14,7 +14,7 @@ import "./index.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import "react-toastify/dist/ReactToastify.css";
 import Main from "./components/Main";
-import { PostDetail } from "./components/PostDetail";
+import TweetDetail from "./components/TweetDetail";
 import Public from "./pages/public";
 
 const router = createBrowserRouter([
@@ -55,8 +55,8 @@ const router = createBrowserRouter([
                     element: <Main />,
                   },
                   {
-                    path: "post/:id",
-                    element: <PostDetail />,
+                    path: "tweet/:id",
+                    element: <TweetDetail />,
                   },
                 ],
               },

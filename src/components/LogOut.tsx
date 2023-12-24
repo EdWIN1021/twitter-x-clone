@@ -35,7 +35,7 @@ const LogOut: React.FC<LogOutProps> = ({ toggle, username }) => {
       </span>
       <img
         src="/triangle.svg"
-        className="absolute -bottom-[8px] left-1/2 -z-10 w-5 -translate-x-1/2 rotate-180"
+        className="absolute -bottom-2 left-1/2 -z-10 w-5 -translate-x-1/2 rotate-180"
         alt=""
       />
     </div>

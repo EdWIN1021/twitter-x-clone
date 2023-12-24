@@ -13,9 +13,24 @@ export interface Tweet {
   content: string;
   image_url?: string;
   user_id?: string;
-  likes?: string[];
-  replies?: string[];
   profiles: Profiles;
+  created_at: Date;
+  type: string;
+}
+
+export interface Reply {
+  id: string;
+  content: string;
+  image_url?: string;
+  user_id?: string;
+  profiles: Profiles;
+  created_at: Date;
+  type: string;
+}
+
+export interface Like {
+  id: string;
+  user_id: string;
 }
 
 export interface Profiles {

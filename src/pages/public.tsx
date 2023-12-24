@@ -11,7 +11,7 @@ const Public = () => {
       {loading ? (
         <Loader />
       ) : (
-        <>{currentUser ? <Navigate to="/home" /> : <Outlet />}</>
+        <>{currentUser ? <Navigate to={"/home"} /> : <Outlet />}</>
       )}
     </>
   );

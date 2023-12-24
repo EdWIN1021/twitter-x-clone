@@ -6,7 +6,7 @@ import Skeleton from "react-loading-skeleton";
 
 const UserInfo: React.FC = () => {
   const [open, toggle] = useState(false);
-  const { currentUser } = useContext(AuthContext);
+  const { profile } = useContext(AuthContext);
 
   return (
     <div className="relative max-w-[260px] self-center xl:self-auto">
@@ -16,10 +16,10 @@ const UserInfo: React.FC = () => {
       >
         <div className="flex items-center gap-2.5">
           <div className="w-10 cursor-pointer">
-            {currentUser ? (
+            {profile ? (
               <img
                 className="rounded-full"
-                src={currentUser?.photoURL || "/default_profile.png"}
+                src={profile?.avatar_url || "/default_profile.png"}
                 alt="default..."
               />
             ) : (
@@ -30,19 +30,11 @@ const UserInfo: React.FC = () => {
           <div className="hidden  flex-1 flex-nowrap xl:block">
             <div className="flex flex-col">
               <span className="whitespace-nowrap font-bold">
-                {currentUser ? (
-                  currentUser?.displayName
-                ) : (
-                  <Skeleton width={123} />
-                )}
+                {profile ? profile?.full_name : <Skeleton width={123} />}
               </span>
 
               <span className="self-start text-label">
-                {currentUser ? (
-                  `@${currentUser!.username}`
-                ) : (
-                  <Skeleton width={75} />
-                )}
+                {profile ? `@${profile?.username}` : <Skeleton width={75} />}
               </span>
             </div>
           </div>
@@ -51,7 +43,7 @@ const UserInfo: React.FC = () => {
         </div>
       </div>
 
-      {open && <LogOut toggle={toggle} username={currentUser?.username} />}
+      {open && <LogOut toggle={toggle} username={profile?.full_name} />}
     </div>
   );
 };

@@ -1,185 +1,59 @@
-import {
-  ReactNode,
-  createContext,
-  FC,
-  useEffect,
-  useState,
-  Dispatch,
-  SetStateAction,
-} from "react";
-
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  GithubAuthProvider,
-  signInWithPopup,
-  User,
-  signOut as signOutUser,
-  updateProfile,
-} from "firebase/auth";
-
-import { auth } from "../lib/firebase";
-
-import { FirebaseError } from "firebase/app";
-
-import { getUserProfile, initUserProfile } from "../utils/auth";
-import { firebaseErrorHandler } from "../utils/error";
-
-const googleProvider = new GoogleAuthProvider();
-const githubProvider = new GithubAuthProvider();
+import { ReactNode, createContext, FC, useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
+import { User } from "@supabase/supabase-js";
+import { Profiles } from "../types";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextProps {
-  signUp: (
-    email: string,
-    password: string,
-    birthday: Date,
-    name: string,
-    cb: () => void,
-  ) => void;
-  signIn: (email: string, password: string, cb: () => void) => void;
-  signInWithGoogle: (cb: () => void) => void;
-  signInWithGithub: (cb: () => void) => void;
-  signOut: (cb: () => void) => void;
-  setCurrentUser: Dispatch<SetStateAction<CurrentUser | null>>;
-  currentUser: CurrentUser | null;
+  currentUser: User | null | undefined;
+  profile: Profiles | null;
   loading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
-  signUp: () => {},
-  signIn: () => {},
-  signInWithGoogle: () => {},
-  signInWithGithub: () => {},
-  signOut: () => {},
-  setCurrentUser: () => {},
   currentUser: null,
+  profile: null,
   loading: true,
 });
 
-export interface CurrentUser extends User {
-  name: string;
-  username: string;
-  following?: string[];
-}
-
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(null);
+  const [profile, setProfile] = useState<Profiles | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        getUserProfile(user?.uid).then((profile) => {
-          setCurrentUser({ ...user, ...profile } as CurrentUser);
-          setLoading(false);
-        });
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_, session) => {
+      if (session?.user) {
+        supabase
+          .from("profiles")
+          .select()
+          .eq("id", session?.user?.id)
+          .then((res) => {
+            if (res.status === 200 && res.data) {
+              setProfile(res?.data[0] as Profiles);
+              setCurrentUser(session?.user);
+              setLoading(false);
+            }
+          });
       } else {
         setCurrentUser(null);
+        setProfile(null);
         setLoading(false);
       }
     });
-    return () => unsubscribe();
-  }, []);
 
-  const signUp = async (
-    email: string,
-    password: string,
-    birthday: Date,
-    name: string,
-    cb: () => void,
-  ) => {
-    try {
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      if (user) {
-        await initUserProfile(user, birthday, name);
-        await updateProfile(user, {
-          displayName: name,
-        });
-
-        cb();
-      }
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        firebaseErrorHandler(error.message);
-      }
-    }
-  };
-
-  const signIn = async (email: string, password: string, cb: () => void) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-
-      if (userCredential?.user) cb();
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        firebaseErrorHandler(error.message);
-      }
-    }
-  };
-
-  const signInWithGoogle = async (cb: () => void) => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user as CurrentUser;
-      const profile = await getUserProfile(user?.uid);
-
-      if (user && profile?.username) {
-        cb();
-      }
-
-      if (user && !profile?.username) {
-        await initUserProfile(user);
-        cb();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const signInWithGithub = async (cb: () => void) => {
-    try {
-      const result = await signInWithPopup(auth, githubProvider);
-      const user = result.user as CurrentUser;
-      const profile = await getUserProfile(user?.uid);
-
-      if (user && profile?.username) {
-        cb();
-      }
-
-      if (user && !profile?.username) {
-        initUserProfile(user);
-        cb();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const signOut = async (cb: () => void) => {
-    try {
-      await signOutUser(auth);
-      cb();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
 
   const contextValue: AuthContextProps = {
-    signUp,
-    signIn,
-    signInWithGoogle,
-    signInWithGithub,
-    signOut,
-    setCurrentUser,
     currentUser,
+    profile,
     loading,
   };
 

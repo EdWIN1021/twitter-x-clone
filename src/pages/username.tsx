@@ -4,36 +4,29 @@ import Overlay from "../ui/Overlay";
 import TextInput from "../ui/TextInput";
 import Typography from "../ui/Typography";
 import { AuthContext } from "../contexts/AuthContext";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../lib/firebase";
 import { Navigate, useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabase";
 
 const Username = () => {
   const [input, setInput] = useState("");
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { profile } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    await supabase
+      .from("profiles")
+      .update({ username: input })
+      .eq("id", profile?.id);
 
-    try {
-      if (currentUser) {
-        const usersRef = doc(db, "users", currentUser.uid);
-        await updateDoc(usersRef, {
-          username: input,
-        });
+    //update profile
 
-        setCurrentUser({ ...currentUser, username: input });
-        navigate("/home");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    navigate("home");
   };
 
   return (
     <>
-      {currentUser?.username ? (
+      {profile?.username ? (
         <Navigate to={"/home"} />
       ) : (
         <>

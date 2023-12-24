@@ -6,6 +6,8 @@ import Stepper, { Step } from "../ui/Stepper";
 import { useState } from "react";
 
 const SignIn = () => {
+  console.log("signin");
+
   const [inputFields, setInputFields] = useState({
     email: "",
     password: "",
@@ -18,7 +20,6 @@ const SignIn = () => {
     });
   };
 
-  
   return (
     <>
       <Overlay />

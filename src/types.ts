@@ -9,19 +9,20 @@ export interface CurrentUser extends User {
 }
 
 export interface Tweet {
-  tweetId: string;
+  id: string;
   content: string;
-  displayName: string;
-  photoURL: string;
-  postImageUrl: string;
-  timestamp: Timestamp;
-  userId: string;
-  username: string;
-  likes: string[];
-  replies: string[];
+  image_url?: string;
+  user_id?: string;
+  likes?: string[];
+  replies?: string[];
+  profiles: Profiles;
 }
-export interface Timestamp extends Date {
-  toDate: () => Date;
+
+export interface Profiles {
+  avatar_url?: string;
+  full_name?: string;
+  id?: string;
+  username?: string;
 }
 
 export interface SignUpInputFields {

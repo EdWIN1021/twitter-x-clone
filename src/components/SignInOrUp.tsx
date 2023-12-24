@@ -1,10 +1,13 @@
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
+import { supabase } from "../lib/supabase";
+import { Provider } from "@supabase/supabase-js";
 
 const SignInOrUp = () => {
-  const { signInWithGoogle, signInWithGithub } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const handleSignInWithOAuth = async (provider: Provider) => {
+    await supabase.auth.signInWithOAuth({
+      provider,
+    });
+  };
 
   return (
     <>
@@ -30,7 +33,7 @@ const SignInOrUp = () => {
             <div>
               <div
                 className="mb-4 flex h-[40px] w-[300px] items-center justify-center gap-2 rounded-full border border-[rgb(207,217,222)] text-sm hover:bg-[rgba(29,155,240,0.1)] active:bg-[rgba(66,133,244,.1)]"
-                onClick={() => signInWithGoogle(() => navigate("/home"))}
+                onClick={() => handleSignInWithOAuth("google")}
               >
                 <img
                   src="/google.svg"
@@ -43,7 +46,7 @@ const SignInOrUp = () => {
               </div>
 
               <div
-                onClick={() => signInWithGithub(() => navigate("/home"))}
+                onClick={() => handleSignInWithOAuth("github")}
                 className="flex h-[40px] w-[300px] items-center justify-center gap-2 rounded-full border border-[rgb(207,217,222)] text-sm hover:bg-[rgb(230,230,230)] active:bg-[rgb(204,204,204)]"
               >
                 <img

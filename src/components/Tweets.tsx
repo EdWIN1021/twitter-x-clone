@@ -7,7 +7,7 @@ const Tweets: React.FC = () => {
   return (
     <>
       {tweets &&
-        tweets.map((tweet, index) => <TweetItem key={index} tweet={tweet} />)}
+        tweets.map((tweet) => <TweetItem key={tweet.id} tweet={tweet} />)}
     </>
   );
 };

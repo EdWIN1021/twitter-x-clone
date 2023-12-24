@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useContext, useEffect, useRef } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { supabase } from "../lib/supabase";
 import { useNavigate } from "react-router-dom";
 
 interface LogOutProps {
@@ -8,9 +8,13 @@ interface LogOutProps {
 }
 
 const LogOut: React.FC<LogOutProps> = ({ toggle, username }) => {
-  const { signOut } = useContext(AuthContext);
-  const navigate = useNavigate();
   const logOutRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const handleLogOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
+  };
 
   useEffect(() => {
     logOutRef?.current?.focus();
@@ -25,7 +29,7 @@ const LogOut: React.FC<LogOutProps> = ({ toggle, username }) => {
     >
       <span
         className="whitespace-nowrap py-2 pl-5 pr-10 hover:bg-hover-gray "
-        onClick={() => signOut(() => navigate("/"))}
+        onClick={handleLogOut}
       >
         Log out @{`${username}`}
       </span>

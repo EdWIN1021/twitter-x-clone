@@ -1,5 +1,4 @@
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
-import { ref, uploadBytes } from "firebase/storage";
 import {
   PhotoIcon,
   FaceSmileIcon,
@@ -9,15 +8,12 @@ import { XCircleIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import EmojiModal from "./EmojiModal";
 import { AuthContext } from "../contexts/AuthContext";
-import { createPost } from "../utils/post";
-import { db, storage } from "../lib/firebase";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import Skeleton from "react-loading-skeleton";
+import { createTweet } from "../utils/tweet";
 
 const PostForm = ({
   placeholder,
   type,
-  tweetId,
 }: {
   placeholder: string;
   type: "post" | "reply";
@@ -30,7 +26,6 @@ const PostForm = ({
   const [imageUrl, setImageUrl] = useState("");
   const { currentUser } = useContext(AuthContext);
   const smileRef = useRef<HTMLDivElement>(null);
-
   const [leftPosition, setLeftPosition] = useState(0);
 
   useEffect(() => {
@@ -66,44 +61,42 @@ const PostForm = ({
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-
     if (currentUser) {
-      const postRes = await createPost(
-        currentUser?.uid,
-        content,
-        currentUser?.displayName,
-        currentUser?.photoURL,
-        currentUser?.username,
-      );
-
-      if (type === "reply" && tweetId) {
-        await updateDoc(doc(db, "posts", tweetId), {
-          replies: arrayUnion(postRes?.id),
-        });
-      }
-
-      await updateDoc(doc(db, "posts", postRes?.id), {
-        tweetId: postRes?.id,
-        likes: [],
-      });
-
-      if (
-        fileInputRef.current?.files &&
-        fileInputRef.current?.files.length > 0
-      ) {
-        const storageRef = ref(storage, `posts/${postRes?.id}`);
-        const uploadRes = await uploadBytes(
-          storageRef,
-          fileInputRef?.current?.files[0],
-        );
-
-        await updateDoc(doc(db, "posts", postRes?.id), {
-          postImageUrl: `
-          https://firebasestorage.googleapis.com/v0/b/twitter-clone-f5011.appspot.com/o/posts%2F${uploadRes.metadata.name}?alt=media&token=9a311874-bf9f-4118-9504-6f9a9952e230
-          `,
-        });
-      }
+      //create post
+      const response = await createTweet(currentUser?.id, content);
+      console.log(response);
     }
+
+    // if (currentUser) {
+
+    //   if (type === "reply" && tweetId) {
+    //     await updateDoc(doc(db, "posts", tweetId), {
+    //       replies: arrayUnion(postRes?.id),
+    //     });
+    //   }
+
+    //   await updateDoc(doc(db, "posts", postRes?.id), {
+    //     tweetId: postRes?.id,
+    //     likes: [],
+    //   });
+
+    //   if (
+    //     fileInputRef.current?.files &&
+    //     fileInputRef.current?.files.length > 0
+    //   ) {
+    //     const storageRef = ref(storage, `posts/${postRes?.id}`);
+    //     const uploadRes = await uploadBytes(
+    //       storageRef,
+    //       fileInputRef?.current?.files[0],
+    //     );
+
+    //     await updateDoc(doc(db, "posts", postRes?.id), {
+    //       postImageUrl: `
+    //       https://firebasestorage.googleapis.com/v0/b/twitter-clone-f5011.appspot.com/o/posts%2F${uploadRes.metadata.name}?alt=media&token=9a311874-bf9f-4118-9504-6f9a9952e230
+    //       `,
+    //     });
+    //   }
+    // }
 
     setContent("");
     setImageUrl("");
@@ -124,7 +117,9 @@ const PostForm = ({
           {currentUser ? (
             <img
               className="rounded-full"
-              src={currentUser?.photoURL || "/default_profile.png"}
+              src={
+                currentUser?.user_metadata.avatar_url || "/default_profile.png"
+              }
               alt="default..."
             />
           ) : (

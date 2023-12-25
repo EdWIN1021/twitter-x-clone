@@ -9,13 +9,14 @@ import {
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { getDateRange } from "../utils/date";
-import { createLikes, getTotalLikes, getTotalReplies } from "../utils/tweet";
+import { createLikes, getLikes, getTotalReplies } from "../utils/tweet";
 import clsx from "clsx";
+import { supabase } from "../lib/supabase";
 
 const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
   const { currentUser } = useContext(AuthContext);
   const [totalReplies, setTotalReplies] = useState<number | null>(0);
-  const [likes, setTotalLikes] = useState<Like[] | []>([]);
+  const [likes, setLikes] = useState<Like[] | []>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,13 +33,45 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
   useEffect(() => {
     (async () => {
       if (tweet) {
-        const response = await getTotalLikes(tweet?.id);
+        const response = await getLikes(tweet?.id);
         if (response.status === 200) {
-          setTotalLikes(response?.data as Like[]);
+          setLikes(response?.data as Like[]);
         }
       }
     })();
   }, [tweet]);
+
+  useEffect(() => {
+    const subscription = supabase
+      .channel("likes-db-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "likes",
+        },
+        async (payload) => {
+          setLikes([...likes, payload.new as Like]);
+        },
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "likes",
+        },
+        async (payload) => {
+          setLikes(likes.filter((like) => like.id !== payload.old.id));
+        },
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [likes]);
 
   const isLiked = useMemo(() => {
     if (currentUser) {

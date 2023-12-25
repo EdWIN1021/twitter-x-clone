@@ -39,6 +39,10 @@ export interface Profiles {
   id?: string;
   username?: string;
 }
+export interface ImageData {
+  fullPath: string;
+  path: string;
+}
 
 export interface SignUpInputFields {
   email: string;

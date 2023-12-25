@@ -9,8 +9,9 @@ import clsx from "clsx";
 import EmojiModal from "./EmojiModal";
 import { AuthContext } from "../contexts/AuthContext";
 import Skeleton from "react-loading-skeleton";
-import { createTweet } from "../utils/tweet";
-import { Tweet } from "../types";
+import { createTweet, updateTweetImageUrl } from "../utils/tweet";
+import { ImageData, Tweet } from "../types";
+import { supabase } from "../lib/supabase";
 
 const PostForm = ({
   placeholder,
@@ -64,28 +65,36 @@ const PostForm = ({
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (currentUser) {
-      await createTweet(currentUser?.id, content, type, tweet?.id);
+      const { data: newTweet } = await createTweet(
+        currentUser?.id,
+        content,
+        type,
+        tweet?.id,
+      );
+
+      if (
+        fileInputRef.current?.files &&
+        fileInputRef.current?.files.length > 0
+      ) {
+        const { data, error } = await supabase.storage
+          .from("tweet_images")
+          .upload(
+            `${(newTweet as Tweet).id}`,
+            fileInputRef?.current?.files[0],
+            {
+              cacheControl: "3600",
+              upsert: false,
+            },
+          );
+
+        if (data && !error) {
+          const image_url = `${import.meta.env.VITE_SUPABASE_BUCKET_URL}/${
+            (data as ImageData).fullPath
+          }`;
+          await updateTweetImageUrl(newTweet.id, image_url);
+        }
+      }
     }
-
-    // if (currentUser) {
-
-    //   if (
-    //     fileInputRef.current?.files &&
-    //     fileInputRef.current?.files.length > 0
-    //   ) {
-    //     const storageRef = ref(storage, `posts/${postRes?.id}`);
-    //     const uploadRes = await uploadBytes(
-    //       storageRef,
-    //       fileInputRef?.current?.files[0],
-    //     );
-
-    //     await updateDoc(doc(db, "posts", postRes?.id), {
-    //       postImageUrl: `
-    //       https://firebasestorage.googleapis.com/v0/b/twitter-clone-f5011.appspot.com/o/posts%2F${uploadRes.metadata.name}?alt=media&token=9a311874-bf9f-4118-9504-6f9a9952e230
-    //       `,
-    //     });
-    //   }
-    // }
 
     setContent("");
     setImageUrl("");

@@ -18,7 +18,7 @@ const PostForm = ({
   type,
   tweet,
 }: {
-  placeholder: string;
+  placeholder?: string;
   type: "post" | "reply";
   tweet?: Tweet;
 }) => {
@@ -94,10 +94,7 @@ const PostForm = ({
 
   return (
     <>
-      <form
-        className="hidden border-b px-4 pt-4 sm:flex"
-        onSubmit={handleSubmit}
-      >
+      <form className="hidden px-4 pt-4 sm:flex" onSubmit={handleSubmit}>
         <div className="mr-3 w-10 cursor-pointer">
           {currentUser ? (
             <img
@@ -140,7 +137,7 @@ const PostForm = ({
             </div>
           )}
 
-          <div className="mt-4 flex items-center border-t py-2">
+          <div className="mt-5 flex items-center border-t py-2">
             <input
               type="file"
               className="hidden"
@@ -149,7 +146,7 @@ const PostForm = ({
               ref={fileInputRef}
             />
 
-            <div className="flex flex-1">
+            <div className="mt-2 flex flex-1">
               <div
                 className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
                 onClick={() => fileInputRef.current?.click()}

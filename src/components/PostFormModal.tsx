@@ -10,7 +10,7 @@ const PostFormModal: React.FC<{
   return createPortal(
     <>
       <Overlay toggle={toggle} />
-      <div className="absolute left-1/2 top-[10px]  w-[600px] -translate-x-1/2 rounded-2xl bg-white  py-4 ">
+      <div className="absolute left-1/2 top-[10px]  w-[600px] -translate-x-1/2 rounded-2xl bg-white py-4">
         <XMarkIcon
           className="ml-5 w-5 cursor-pointer"
           onClick={() => toggle(false)}

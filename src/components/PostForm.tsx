@@ -1,4 +1,12 @@
-import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   PhotoIcon,
   FaceSmileIcon,
@@ -17,10 +25,12 @@ const PostForm = ({
   placeholder,
   type,
   tweet,
+  toggleModal,
 }: {
   placeholder?: string;
   type: "post" | "reply";
   tweet?: Tweet;
+  toggleModal?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [content, setContent] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -86,6 +96,7 @@ const PostForm = ({
     setContent("");
     setImageUrl("");
     fileInputRef.current!.value = "";
+    toggleModal?.(false);
   };
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {

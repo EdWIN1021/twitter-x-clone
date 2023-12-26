@@ -15,7 +15,7 @@ const ReplyModal: React.FC<{
       <Overlay toggle={toggle} />
       <div className="absolute left-1/2 top-[5%] min-w-[600px] -translate-x-1/2 rounded-2xl bg-white pt-4">
         <XMarkIcon
-          className="cursor-pointe mx-6 my-2 mb-5 w-5"
+          className="mx-6 my-2 mb-5 w-5 cursor-pointer"
           onClick={() => toggle(false)}
         />
 
@@ -54,7 +54,12 @@ const ReplyModal: React.FC<{
           </div>
         </div>
 
-        <PostForm type={"reply"} placeholder="Post your Reply" tweet={tweet} />
+        <PostForm
+          type={"reply"}
+          placeholder="Post your Reply"
+          tweet={tweet}
+          toggleModal={toggle}
+        />
       </div>
     </>,
     document.body,

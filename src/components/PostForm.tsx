@@ -9,9 +9,9 @@ import clsx from "clsx";
 import EmojiModal from "./EmojiModal";
 import { AuthContext } from "../contexts/AuthContext";
 import Skeleton from "react-loading-skeleton";
-import { createTweet, updateTweetImageUrl } from "../utils/tweet";
+import { createTweet, uploadTweetImage } from "../utils/tweet";
 import { ImageData, Tweet } from "../types";
-import { supabase } from "../lib/supabase";
+import { v4 as uuidv4 } from "uuid";
 
 const PostForm = ({
   placeholder,
@@ -65,35 +65,22 @@ const PostForm = ({
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (currentUser) {
-      const { data: newTweet } = await createTweet(
-        currentUser?.id,
-        content,
-        type,
-        tweet?.id,
-      );
+      let image_url = "";
 
       if (
         fileInputRef.current?.files &&
         fileInputRef.current?.files.length > 0
       ) {
-        const { data, error } = await supabase.storage
-          .from("tweet_images")
-          .upload(
-            `${(newTweet as Tweet).id}`,
-            fileInputRef?.current?.files[0],
-            {
-              cacheControl: "3600",
-              upsert: false,
-            },
-          );
-
-        if (data && !error) {
-          const image_url = `${import.meta.env.VITE_SUPABASE_BUCKET_URL}/${
-            (data as ImageData).fullPath
-          }`;
-          await updateTweetImageUrl(newTweet.id, image_url);
-        }
+        const { imageData } = await uploadTweetImage(
+          fileInputRef?.current?.files[0],
+          uuidv4(),
+        );
+        image_url = `${import.meta.env.VITE_SUPABASE_BUCKET_URL}/${
+          (imageData as ImageData).fullPath
+        }`;
       }
+
+      await createTweet(currentUser?.id, content, type, tweet?.id, image_url);
     }
 
     setContent("");

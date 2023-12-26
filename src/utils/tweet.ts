@@ -9,6 +9,7 @@ export const getTweet = async (tweetId: string) => {
           content,
           type,
           created_at,
+          image_url,
           profiles(id, full_name, avatar_url, username)
         `,
     )
@@ -23,20 +24,25 @@ export const createTweet = async (
   content: string,
   type: string,
   tweet_id?: string,
+  image_url?: string,
 ) => {
   const response = await supabase
     .from("tweets")
-    .insert({ user_id, content, type, tweet_id })
+    .insert({ user_id, content, type, tweet_id, image_url })
     .select()
     .single();
   return response;
 };
 
-export const updateTweetImageUrl = async (
-  tweet_id: string,
-  image_url: string,
-) => {
-  await supabase.from("tweets").update({ image_url }).eq("id", tweet_id);
+export const uploadTweetImage = async (file: File, tweet_id: string) => {
+  const { data: imageData, error } = await supabase.storage
+    .from("tweet_images")
+    .upload(`${tweet_id}`, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+  return { imageData, error };
 };
 
 export const getTweets = async () => {

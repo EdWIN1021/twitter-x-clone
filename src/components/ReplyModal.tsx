@@ -54,7 +54,7 @@ const ReplyModal: React.FC<{
           </div>
         </div>
 
-        <PostForm type={"reply"} placeholder="Post your Reply" />
+        <PostForm type={"reply"} placeholder="Post your Reply" tweet={tweet} />
       </div>
     </>,
     document.body,

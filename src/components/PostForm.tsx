@@ -146,7 +146,7 @@ const PostForm = ({
               ref={fileInputRef}
             />
 
-            <div className="flex w-full">
+            <div className="mt-1 flex w-full">
               <div className="flex flex-1">
                 <div
                   className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"

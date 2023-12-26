@@ -146,35 +146,37 @@ const PostForm = ({
               ref={fileInputRef}
             />
 
-            <div className="mt-2 flex flex-1">
-              <div
-                className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <PhotoIcon className="w-5 stroke-primary-blue stroke-[2.5px]" />
-              </div>
-              <div
-                ref={smileRef}
-                className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
-                onClick={() => toggle(true)}
-              >
-                <FaceSmileIcon className="w-5 stroke-primary-blue stroke-[2.5px]" />
+            <div className="flex w-full">
+              <div className="flex flex-1">
+                <div
+                  className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <PhotoIcon className="w-5 stroke-primary-blue stroke-[2.5px]" />
+                </div>
+                <div
+                  ref={smileRef}
+                  className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
+                  onClick={() => toggle(true)}
+                >
+                  <FaceSmileIcon className="w-5 stroke-primary-blue stroke-[2.5px]" />
+                </div>
+
+                <div className="cursor-pointer rounded-full p-2 hover:bg-hover-gray">
+                  <MapPinIcon className="w-5 stroke-primary-blue stroke-[2.5px] opacity-50" />
+                </div>
               </div>
 
-              <div className="cursor-pointer rounded-full p-2 hover:bg-hover-gray">
-                <MapPinIcon className="w-5 stroke-primary-blue stroke-[2.5px] opacity-50" />
-              </div>
+              <button
+                disabled={!content}
+                className={clsx(
+                  "rounded-full bg-primary-blue px-4 py-1.5 font-bold text-white",
+                  { "opacity-50": !content },
+                )}
+              >
+                {type.slice(0, 1).toUpperCase() + type.slice(1, type.length)}
+              </button>
             </div>
-
-            <button
-              disabled={!content}
-              className={clsx(
-                "rounded-full bg-primary-blue px-4 py-1.5 font-bold text-white",
-                { "opacity-50": !content },
-              )}
-            >
-              {type.slice(0, 1).toUpperCase() + type.slice(1, type.length)}
-            </button>
           </div>
         </div>
       </form>

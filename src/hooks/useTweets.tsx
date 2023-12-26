@@ -24,6 +24,7 @@ const useTweets = () => {
           event: "INSERT",
           schema: "public",
           table: "tweets",
+          filter: "type=eq.post",
         },
         async (payload) => {
           const data = await getTweet(payload.new.id);

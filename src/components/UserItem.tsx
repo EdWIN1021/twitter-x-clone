@@ -1,46 +1,39 @@
-import { useState } from "react";
-import { CurrentUser } from "../types";
+import { Profiles } from "../types";
 
 const UserItem: React.FC<{
-  user: CurrentUser;
-  following: string[];
+  user: Profiles;
+  following?: string[];
   handleClick: (id: string) => void;
-}> = ({ user, following, handleClick }) => {
-  const [isFollowing, setIsFollowing] = useState(false);
+}> = ({ user }) => {
+  // const [isFollowing, setIsFollowing] = useState(false);
 
   return (
     <div className="flex items-center px-4 py-3" key={user.username}>
       <div className="mr-3 w-10 cursor-pointer">
         <img
           className="rounded-full"
-          src={user.photoURL || "/default_profile.png"}
+          src={user.avatar_url || "/default_profile.png"}
           alt="default..."
         />
       </div>
-
       <div className="mr-12 flex flex-1 flex-col">
-        <span className="whitespace-nowrap font-bold">{user.displayName}</span>
+        <span className="whitespace-nowrap font-bold">{user.full_name}</span>
         <span className="text-label">@{user.username}</span>
       </div>
-
-      {following?.includes(user.userId) || isFollowing ? (
-        <button
-          className="bg-btn-black rounded-full px-3 py-1 text-sm font-bold text-white"
-          disabled
-        >
-          Following
-        </button>
-      ) : (
-        <button
-          className="rounded-full bg-[rgb(15,20,25)] px-3 py-1 text-sm font-bold text-white"
-          onClick={() => {
-            handleClick(user.userId);
-            setIsFollowing(true);
-          }}
-        >
-          Follow
-        </button>
-      )}
+      {/* <button
+        className="rounded-full bg-btn-black px-3 py-1 text-sm font-bold text-white"
+        disabled
+      >
+        Following
+      </button> */}
+      <button
+        className="rounded-full bg-[rgb(15,20,25)] px-3 py-1 text-sm font-bold text-white"
+        onClick={() => {
+          // setIsFollowing(true);
+        }}
+      >
+        Follow
+      </button>
     </div>
   );
 };

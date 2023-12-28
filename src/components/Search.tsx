@@ -1,24 +1,14 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import useUsers from "../hooks/useUsers";
-import { db } from "../lib/firebase";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { AuthContext } from "../contexts/AuthContext";
 import UserItem from "./UserItem";
 
 const Search = () => {
   const { users } = useUsers();
   const [active, setActive] = useState(false);
-  const { currentUser } = useContext(AuthContext);
 
-  const handleClick = async (id: string) => {
-    if (currentUser) {
-      await updateDoc(doc(db, "users", currentUser?.uid), {
-        following: arrayUnion(id),
-      });
-    }
-  };
+  const handleClick = async () => {};
 
   return (
     <div className="hidden md:block">
@@ -49,14 +39,8 @@ const Search = () => {
 
           <>
             {users?.map((user) => (
-              <div key={user?.userId}>
-                {!currentUser?.following?.includes(user?.userId) && (
-                  <UserItem
-                    user={user}
-                    following={currentUser?.following || []}
-                    handleClick={handleClick}
-                  />
-                )}
+              <div key={user?.id}>
+                <UserItem user={user} handleClick={handleClick} />
               </div>
             ))}
           </>

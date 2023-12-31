@@ -7,6 +7,8 @@ const UserItem: React.FC<{
 }> = ({ user }) => {
   // const [isFollowing, setIsFollowing] = useState(false);
 
+  
+
   return (
     <div className="flex items-center px-4 py-3" key={user.username}>
       <div className="mr-3 w-10 cursor-pointer">

@@ -34,6 +34,15 @@ export const createTweet = async (
   return response;
 };
 
+export const followUser = async (user_id: string, follower_user_id: string) => {
+  const response = await supabase.from("follows").insert({
+    user_id,
+    follower_user_id,
+  });
+
+  return response;
+};
+
 export const uploadTweetImage = async (file: File, tweet_id: string) => {
   const { data: imageData, error } = await supabase.storage
     .from("tweet_images")
@@ -110,5 +119,20 @@ export const getReplies = async (id: string) => {
   `,
     )
     .eq("tweet_id", id);
+  return response;
+};
+
+export const getProfiles = async (search: string) => {
+  let response;
+  if (search) {
+    response = await supabase
+      .from("profiles")
+      .select()
+      .textSearch("full_name", search, {
+        config: "english",
+      });
+  } else {
+    response = await supabase.from("profiles").select();
+  }
   return response;
 };

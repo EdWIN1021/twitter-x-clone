@@ -5,8 +5,9 @@ import useUsers from "../hooks/useUsers";
 import UserItem from "./UserItem";
 
 const Search = () => {
-  const { users } = useUsers();
   const [active, setActive] = useState(false);
+  const [search, setSearch] = useState("");
+  const { users } = useUsers(search);
 
   const handleClick = async () => {};
 
@@ -27,6 +28,8 @@ const Search = () => {
             className="w-full bg-[rgba(247,249,249)] pl-2 outline-none"
             type="text"
             placeholder="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             onFocus={() => setActive(true)}
             onBlur={() => setActive(false)}
           />

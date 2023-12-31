@@ -1,30 +1,28 @@
 import { useEffect, useState } from "react";
 import { Profiles } from "../types";
-import { supabase } from "../lib/supabase";
+import { getProfiles } from "../utils/tweet";
 
-const useUsers = () => {
+const useUsers = (search: string) => {
   const [users, setUsers] = useState<Profiles[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getUsers = async () => {
+    const timer = setTimeout(async () => {
       setLoading(true);
       try {
-        const { data } = await supabase.from("profiles").select();
+        const { data } = await getProfiles(search);
         setUsers(data as Profiles[]);
       } catch (err) {
         console.log(err);
       } finally {
         setLoading(false);
       }
-    };
-
-    getUsers();
+    }, 500);
 
     return () => {
-      getUsers();
+      clearTimeout(timer);
     };
-  }, []);
+  }, [search]);
 
   return { users, loading };
 };

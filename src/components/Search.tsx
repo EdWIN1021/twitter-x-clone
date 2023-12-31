@@ -1,4 +1,5 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import { useState } from "react";
 import useUsers from "../hooks/useUsers";
@@ -33,6 +34,15 @@ const Search = () => {
             onFocus={() => setActive(true)}
             onBlur={() => setActive(false)}
           />
+
+          {search && (
+            <XCircleIcon
+              className={clsx("w-7 cursor-pointer fill-primary-blue")}
+              onClick={() => {
+                setSearch("");
+              }}
+            />
+          )}
         </div>
       </div>
 

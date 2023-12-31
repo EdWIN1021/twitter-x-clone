@@ -37,7 +37,7 @@ const Search = () => {
       </div>
 
       <div className="px-7">
-        <div className="rounded-2xl bg-[rgba(247,249,249)]">
+        <div className="min-w-[332px] rounded-2xl bg-[rgba(247,249,249)]">
           <h2 className="px-4 py-3 text-lg font-extrabold"> Who to follow</h2>
 
           <>

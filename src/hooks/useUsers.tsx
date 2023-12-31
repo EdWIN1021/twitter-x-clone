@@ -7,17 +7,20 @@ const useUsers = (search: string) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(async () => {
-      setLoading(true);
-      try {
-        const { data } = await getProfiles(search);
-        setUsers(data as Profiles[]);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    }, 500);
+    const timer = setTimeout(
+      async () => {
+        setLoading(true);
+        try {
+          const { data } = await getProfiles(search);
+          setUsers(data as Profiles[]);
+        } catch (err) {
+          console.log(err);
+        } finally {
+          setLoading(false);
+        }
+      },
+      search ? 500 : 0,
+    );
 
     return () => {
       clearTimeout(timer);

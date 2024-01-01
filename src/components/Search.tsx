@@ -46,6 +46,19 @@ const Search = () => {
         </div>
       </div>
 
+      <div className="mb-3 px-7">
+        <div className="rounded-2xl bg-[rgba(247,249,249)] p-4">
+          <h2 className="text-[20px] font-extrabold">Subscribe to Premium</h2>
+          <p className="my-2">
+            Subscribe to unlock new features and if eligible, receive a share of
+            ads revenue.
+          </p>
+          <button className="rounded-full bg-black px-3 py-1 font-bold text-white">
+            Subscribe
+          </button>
+        </div>
+      </div>
+
       <div className="px-7">
         <div className="min-w-[332px] rounded-2xl bg-[rgba(247,249,249)]">
           <h2 className="px-4 py-3 text-lg font-extrabold"> Who to follow</h2>

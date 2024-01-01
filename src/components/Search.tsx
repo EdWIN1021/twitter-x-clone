@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import useUsers from "../hooks/useUsers";
 import UserItem from "./UserItem";
+import Stripe from "stripe";
 
 const Search = () => {
   const [active, setActive] = useState(false);
@@ -11,6 +12,22 @@ const Search = () => {
   const { users } = useUsers(search);
 
   const handleClick = async () => {};
+
+  const handleSubscribe = async () => {
+    const stripe = new Stripe(import.meta.env.VITE_STRIPE_KEY);
+    const { url } = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: import.meta.env.VITE_STRIPE_PRODUCT_ID,
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `${import.meta.env.VITE_BASE_URL}/success`,
+      cancel_url: `${import.meta.env.VITE_BASE_URL}/cancel`,
+    });
+    window.location.assign(url || `${import.meta.env.VITE_BASE_URL}/home`);
+  };
 
   return (
     <div className="hidden md:block">
@@ -53,7 +70,10 @@ const Search = () => {
             Subscribe to unlock new features and if eligible, receive a share of
             ads revenue.
           </p>
-          <button className="rounded-full bg-black px-3 py-1 font-bold text-white">
+          <button
+            className="rounded-full bg-black px-3 py-1 font-bold text-white"
+            onClick={handleSubscribe}
+          >
             Subscribe
           </button>
         </div>

@@ -97,7 +97,7 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
   return (
     <>
       <div
-        className="cursor-pointer"
+        className="cursor-pointer border-b"
         onClick={() =>
           navigate(`/home/tweet/${tweet.id}`, { state: { tweet } })
         }

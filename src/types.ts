@@ -38,6 +38,7 @@ export interface Profiles {
   full_name?: string;
   id?: string;
   username?: string;
+  created_at: Date;
 }
 export interface ImageData {
   fullPath: string;

@@ -15,56 +15,59 @@ import {
 import NavLink from "./NavLink";
 import UserInfo from "./UserInfo";
 import PostFormModal from "./PostFormModal";
-import { useState } from "react";
-
-const links = [
-  {
-    icon: <Logo />,
-  },
-  {
-    title: "Home",
-    icon: <HomeIcon />,
-  },
-  {
-    title: "Explore",
-    icon: <MagnifyingGlassIcon />,
-  },
-  {
-    title: "Notifications",
-    icon: <BellIcon />,
-  },
-  {
-    title: "Messages",
-    icon: <EnvelopeIcon />,
-  },
-  {
-    title: "Lists",
-    icon: <QueueListIcon />,
-  },
-  {
-    title: "Bookmarks",
-    icon: <BookmarkIcon />,
-  },
-  {
-    title: "Communities",
-    icon: <UsersIcon />,
-  },
-  {
-    title: "Premium",
-    icon: <Logo />,
-  },
-  {
-    title: "Profile",
-    icon: <UserIcon />,
-  },
-  {
-    title: "More",
-    icon: <EllipsisHorizontalCircleIcon />,
-  },
-];
+import { useContext, useState } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 const SideBar = () => {
   const [open, toggle] = useState(false);
+  const { profile } = useContext(AuthContext);
+
+  const links = [
+    {
+      icon: <Logo />,
+    },
+    {
+      title: "Home",
+      icon: <HomeIcon />,
+    },
+    {
+      title: "Explore",
+      icon: <MagnifyingGlassIcon />,
+    },
+    {
+      title: "Notifications",
+      icon: <BellIcon />,
+    },
+    {
+      title: "Messages",
+      icon: <EnvelopeIcon />,
+    },
+    {
+      title: "Lists",
+      icon: <QueueListIcon />,
+    },
+    {
+      title: "Bookmarks",
+      icon: <BookmarkIcon />,
+    },
+    {
+      title: "Communities",
+      icon: <UsersIcon />,
+    },
+    {
+      title: "Premium",
+      icon: <Logo />,
+    },
+    {
+      title: "Profile",
+      icon: <UserIcon />,
+      to: `/home/profile/${profile?.full_name}`,
+    },
+    {
+      title: "More",
+      icon: <EllipsisHorizontalCircleIcon />,
+    },
+  ];
 
   return (
     <>
@@ -73,7 +76,7 @@ const SideBar = () => {
           <ul className="text-xl">
             {links.map((link, index) => (
               <li key={index}>
-                <NavLink icon={link.icon} title={link.title} />
+                <NavLink icon={link.icon} title={link.title} to={link.to} />
               </li>
             ))}
           </ul>
@@ -84,7 +87,7 @@ const SideBar = () => {
           />
 
           <Button
-            className="bg-primary-blue hover:bg-dark-blue mt-5 hidden px-10 py-2 xl:block "
+            className="mt-5 hidden bg-primary-blue px-10 py-2 hover:bg-dark-blue xl:block "
             title={"Post"}
             onClick={() => toggle(true)}
           />

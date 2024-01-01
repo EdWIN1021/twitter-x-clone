@@ -7,11 +7,11 @@ interface NavLinkProps {
   to?: string;
 }
 
-const NavLink: React.FC<NavLinkProps> = ({ icon, title, to = "/home" }) => {
+const NavLink: React.FC<NavLinkProps> = ({ icon, title, to }) => {
   return (
     <Link
       className="cursor-pointer justify-center md:flex md:justify-start"
-      to={to}
+      to={to || "/home"}
     >
       <div className="flex rounded-full px-4 py-2 hover:bg-hover-gray">
         <div className={`mx-3  w-7`}>{icon}</div>

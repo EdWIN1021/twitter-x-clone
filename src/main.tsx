@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Main from "./components/Main";
 import TweetDetail from "./components/TweetDetail";
 import Public from "./pages/public";
+import Profile from "./components/Profile";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
                   {
                     path: "tweet/:id",
                     element: <TweetDetail />,
+                  },
+                  {
+                    path: "profile/:full_name",
+                    element: <Profile />,
                   },
                 ],
               },

@@ -13,7 +13,7 @@ const ReplyModal: React.FC<{
   return createPortal(
     <>
       <Overlay toggle={toggle} />
-      <div className="absolute left-1/2 top-[5%] min-w-[600px] -translate-x-1/2 rounded-2xl bg-white pt-4">
+      <div className="absolute left-1/2 top-[5%] min-w-[600px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white pt-4">
         <XMarkIcon
           className="mx-6 my-2 mb-5 w-5 cursor-pointer"
           onClick={() => toggle(false)}

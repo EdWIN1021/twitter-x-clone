@@ -14,7 +14,7 @@ export interface Tweet {
   image_url?: string;
   user_id?: string;
   profiles: Profiles;
-  created_at: Date;
+  created_at?: Date;
   type: string;
 }
 
@@ -38,7 +38,7 @@ export interface Profiles {
   full_name?: string;
   id?: string;
   username?: string;
-  created_at: Date;
+  created_at?: Date;
 }
 export interface ImageData {
   fullPath: string;

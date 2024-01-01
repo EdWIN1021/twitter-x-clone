@@ -38,7 +38,7 @@ const ReplyModal: React.FC<{
                 <span className="font-bold">{tweet.profiles?.full_name}</span>
                 <span className="ml-1 text-label">
                   @{tweet.profiles?.username} &middot;{" "}
-                  {getDateRange(new Date(tweet.created_at))}
+                  {getDateRange(new Date(tweet.created_at || new Date()))}
                 </span>
               </div>
               <span className="pb-3">{tweet?.content}</span>

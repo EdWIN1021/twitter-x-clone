@@ -1,11 +1,18 @@
 import { ArrowLeftIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import moment from "moment";
+import clsx from "clsx";
+import useUserTweets from "../hooks/useUserTweets";
+import TweetItem from "./TweetItem";
+
+const tabs = ["posts", "replies", "likes"];
 
 const Profile = () => {
   const { profile } = useContext(AuthContext);
+  const { tweets } = useUserTweets();
+  const [tab, setTab] = useState("posts");
 
   return (
     <div className="min-h-[100vh] w-full max-w-[600px] border-x">
@@ -51,16 +58,27 @@ const Profile = () => {
       </div>
 
       <div className="flex justify-between border-b px-4">
-        <button className="border-b-2 border-primary-blue px-6 py-2 font-bold hover:bg-hover-gray">
-          Posts
-        </button>
-        <button className="px-6 py-2 font-bold hover:bg-hover-gray">
-          Replies
-        </button>
-        <button className="px-6 py-2 font-bold hover:bg-hover-gray">
-          Likes
-        </button>
+        {tabs.map((tabItem) => (
+          <button
+            className={clsx("px-6 py-2 font-bold hover:bg-hover-gray", {
+              "border-b-2 border-primary-blue": tab === tabItem,
+            })}
+            onClick={() => setTab(tabItem)}
+          >
+            {tabItem}
+          </button>
+        ))}
       </div>
+      {tab === "posts" && (
+        <div>
+          {" "}
+          {tweets.map((tweet) => (
+            <TweetItem key={tweet.id} tweet={tweet} />
+          ))}
+        </div>
+      )}
+      {tab === "replies" && <div>replies</div>}
+      {tab === "likes" && <div>likes</div>}
     </div>
   );
 };

@@ -73,6 +73,26 @@ export const getTweets = async () => {
   return { data, error };
 };
 
+export const getUserTweets = async (user_id: string) => {
+  const { data, error } = await supabase
+    .from("tweets")
+    .select(
+      `
+      id,
+      content,
+      type,
+      image_url,
+      created_at,
+      profiles(id, full_name, avatar_url, username)
+      `,
+    )
+    .eq("type", "post")
+    .eq("user_id", user_id)
+    .order("created_at", { ascending: false });
+
+  return { data, error };
+};
+
 export const getTotalReplies = async (id: string) => {
   const response = await supabase
     .from("tweets")

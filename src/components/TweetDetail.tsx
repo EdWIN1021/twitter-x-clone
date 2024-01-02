@@ -56,17 +56,19 @@ const TweetDetail = () => {
         <span className="text-xl font-bold">Post</span>
       </div>
 
-      <TweetItem tweet={state.tweet} />
+      <div className="h-[calc(100vh-52px)] overflow-y-auto">
+        <TweetItem tweet={state.tweet} />
 
-      <PostForm
-        placeholder={"Post your reply"}
-        type={"reply"}
-        tweet={state.tweet}
-      />
+        <PostForm
+          placeholder={"Post your reply"}
+          type={"reply"}
+          tweet={state.tweet}
+        />
 
-      {replies.map((reply) => (
-        <TweetItem key={reply.id} tweet={reply} />
-      ))}
+        {replies.map((reply) => (
+          <TweetItem key={reply.id} tweet={reply} />
+        ))}
+      </div>
     </div>
   );
 };

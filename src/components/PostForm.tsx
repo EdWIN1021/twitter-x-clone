@@ -25,11 +25,13 @@ const PostForm = ({
   placeholder,
   type,
   tweet,
+  reload,
   toggleModal,
 }: {
   placeholder?: string;
   type: "post" | "reply";
   tweet?: Tweet;
+  reload?: boolean;
   toggleModal?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [content, setContent] = useState("");
@@ -97,6 +99,7 @@ const PostForm = ({
     setImageUrl("");
     fileInputRef.current!.value = "";
     toggleModal?.(false);
+    reload && window.location.reload();
   };
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {

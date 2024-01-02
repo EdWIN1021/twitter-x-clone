@@ -56,6 +56,7 @@ const ReplyModal: React.FC<{
 
         <PostForm
           type={"reply"}
+          reload={true}
           placeholder="Post your Reply"
           tweet={tweet}
           toggleModal={toggle}

@@ -12,7 +12,7 @@ export interface Tweet {
   id: string;
   content: string;
   image_url?: string;
-  user_id: string;
+  user_id?: string;
   profiles: Profiles;
   created_at: Date;
   type: string;

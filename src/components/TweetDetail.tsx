@@ -4,7 +4,8 @@ import TweetItem from "./TweetItem";
 import PostForm from "./PostForm";
 import { useEffect, useState } from "react";
 import { Reply } from "../types";
-import { getReplies } from "../utils/tweet";
+import { getReplies, getTweet } from "../utils/tweet";
+import { supabase } from "../lib/supabase";
 
 const TweetDetail = () => {
   const { state } = useLocation();
@@ -14,13 +15,37 @@ const TweetDetail = () => {
     (async () => {
       const response = await getReplies(state.tweet.id);
       if (response.status === 200) {
-        console.log(response);
         setReplies(response.data as Reply[]);
       }
     })();
 
     return () => setReplies([]);
   }, [state.tweet]);
+
+  useEffect(() => {
+    const subscription = supabase
+      .channel("tweets_db_changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "tweets",
+          filter: "type=eq.reply",
+        },
+        async (payload) => {
+          const data = await getTweet(payload.new.id);
+          if (data) {
+            setReplies([data as Reply, ...replies]);
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [replies]);
 
   return (
     <div className="min-h-[100vh] w-full max-w-[600px] border-x">

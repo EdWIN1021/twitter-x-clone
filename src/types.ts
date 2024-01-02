@@ -12,9 +12,9 @@ export interface Tweet {
   id: string;
   content: string;
   image_url?: string;
-  user_id?: string;
+  user_id: string;
   profiles: Profiles;
-  created_at?: Date;
+  created_at: Date;
   type: string;
 }
 
@@ -31,6 +31,7 @@ export interface Reply {
 export interface Like {
   id: string;
   user_id: string;
+  tweet_id: string;
 }
 
 export interface Profiles {

@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { getDateRange } from "../utils/date";
 import { createLikes, getLikes, getTotalReplies } from "../utils/tweet";
 import clsx from "clsx";
-import { supabase } from "../lib/supabase";
 import ReplyModal from "./ReplyModal";
 
 const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
@@ -19,7 +18,6 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
   const [totalReplies, setTotalReplies] = useState<number | null>(0);
   const [likes, setLikes] = useState<Like[] | []>([]);
   const navigate = useNavigate();
-
   const [open, toggle] = useState(false);
 
   useEffect(() => {
@@ -44,43 +42,16 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
     })();
   }, [tweet]);
 
-  useEffect(() => {
-    const subscription = supabase
-      .channel("likes-db-changes")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "likes",
-        },
-        async (payload) => {
-          setLikes([...likes, payload.new as Like]);
-        },
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "likes",
-        },
-        async (payload) => {
-          setLikes(likes.filter((like) => like.id !== payload.old.id));
-        },
-      )
-      .subscribe();
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [likes]);
-
-  const isLiked = useMemo(() => {
-    if (currentUser) {
-      return likes?.some((like) => like.user_id === currentUser?.id);
-    }
-  }, [likes, currentUser]);
+  const isLiked = useMemo(
+    () =>
+      likes.some(
+        (like) =>
+          currentUser &&
+          like.user_id === currentUser.id &&
+          tweet.id === like.tweet_id,
+      ),
+    [likes, currentUser, tweet.id],
+  );
 
   const handleReply = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -91,6 +62,8 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
     event.stopPropagation();
     if (currentUser) {
       await createLikes(currentUser?.id, tweet?.id);
+      const response = await getLikes(tweet.id);
+      setLikes(response.data as Like[]);
     }
   };
 
@@ -117,7 +90,7 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
                 <span className="font-bold">{tweet.profiles?.full_name}</span>
                 <span className="ml-1 text-label">
                   @{tweet.profiles?.username} &middot;{" "}
-                  {getDateRange(new Date(tweet.created_at))}
+                  {getDateRange(new Date(tweet?.created_at))}
                 </span>
               </div>
               <p>{tweet?.content}</p>
@@ -161,7 +134,7 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
                       })}
                     />
                   </div>
-                  <span>{likes.length}</span>
+                  <span>{likes?.length}</span>
                 </div>
               </div>
             </div>

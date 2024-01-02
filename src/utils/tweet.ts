@@ -104,8 +104,22 @@ export const getTotalReplies = async (id: string) => {
 export const getLikes = async (id: string) => {
   const response = await supabase
     .from("likes")
-    .select("id, user_id")
+    .select("id, user_id, tweet_id")
     .eq("tweet_id", id);
+  return response;
+};
+
+export const getLikedTweets = async (user_id: string) => {
+  const response = await supabase
+    .from("likes")
+    .select(
+      `
+      id,
+      tweets(id, created_at, image_url, content, type),
+      profiles(id, full_name, avatar_url, username)
+      `,
+    )
+    .eq("user_id", user_id);
   return response;
 };
 

@@ -6,13 +6,17 @@ import moment from "moment";
 import clsx from "clsx";
 import useUserTweets from "../hooks/useUserTweets";
 import TweetItem from "./TweetItem";
+import useLikedTweets from "../hooks/useLikes";
 
 const tabs = ["posts", "replies", "likes"];
 
 const Profile = () => {
-  const { profile } = useContext(AuthContext);
+  const { profile, currentUser } = useContext(AuthContext);
   const { tweets } = useUserTweets();
+  const { data: likedTweets } = useLikedTweets(currentUser?.id as string);
   const [tab, setTab] = useState("posts");
+
+  console.log(likedTweets);
 
   return (
     <div className="min-h-[100vh] w-full max-w-[600px] border-x">
@@ -60,6 +64,7 @@ const Profile = () => {
       <div className="flex justify-between border-b px-4">
         {tabs.map((tabItem) => (
           <button
+            key={tabItem}
             className={clsx("px-6 py-2 font-bold hover:bg-hover-gray", {
               "border-b-2 border-primary-blue": tab === tabItem,
             })}
@@ -71,14 +76,28 @@ const Profile = () => {
       </div>
       {tab === "posts" && (
         <div>
-          {" "}
           {tweets.map((tweet) => (
             <TweetItem key={tweet.id} tweet={tweet} />
           ))}
         </div>
       )}
       {tab === "replies" && <div>replies</div>}
-      {tab === "likes" && <div>likes</div>}
+      {tab === "likes" && (
+        <div>
+          {likedTweets?.map((likedTweet) => (
+            <TweetItem
+              key={likedTweet.id}
+              tweet={{
+                id: likedTweet.tweets.id,
+                content: likedTweet.tweets?.content,
+                profiles: likedTweet.profiles,
+                created_at: likedTweet.tweets.created_at,
+                type: likedTweet.tweets.type,
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

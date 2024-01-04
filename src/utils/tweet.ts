@@ -115,8 +115,10 @@ export const getLikedTweets = async (user_id: string) => {
     .select(
       `
       id,
-      tweets(id, created_at, image_url, content, type),
-      profiles(id, full_name, avatar_url, username)
+      tweets(
+        id, created_at, image_url, content, type,
+        profiles(id, full_name, avatar_url, username)
+      )
       `,
     )
     .eq("user_id", user_id);

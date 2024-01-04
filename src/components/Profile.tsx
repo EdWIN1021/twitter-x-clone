@@ -100,7 +100,7 @@ const Profile = () => {
                 tweet={{
                   id: likedTweet.tweets.id,
                   content: likedTweet.tweets?.content,
-                  profiles: likedTweet.profiles,
+                  profiles: likedTweet.tweets.profiles,
                   created_at: likedTweet.tweets.created_at,
                   type: likedTweet.tweets.type,
                 }}

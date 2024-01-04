@@ -7,14 +7,10 @@ const Main = () => {
   const [tab, setTab] = useState(0);
 
   return (
-    <div className="min-h-[100vh] w-full max-w-[600px] border-x">
+    <div className="min-h-[100vh] w-full max-w-[600px] border-x md:min-w-[600px]">
       <MainTab tab={tab} setTab={setTab} />
-      {tab === 0 && (
-        <>
-          <PostForm placeholder={"What is happening?!"} type={"post"} />
-          <Tweets />
-        </>
-      )}
+      <PostForm placeholder={"What is happening?!"} type={"post"} />
+      {tab === 0 && <Tweets />}
     </div>
   );
 };

@@ -18,15 +18,11 @@ const useLikedTweets = (user_id: string) => {
         user_id,
       )) as PostgrestSingleResponse<Data[]>;
 
-        
-
       if (response.status === 200) {
         setData(response?.data);
       }
     })();
   }, [user_id]);
-
-  console.log(data);
 
   return { data };
 };

@@ -11,8 +11,6 @@ const Search = () => {
   const [search, setSearch] = useState("");
   const { users } = useUsers(search);
 
-  const handleClick = async () => {};
-
   const handleSubscribe = async () => {
     const stripe = new Stripe(import.meta.env.VITE_STRIPE_KEY);
     const { url } = await stripe.checkout.sessions.create({
@@ -80,13 +78,13 @@ const Search = () => {
       </div>
 
       <div className="px-7">
-        <div className="min-w-[332px] rounded-2xl bg-[rgba(247,249,249)]">
+        <div className="w-[351px] rounded-2xl bg-[rgba(247,249,249)]">
           <h2 className="px-4 py-3 text-lg font-extrabold"> Who to follow</h2>
 
           <>
             {users?.map((user) => (
               <div key={user?.id}>
-                <UserItem user={user} handleClick={handleClick} />
+                <UserItem user={user} />
               </div>
             ))}
           </>

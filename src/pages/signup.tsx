@@ -6,8 +6,6 @@ import Modal from "../ui/Modal";
 import { useState } from "react";
 
 const SignUp = () => {
-  console.log("signup");
-  
   const [inputFields, setInputFields] = useState({
     email: "",
     name: "",

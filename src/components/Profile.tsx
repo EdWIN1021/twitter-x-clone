@@ -61,7 +61,7 @@ const Profile = () => {
 
           <img
             className="absolute left-[2%] top-[22%] h-[134px] w-[134px] rounded-full border-2 border-white"
-            src="/default_profile.png"
+            src={profile?.avatar_url || "/default_profile.png"}
           ></img>
         </div>
 

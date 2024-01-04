@@ -1,13 +1,15 @@
+import { useState } from "react";
 import { Profiles } from "../types";
 
 const UserItem: React.FC<{
   user: Profiles;
   following?: string[];
-  handleClick: (id: string) => void;
 }> = ({ user }) => {
-  // const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
 
-  
+  const handleFollow = async () => {
+    setIsFollowing(true);
+  };
 
   return (
     <div className="flex items-center px-4 py-3" key={user.username}>
@@ -22,20 +24,22 @@ const UserItem: React.FC<{
         <span className="whitespace-nowrap font-bold">{user.full_name}</span>
         <span className="text-label">@{user.username}</span>
       </div>
-      {/* <button
-        className="rounded-full bg-btn-black px-3 py-1 text-sm font-bold text-white"
-        disabled
-      >
-        Following
-      </button> */}
-      <button
-        className="rounded-full bg-[rgb(15,20,25)] px-3 py-1 text-sm font-bold text-white"
-        onClick={() => {
-          // setIsFollowing(true);
-        }}
-      >
-        Follow
-      </button>
+
+      {isFollowing ? (
+        <button
+          className="rounded-full bg-btn-black px-3 py-1 text-sm font-bold text-white"
+          disabled
+        >
+          Following
+        </button>
+      ) : (
+        <button
+          className="rounded-full bg-[rgb(15,20,25)] px-3 py-1 text-sm font-bold text-white"
+          onClick={handleFollow}
+        >
+          Follow
+        </button>
+      )}
     </div>
   );
 };

@@ -25,6 +25,7 @@ export interface Reply {
   user_id?: string;
   profiles: Profiles;
   created_at: Date;
+  tweet_id: string;
   type: string;
 }
 

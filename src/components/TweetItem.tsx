@@ -13,7 +13,10 @@ import { createLikes, getLikes, getTotalReplies } from "../utils/tweet";
 import clsx from "clsx";
 import ReplyModal from "./ReplyModal";
 
-const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
+const TweetItem: React.FC<{ tweet: Tweet | Reply; showBar?: boolean }> = ({
+  tweet,
+  showBar,
+}) => {
   const { currentUser } = useContext(AuthContext);
   const [totalReplies, setTotalReplies] = useState<number | null>(0);
   const [likes, setLikes] = useState<Like[] | []>([]);
@@ -70,19 +73,25 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply }> = ({ tweet }) => {
   return (
     <>
       <div
-        className="cursor-pointer border-b"
+        className={clsx("cursor-pointer ", { "border-b": !showBar })}
         onClick={() =>
           navigate(`/home/tweet/${tweet.id}`, { state: { tweet } })
         }
       >
         {currentUser && tweet && (
-          <div className="flex border-t px-4 pb-3 pt-4 hover:bg-[rgba(0,0,0,0.03)]">
-            <div className="mr-3 w-10 cursor-pointer">
-              <img
-                className="rounded-full"
-                src={tweet?.profiles?.avatar_url || "/default_profile.png"}
-                alt="default..."
-              />
+          <div className="flex  px-4 pb-3 pt-4 hover:bg-[rgba(0,0,0,0.03)]">
+            <div className="mr-2 flex flex-col items-center ">
+              <div className="w-10 cursor-pointer">
+                <img
+                  className="rounded-full"
+                  src={tweet?.profiles?.avatar_url || "/default_profile.png"}
+                  alt="default..."
+                />
+              </div>
+
+              {showBar && (
+                <div className="mt-2 w-0.5 flex-1 bg-[rgb(207,217,222)]"></div>
+              )}
             </div>
 
             <div className="flex-1">

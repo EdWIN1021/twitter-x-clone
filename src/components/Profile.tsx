@@ -9,8 +9,8 @@ import TweetItem from "./TweetItem";
 import useLikedTweets from "../hooks/useLikes";
 import ReplyItem from "./ReplyItem";
 import useUserReplies from "../hooks/useUserReplies";
-import useFollowings from "../hooks/useFollowings";
 import useFollowers from "../hooks/useFollowers";
+import { FollowingContext } from "../contexts/FollowingContext";
 
 const tabs = ["posts", "replies", "likes"];
 
@@ -18,8 +18,8 @@ const Profile = () => {
   const { profile, currentUser } = useContext(AuthContext);
   const { tweets } = useUserTweets();
   const { userReplies } = useUserReplies();
-  const { numOfFollowings } = useFollowings();
   const { numOfFollowers } = useFollowers();
+  const { numOfFollowings } = useContext(FollowingContext);
   const { data: likedTweets } = useLikedTweets(currentUser?.id as string);
   const [tab, setTab] = useState("posts");
 

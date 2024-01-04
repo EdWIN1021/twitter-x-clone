@@ -2,6 +2,7 @@ import { useState } from "react";
 import MainTab from "./MainTab";
 import PostForm from "./PostForm";
 import Tweets from "./Tweets";
+import FollowingTweets from "./FollowingTweets";
 
 const Main = () => {
   const [tab, setTab] = useState(0);
@@ -11,6 +12,7 @@ const Main = () => {
       <MainTab tab={tab} setTab={setTab} />
       <PostForm placeholder={"What is happening?!"} type={"post"} />
       {tab === 0 && <Tweets />}
+      {tab === 1 && <FollowingTweets />}
     </div>
   );
 };

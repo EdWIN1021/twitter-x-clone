@@ -59,13 +59,13 @@ export const getTweets = async () => {
     .from("tweets")
     .select(
       `
-  id,
-  content,
-  type,
-  image_url,
-  created_at,
-  profiles(id, full_name, avatar_url, username)
-`,
+      id,
+      content,
+      type,
+      image_url,
+      created_at,
+      profiles(id, full_name, avatar_url, username)
+    `,
     )
     .eq("type", "post")
     .order("created_at", { ascending: false });

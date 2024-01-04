@@ -15,7 +15,7 @@ const useFollowings = () => {
     })();
   }, [currentUser]);
 
-  return { numOfFollowings };
+  return { numOfFollowings, setNumOfFollowings };
 };
 
 export default useFollowings;

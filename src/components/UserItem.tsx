@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Profiles } from "../types";
+import { supabase } from "../lib/supabase";
+import { AuthContext } from "../contexts/AuthContext";
 
 const UserItem: React.FC<{
   user: Profiles;
   following?: string[];
 }> = ({ user }) => {
   const [isFollowing, setIsFollowing] = useState(false);
+  const { currentUser } = useContext(AuthContext);
 
   const handleFollow = async () => {
     setIsFollowing(true);
+
+    await supabase
+      .from("followers")
+      .insert({ user_id: user.id, follower_user_id: currentUser?.id });
   };
 
   return (

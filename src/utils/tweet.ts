@@ -101,6 +101,24 @@ export const getTotalReplies = async (id: string) => {
   return response;
 };
 
+export const getTotalFollowings = async (user_id: string) => {
+  const response = await supabase
+    .from("followers")
+    .select("*", { count: "exact", head: true })
+    .eq("follower_user_id", user_id);
+
+  return response;
+};
+
+export const getTotalFollowers = async (user_id: string) => {
+  const response = await supabase
+    .from("followers")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", user_id);
+
+  return response;
+};
+
 export const getLikes = async (id: string) => {
   const response = await supabase
     .from("likes")
@@ -158,7 +176,7 @@ export const getReplies = async (id: string) => {
   return response;
 };
 
-export const getProfiles = async (search: string) => {
+export const getProfiles = async (search: string, follower_user_id: string) => {
   let response;
   if (search) {
     response = await supabase
@@ -168,7 +186,21 @@ export const getProfiles = async (search: string) => {
         config: "english",
       });
   } else {
-    response = await supabase.from("profiles").select();
+    const temp: string[] = [follower_user_id];
+    const { data } = await supabase
+      .from("followers")
+      .select(
+        `
+        user_id
+        `,
+      )
+      .eq("follower_user_id", follower_user_id);
+    data?.forEach((item) => temp.push(item.user_id));
+    response = await supabase
+      .from("profiles")
+      .select()
+      .not("id", "in", `(${temp.join(",")})`);
   }
+
   return response;
 };

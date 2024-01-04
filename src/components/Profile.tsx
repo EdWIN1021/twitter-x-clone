@@ -9,6 +9,8 @@ import TweetItem from "./TweetItem";
 import useLikedTweets from "../hooks/useLikes";
 import ReplyItem from "./ReplyItem";
 import useUserReplies from "../hooks/useUserReplies";
+import useFollowings from "../hooks/useFollowings";
+import useFollowers from "../hooks/useFollowers";
 
 const tabs = ["posts", "replies", "likes"];
 
@@ -16,6 +18,8 @@ const Profile = () => {
   const { profile, currentUser } = useContext(AuthContext);
   const { tweets } = useUserTweets();
   const { userReplies } = useUserReplies();
+  const { numOfFollowings } = useFollowings();
+  const { numOfFollowers } = useFollowers();
   const { data: likedTweets } = useLikedTweets(currentUser?.id as string);
   const [tab, setTab] = useState("posts");
 
@@ -48,12 +52,12 @@ const Profile = () => {
 
             <div className="flex gap-2">
               <div className="text-[14px] ">
-                <span className="font-bold">0</span>{" "}
+                <span className="font-bold">{numOfFollowings}</span>{" "}
                 <span className="text-label">Following</span>
               </div>
 
               <div className="text-[14px] ">
-                <span className="font-bold">0</span>{" "}
+                <span className="font-bold">{numOfFollowers}</span>{" "}
                 <span className="text-label">Followers</span>
               </div>
             </div>

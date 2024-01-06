@@ -38,9 +38,9 @@ const QuoteModal: React.FC<{
   return createPortal(
     <>
       <Overlay toggle={toggle} />
-      <div className="absolute left-1/2 top-[5%] min-w-[600px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white px-4 py-2">
+      <div className="absolute left-1/2 top-[5%] min-w-[600px] -translate-x-1/2 overflow-hidden rounded-2xl bg-white px-4 py-3">
         <XMarkIcon
-          className="my-3 w-5 cursor-pointer"
+          className="mb-8 mt-3 w-5 cursor-pointer"
           onClick={() => toggle(false)}
         />
 

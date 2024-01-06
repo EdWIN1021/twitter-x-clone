@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import { Like, Reply, Tweet } from "../types";
+import { Like, Tweet } from "../types";
 
 import {
   ChatBubbleOvalLeftIcon,
@@ -12,8 +12,9 @@ import { getDateRange } from "../utils/date";
 import { createLikes, getLikes, getTotalReplies } from "../utils/tweet";
 import clsx from "clsx";
 import ReplyModal from "./ReplyModal";
+import QuoteModal from "./QuoteModal";
 
-const TweetItem: React.FC<{ tweet: Tweet | Reply; showBar?: boolean }> = ({
+const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
   tweet,
   showBar,
 }) => {
@@ -22,6 +23,7 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply; showBar?: boolean }> = ({
   const [likes, setLikes] = useState<Like[] | []>([]);
   const navigate = useNavigate();
   const [open, toggle] = useState(false);
+  const [showQuoteForm, setShowQuoteForm] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -68,6 +70,11 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply; showBar?: boolean }> = ({
       const response = await getLikes(tweet.id);
       setLikes(response.data as Like[]);
     }
+  };
+
+  const handleQuote = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    setShowQuoteForm(true);
   };
 
   return (
@@ -124,7 +131,10 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply; showBar?: boolean }> = ({
                   <span>{totalReplies}</span>
                 </div>
 
-                <div className="group flex cursor-pointer  items-center text-label hover:text-[rgba(0,186,124)]">
+                <div
+                  className="group flex cursor-pointer  items-center text-label hover:text-[rgba(0,186,124)]"
+                  onClick={handleQuote}
+                >
                   <div className="rounded-full p-2 group-hover:bg-[rgba(0,186,124,0.1)]">
                     <ArrowPathRoundedSquareIcon className="w-5 stroke-[2px]" />
                   </div>
@@ -151,6 +161,7 @@ const TweetItem: React.FC<{ tweet: Tweet | Reply; showBar?: boolean }> = ({
         )}
       </div>
       {open && <ReplyModal toggle={toggle} tweet={tweet} />}
+      {showQuoteForm && <QuoteModal toggle={setShowQuoteForm} tweet={tweet} />}
     </>
   );
 };

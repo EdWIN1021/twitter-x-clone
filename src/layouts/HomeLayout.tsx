@@ -1,6 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
 import SideBar from "../components/SideBar";
-import AppBar from "../components/AppBar";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -12,7 +11,7 @@ const HomeLayout = () => {
         <div className="flex h-[100vh] justify-center">
           <SideBar />
           <Outlet />
-          <AppBar />
+          {/* <AppBar /> */}
         </div>
       ) : (
         <Navigate to="/username" />

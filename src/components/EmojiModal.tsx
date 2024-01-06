@@ -1,17 +1,20 @@
 import { createPortal } from "react-dom";
 import EmojiPicker from "emoji-picker-react";
 import { Dispatch, SetStateAction } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface EmojiModalProps {
   handleEmoji: (emojiObject: { emoji: string }) => void;
   toggle: Dispatch<SetStateAction<boolean>>;
   leftPosition: number;
+  topPosition: number;
 }
 
 const EmojiModal: React.FC<EmojiModalProps> = ({
   handleEmoji,
   toggle,
   leftPosition,
+  topPosition,
 }) => {
   return createPortal(
     <>
@@ -21,8 +24,8 @@ const EmojiModal: React.FC<EmojiModalProps> = ({
       ></div>
 
       <div
-        className="absolute  top-[210px] flex-col items-center justify-center"
-        style={{ left: leftPosition }}
+        className={twMerge("absolute flex-col items-center justify-center")}
+        style={{ left: leftPosition, top: topPosition + 35 }}
       >
         <EmojiPicker
           width={320}

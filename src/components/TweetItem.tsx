@@ -86,7 +86,7 @@ const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
         }
       >
         {currentUser && tweet && (
-          <div className="flex  px-4 pb-3 pt-4 hover:bg-[rgba(0,0,0,0.03)]">
+          <div className="flex flex-nowrap  px-4 pb-3 pt-4 hover:bg-[rgba(0,0,0,0.03)]">
             <div className="mr-2 flex flex-col items-center ">
               <div className="w-10 cursor-pointer">
                 <img
@@ -109,7 +109,7 @@ const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
                   {getDateRange(new Date(tweet?.created_at))}
                 </span>
               </div>
-              <p>{tweet?.content}</p>
+              <p className="break-all">{tweet?.content}</p>
               {tweet?.image_url && (
                 <div className="relative mt-2 h-[288px] w-full overflow-hidden rounded-2xl">
                   <img

@@ -19,6 +19,7 @@ import {
   GlobeAmericasIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
+import EmojiModal from "./EmojiModal";
 
 const QuoteModal: React.FC<{
   toggle: Dispatch<SetStateAction<boolean>>;
@@ -28,12 +29,43 @@ const QuoteModal: React.FC<{
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [content, setContent] = useState("");
+  const smileRef = useRef<HTMLDivElement>(null);
+  const [leftPosition, setLeftPosition] = useState(0);
+  const [topPosition, setTopPosition] = useState(0);
+  const [showEmoji, setShowEmoji] = useState(false);
 
   useEffect(() => {
     textAreaRef.current!.style.height = "auto";
     textAreaRef.current!.style.height =
       textAreaRef.current!.scrollHeight + "px";
   }, [content]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setTimeout(() => {
+        const divElement = smileRef.current;
+        if (divElement) {
+          const rect = divElement.getBoundingClientRect();
+          const currentLeft = rect.left;
+          const currentTop = rect.top;
+          setLeftPosition(currentLeft);
+          setTopPosition(currentTop);
+        }
+      }, 500);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const handleEmoji = (emojiObject: { emoji: string }) => {
+    setContent((pre) => pre + emojiObject.emoji);
+    toggle(false);
+  };
 
   return createPortal(
     <>
@@ -79,7 +111,7 @@ const QuoteModal: React.FC<{
                 </span>
               </div>
 
-              <p>{tweet?.content}</p>
+              <p className="break-all">{tweet?.content}</p>
             </div>
           </div>
         </div>
@@ -95,7 +127,11 @@ const QuoteModal: React.FC<{
               <div className="cursor-pointer rounded-full p-2 hover:bg-hover-gray">
                 <PhotoIcon className="w-5 stroke-primary-blue stroke-[2.5px]" />
               </div>
-              <div className="cursor-pointer rounded-full p-2 hover:bg-hover-gray">
+              <div
+                ref={smileRef}
+                className="cursor-pointer rounded-full p-2 hover:bg-hover-gray"
+                onClick={() => setShowEmoji(true)}
+              >
                 <FaceSmileIcon className="w-5 stroke-primary-blue stroke-[2.5px]" />
               </div>
 
@@ -116,6 +152,15 @@ const QuoteModal: React.FC<{
           </div>
         </div>
       </div>
+
+      {showEmoji && (
+        <EmojiModal
+          topPosition={topPosition}
+          leftPosition={leftPosition}
+          handleEmoji={handleEmoji}
+          toggle={toggle}
+        />
+      )}
     </>,
     document.body,
   );

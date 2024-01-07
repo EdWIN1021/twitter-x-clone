@@ -10,7 +10,7 @@ const useTweets = () => {
     (async () => {
       const { data, error } = await getTweets();
       if (data && !error) {
-        setTweets(data as Tweet[]);
+        setTweets(data);
       }
     })();
   }, []);
@@ -24,7 +24,7 @@ const useTweets = () => {
           event: "INSERT",
           schema: "public",
           table: "tweets",
-          filter: "type=eq.post",
+          filter: "type=neq.reply",
         },
         async (payload) => {
           const data = await getTweet(payload.new.id);

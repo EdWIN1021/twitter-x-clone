@@ -1,20 +1,23 @@
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
+import { Tweet } from "../types";
 
 export const getTweet = async (tweetId: string) => {
-  const { data } = await supabase
+  const { data } = (await supabase
     .from("tweets")
     .select(
       `
-          id,
-          content,
-          type,
-          created_at,
-          image_url,
-          profiles(id, full_name, avatar_url, username)
-        `,
+      id,
+      content,
+      type,
+      created_at,
+      image_url,
+      tweet_id,
+      profiles(id, full_name, avatar_url, username)
+      `,
     )
     .eq("id", tweetId)
-    .single();
+    .single()) as PostgrestSingleResponse<Tweet>;
 
   return data;
 };
@@ -55,7 +58,7 @@ export const uploadTweetImage = async (file: File, tweet_id: string) => {
 };
 
 export const getTweets = async () => {
-  const { data, error } = await supabase
+  const { data, error } = (await supabase
     .from("tweets")
     .select(
       `
@@ -64,11 +67,14 @@ export const getTweets = async () => {
       type,
       image_url,
       created_at,
+      tweet_id,
       profiles(id, full_name, avatar_url, username)
     `,
     )
-    .eq("type", "post")
-    .order("created_at", { ascending: false });
+    .neq("type", "reply")
+    .order("created_at", {
+      ascending: false,
+    })) as PostgrestSingleResponse<Tweet[]>;
 
   return { data, error };
 };
@@ -97,7 +103,17 @@ export const getTotalReplies = async (id: string) => {
   const response = await supabase
     .from("tweets")
     .select("*", { count: "exact", head: true })
-    .eq("tweet_id", id);
+    .eq("tweet_id", id)
+    .eq("type", "reply");
+  return response;
+};
+
+export const getTotalQuotes = async (id: string) => {
+  const response = await supabase
+    .from("tweets")
+    .select("*", { count: "exact", head: true })
+    .eq("tweet_id", id)
+    .eq("type", "quote");
   return response;
 };
 

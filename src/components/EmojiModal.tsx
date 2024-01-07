@@ -28,8 +28,8 @@ const EmojiModal: React.FC<EmojiModalProps> = ({
         style={{ left: leftPosition, top: topPosition + 35 }}
       >
         <EmojiPicker
-          width={320}
-          height={440}
+          width={300}
+          height={400}
           onEmojiClick={handleEmoji}
           autoFocusSearch={false}
         />

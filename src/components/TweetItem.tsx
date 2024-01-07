@@ -9,10 +9,17 @@ import {
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { getDateRange } from "../utils/date";
-import { createLikes, getLikes, getTotalReplies } from "../utils/tweet";
+import {
+  createLikes,
+  getLikes,
+  getTotalQuotes,
+  getTotalReplies,
+} from "../utils/tweet";
 import clsx from "clsx";
 import ReplyModal from "./ReplyModal";
-import QuoteModal from "./QuoteModal";
+import Modal from "./Modal";
+import QuoteForm from "./QuoteForm";
+import OriginalTweet from "./OriginalTweet";
 
 const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
   tweet,
@@ -20,6 +27,7 @@ const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
 }) => {
   const { currentUser } = useContext(AuthContext);
   const [totalReplies, setTotalReplies] = useState<number | null>(0);
+  const [totalQuotes, setTotalQuotes] = useState<number | null>(0);
   const [likes, setLikes] = useState<Like[] | []>([]);
   const navigate = useNavigate();
   const [open, toggle] = useState(false);
@@ -31,6 +39,17 @@ const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
         const response = await getTotalReplies(tweet?.id);
         if (response.status === 200) {
           setTotalReplies(response.count);
+        }
+      }
+    })();
+  }, [tweet]);
+
+  useEffect(() => {
+    (async () => {
+      if (tweet) {
+        const response = await getTotalQuotes(tweet?.id);
+        if (response.status === 200) {
+          setTotalQuotes(response.count);
         }
       }
     })();
@@ -109,7 +128,8 @@ const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
                   {getDateRange(new Date(tweet?.created_at))}
                 </span>
               </div>
-              <p className="break-all">{tweet?.content}</p>
+              <p className="break-words">{tweet?.content}</p>
+
               {tweet?.image_url && (
                 <div className="relative mt-2 h-[288px] w-full overflow-hidden rounded-2xl">
                   <img
@@ -118,6 +138,10 @@ const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
                     alt=""
                   />
                 </div>
+              )}
+
+              {tweet.type === "quote" && tweet.tweet_id && (
+                <OriginalTweet tweetId={tweet?.tweet_id} />
               )}
 
               <div className="flex justify-around pt-3 text-sm">
@@ -138,7 +162,7 @@ const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
                   <div className="rounded-full p-2 group-hover:bg-[rgba(0,186,124,0.1)]">
                     <ArrowPathRoundedSquareIcon className="w-5 stroke-[2px]" />
                   </div>
-                  <span>17k</span>
+                  <span>{totalQuotes}</span>
                 </div>
 
                 <div
@@ -161,7 +185,12 @@ const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
         )}
       </div>
       {open && <ReplyModal toggle={toggle} tweet={tweet} />}
-      {showQuoteForm && <QuoteModal toggle={setShowQuoteForm} tweet={tweet} />}
+
+      <Modal open={showQuoteForm} toggle={setShowQuoteForm}>
+        <Modal.Content>
+          <QuoteForm tweet={tweet} />
+        </Modal.Content>
+      </Modal>
     </>
   );
 };

@@ -42,6 +42,7 @@ const PostForm = ({
   const { currentUser } = useContext(AuthContext);
   const smileRef = useRef<HTMLDivElement>(null);
   const [leftPosition, setLeftPosition] = useState(0);
+  const [topPosition, setTopPosition] = useState(0);
 
   useEffect(() => {
     textAreaRef.current!.style.height = "auto";
@@ -56,6 +57,8 @@ const PostForm = ({
         if (divElement) {
           const rect = divElement.getBoundingClientRect();
           const currentLeft = rect.left;
+          const currentTop = rect.top;
+          setTopPosition(currentTop);
           setLeftPosition(currentLeft);
         }
       }, 500);
@@ -200,6 +203,7 @@ const PostForm = ({
 
       {open && (
         <EmojiModal
+          topPosition={topPosition}
           leftPosition={leftPosition}
           handleEmoji={handleEmoji}
           toggle={toggle}

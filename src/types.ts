@@ -16,17 +16,7 @@ export interface Tweet {
   profiles: Profiles;
   created_at: Date;
   type: string;
-}
-
-export interface Reply {
-  id: string;
-  content: string;
-  image_url?: string;
-  user_id?: string;
-  profiles: Profiles;
-  created_at: Date;
-  tweet_id: string;
-  type: string;
+  tweet_id?: string;
 }
 
 export interface Like {
@@ -36,9 +26,9 @@ export interface Like {
 }
 
 export interface Profiles {
+  id: string;
   avatar_url?: string;
   full_name?: string;
-  id?: string;
   username?: string;
   created_at?: Date;
 }

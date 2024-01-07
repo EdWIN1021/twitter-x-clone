@@ -6,30 +6,31 @@ import { supabase } from "../lib/supabase";
 import { Profiles } from "../types";
 import { PostgrestResponse } from "@supabase/supabase-js";
 
+interface User {
+  id: string;
+  profiles: Profiles;
+}
+
 const Following = () => {
-  const [following, setFollowing] = useState<Profiles[] | null>(null);
+  const [following, setFollowing] = useState<User[] | null>(null);
   const { profile } = useContext(AuthContext);
 
   useEffect(() => {
     const getFollowing = async () => {
-      const temp: string[] = [];
-      const { data } = await supabase
+      const { data } = (await supabase
         .from("followers")
         .select(
           `
-            user_id
-          `,
+          profiles (
+            id,
+            avatar_url,
+            full_name,
+            username
+           )`,
         )
-        .eq("follower_user_id", profile?.id);
+        .eq("follower_user_id", profile?.id)) as PostgrestResponse<User>;
 
-      data?.forEach((item) => temp.push(item.user_id));
-
-      const { data: followingData } = (await supabase
-        .from("profiles")
-        .select()
-        .in("id", temp)) as PostgrestResponse<Profiles>;
-
-      setFollowing(followingData);
+      setFollowing(data);
     };
 
     getFollowing();
@@ -52,19 +53,19 @@ const Following = () => {
       </div>
 
       {following?.map((user) => (
-        <div className="flex items-center px-4 py-3" key={user.username}>
+        <div className="flex items-center px-4 py-3" key={user.profiles.id}>
           <div className="mr-3 w-10 cursor-pointer">
             <img
               className="rounded-full"
-              src={user.avatar_url || "/default_profile.png"}
+              src={user.profiles.avatar_url || "/default_profile.png"}
               alt="default..."
             />
           </div>
           <div className="mr-12 flex flex-1 flex-col">
             <span className="whitespace-nowrap font-bold">
-              {user.full_name}
+              {user.profiles.full_name}
             </span>
-            <span className="text-label">@{user.username}</span>
+            <span className="text-label">@{user.profiles.username}</span>
           </div>
 
           <button className="rounded-full border bg-white px-3 py-1 text-sm font-bold text-black">

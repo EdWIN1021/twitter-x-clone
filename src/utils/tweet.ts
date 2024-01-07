@@ -1,4 +1,7 @@
-import { PostgrestSingleResponse } from "@supabase/supabase-js";
+import {
+  PostgrestResponse,
+  PostgrestSingleResponse,
+} from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 import { Tweet } from "../types";
 
@@ -88,11 +91,12 @@ export const getUserTweets = async (user_id: string) => {
       content,
       type,
       image_url,
+      tweet_id,
       created_at,
       profiles(id, full_name, avatar_url, username)
       `,
     )
-    .eq("type", "post")
+    .neq("type", "reply")
     .eq("user_id", user_id)
     .order("created_at", { ascending: false });
 
@@ -177,7 +181,7 @@ export const createLikes = async (user_id: string, tweet_id: string) => {
 };
 
 export const getReplies = async (id: string) => {
-  const response = await supabase
+  const { data } = (await supabase
     .from("tweets")
     .select(
       `
@@ -188,8 +192,8 @@ export const getReplies = async (id: string) => {
     profiles(id, full_name, avatar_url, username)
   `,
     )
-    .eq("tweet_id", id);
-  return response;
+    .eq("tweet_id", id)) as PostgrestResponse<Tweet>;
+  return data;
 };
 
 export const getProfiles = async (search: string, follower_user_id: string) => {

@@ -3,6 +3,7 @@ import { Tweet } from "../types";
 import { AuthContext } from "../contexts/AuthContext";
 import { supabase } from "../lib/supabase";
 import TweetItem from "./TweetItem";
+import { PostgrestResponse } from "@supabase/supabase-js";
 
 const FollowingTweets = () => {
   const [tweets, setTweets] = useState<Tweet[]>([]);
@@ -18,7 +19,7 @@ const FollowingTweets = () => {
           .eq("follower_user_id", currentUser?.id);
         followings?.forEach((item) => temp.push(item.user_id));
 
-        const { data, error } = await supabase
+        const { data, error } = (await supabase
           .from("tweets")
           .select(
             `
@@ -32,9 +33,11 @@ const FollowingTweets = () => {
           )
           .eq("type", "post")
           .in("user_id", temp)
-          .order("created_at", { ascending: false });
+          .order("created_at", {
+            ascending: false,
+          })) as PostgrestResponse<Tweet>;
 
-        if (data && !error) setTweets(data as Tweet[]);
+        if (data && !error) setTweets(data);
       }
     })();
   }, [currentUser]);

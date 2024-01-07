@@ -17,6 +17,8 @@ import Main from "./components/Main";
 import TweetDetail from "./components/TweetDetail";
 import Public from "./pages/public";
 import Profile from "./components/Profile";
+import Followers from "./components/Followers";
+import Following from "./components/Following";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +64,14 @@ const router = createBrowserRouter([
                   {
                     path: "profile/:full_name",
                     element: <Profile />,
+                  },
+                  {
+                    path: "followers",
+                    element: <Followers />,
+                  },
+                  {
+                    path: "following",
+                    element: <Following />,
                   },
                 ],
               },

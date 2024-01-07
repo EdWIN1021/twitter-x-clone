@@ -3,20 +3,18 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import TweetItem from "./TweetItem";
 import PostForm from "./PostForm";
 import { useEffect, useState } from "react";
-import { Reply } from "../types";
 import { getReplies, getTweet } from "../utils/tweet";
 import { supabase } from "../lib/supabase";
+import { Tweet } from "../types";
 
 const TweetDetail = () => {
   const { state } = useLocation();
-  const [replies, setReplies] = useState<Reply[]>([]);
+  const [replies, setReplies] = useState<Tweet[]>([]);
 
   useEffect(() => {
     (async () => {
-      const response = await getReplies(state.tweet.id);
-      if (response.status === 200) {
-        setReplies(response.data as Reply[]);
-      }
+      const data = await getReplies(state.tweet.id);
+      if (data) setReplies(data);
     })();
 
     return () => setReplies([]);
@@ -36,7 +34,7 @@ const TweetDetail = () => {
         async (payload) => {
           const data = await getTweet(payload.new.id);
           if (data) {
-            setReplies([data as Reply, ...replies]);
+            setReplies([data as Tweet, ...replies]);
           }
         },
       )
@@ -48,7 +46,7 @@ const TweetDetail = () => {
   }, [replies]);
 
   return (
-    <div className="min-h-[100vh] w-full max-w-[600px] border-x">
+    <div className="min-h-[100vh] w-full max-w-[600px] border-x md:min-w-[600px]">
       <div className="flex items-center px-4 py-3">
         <Link to={"/home"}>
           <ArrowLeftIcon className="mr-5 w-5 cursor-pointer" />

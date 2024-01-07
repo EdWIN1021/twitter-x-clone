@@ -51,14 +51,18 @@ const Profile = () => {
             </div>
 
             <div className="flex gap-2">
-              <div className="text-[14px] ">
-                <span className="font-bold">{numOfFollowings}</span>{" "}
-                <span className="text-label">Following</span>
+              <div className="text-sm">
+                <Link to="/home/following" className="hover:underline">
+                  <span className="font-bold">{numOfFollowings}</span>{" "}
+                  <span className="text-label">Following</span>
+                </Link>
               </div>
 
-              <div className="text-[14px] ">
-                <span className="font-bold">{numOfFollowers}</span>{" "}
-                <span className="text-label">Followers</span>
+              <div className="text-sm ">
+                <Link to="/home/followers" className="hover:underline">
+                  <span className="font-bold">{numOfFollowers}</span>{" "}
+                  <span className="text-label">Followers</span>
+                </Link>
               </div>
             </div>
           </div>

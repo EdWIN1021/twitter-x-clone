@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { getTweet } from "../utils/tweet";
 import { getDateRange } from "../utils/date";
 import { Tweet } from "../types";
+import { supabase } from "../lib/supabase";
 
 const OriginalTweet: React.FC<{ tweetId: string }> = ({ tweetId }) => {
   const [tweet, setTweet] = useState<Tweet | null>(null);
 
   useEffect(() => {
     (async () => {
-      const data = await getTweet(tweetId);
-      setTweet(data as Tweet);
+      const { data } = await supabase.rpc("get_tweet", { tweetid: tweetId });
+      setTweet(data[0]);
     })();
   }, [tweetId]);
 
@@ -19,14 +19,14 @@ const OriginalTweet: React.FC<{ tweetId: string }> = ({ tweetId }) => {
         <div className="w-5 cursor-pointer">
           <img
             className="rounded-full"
-            src={tweet?.profiles?.avatar_url || "/default_profile.png"}
+            src={tweet?.avatar_url || "/default_profile.png"}
             alt="default..."
           />
         </div>
 
-        <span className="font-bold">{tweet?.profiles?.full_name}</span>
+        <span className="font-bold">{tweet?.full_name}</span>
         <span className="text-label">
-          @{tweet?.profiles?.username} &middot;{" "}
+          @{tweet?.username} &middot;{" "}
           {getDateRange(new Date(tweet?.created_at || new Date()))}
         </span>
       </div>

@@ -75,14 +75,14 @@ const QuoteForm: React.FC<{
               <div className="w-5 cursor-pointer">
                 <img
                   className="rounded-full"
-                  src={tweet?.profiles?.avatar_url || "/default_profile.png"}
+                  src={tweet?.avatar_url || "/default_profile.png"}
                   alt="default..."
                 />
               </div>
 
-              <span className="font-bold">{tweet.profiles?.full_name}</span>
+              <span className="font-bold">{tweet.full_name}</span>
               <span className="text-label">
-                @{tweet.profiles?.username} &middot;{" "}
+                @{tweet.username} &middot;{" "}
                 {getDateRange(new Date(tweet?.created_at))}
               </span>
             </div>

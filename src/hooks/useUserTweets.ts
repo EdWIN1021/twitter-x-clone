@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Tweet } from "../types";
-import { getUserTweets } from "../utils/tweet";
 import { AuthContext } from "../contexts/AuthContext";
-import { PostgrestResponse } from "@supabase/supabase-js";
+import { supabase } from "../lib/supabase";
 
 const useUserTweets = () => {
   const [tweets, setTweets] = useState<Tweet[]>([]);
@@ -11,10 +10,12 @@ const useUserTweets = () => {
   useEffect(() => {
     (async () => {
       if (currentUser) {
-        const { data, error } = (await getUserTweets(
-          currentUser?.id,
-        )) as PostgrestResponse<Tweet>;
+        const { data, error } = await supabase.rpc("get_user_tweets", {
+          current_user_id: currentUser?.id,
+        });
+
         if (data && !error) {
+          console.log(data);
           setTweets(data);
         }
       }

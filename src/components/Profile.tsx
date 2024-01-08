@@ -15,12 +15,12 @@ import { FollowingContext } from "../contexts/FollowingContext";
 const tabs = ["posts", "replies", "likes"];
 
 const Profile = () => {
-  const { profile, currentUser } = useContext(AuthContext);
+  const { profile } = useContext(AuthContext);
   const { tweets } = useUserTweets();
   const { userReplies } = useUserReplies();
   const { numOfFollowers } = useFollowers();
   const { numOfFollowings } = useContext(FollowingContext);
-  const { data: likedTweets } = useLikedTweets(currentUser?.id as string);
+  const { likedTweets } = useLikedTweets();
   const [tab, setTab] = useState("posts");
 
   return (
@@ -102,17 +102,8 @@ const Profile = () => {
         )}
         {tab === "likes" && (
           <div>
-            {likedTweets?.map((likedTweet) => (
-              <TweetItem
-                key={likedTweet.id}
-                tweet={{
-                  id: likedTweet.tweets.id,
-                  content: likedTweet.tweets?.content,
-                  profiles: likedTweet.tweets.profiles,
-                  created_at: likedTweet.tweets.created_at,
-                  type: likedTweet.tweets.type,
-                }}
-              />
+            {likedTweets.map((likedTweet) => (
+              <TweetItem key={likedTweet.id} tweet={likedTweet} />
             ))}
           </div>
         )}

@@ -1,30 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import { Reply } from "../types";
 import { AuthContext } from "../contexts/AuthContext";
 import { supabase } from "../lib/supabase";
+import { Tweet } from "../types";
 
 const useUserReplies = () => {
-  const [userReplies, setUserReplies] = useState<Reply[]>([]);
+  const [userReplies, setUserReplies] = useState<Tweet[]>([]);
   const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     (async () => {
       if (currentUser) {
-        const { data, error } = await supabase
-          .from("tweets")
-          .select(
-            `    
-            id,
-            content,
-            created_at,
-            tweet_id,
-            type,
-            profiles(id, full_name, avatar_url, username)`,
-          )
-          .eq("type", "reply")
-          .eq("user_id", currentUser?.id);
+        const { data, error } = await supabase.rpc("get_user_replies", {
+          current_user_id: currentUser.id,
+        });
         if (data && !error) {
-          setUserReplies(data as Reply[]);
+          setUserReplies(data);
         }
       }
     })();

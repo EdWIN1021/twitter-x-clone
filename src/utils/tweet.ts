@@ -1,29 +1,4 @@
-import {
-  PostgrestResponse,
-  PostgrestSingleResponse,
-} from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
-import { Tweet } from "../types";
-
-export const getTweet = async (tweetId: string) => {
-  const { data } = (await supabase
-    .from("tweets")
-    .select(
-      `
-      id,
-      content,
-      type,
-      created_at,
-      image_url,
-      tweet_id,
-      profiles(id, full_name, avatar_url, username)
-      `,
-    )
-    .eq("id", tweetId)
-    .single()) as PostgrestSingleResponse<Tweet>;
-
-  return data;
-};
 
 export const createTweet = async (
   user_id: string,
@@ -58,28 +33,6 @@ export const uploadTweetImage = async (file: File, tweet_id: string) => {
     });
 
   return { imageData, error };
-};
-
-
-export const getUserTweets = async (user_id: string) => {
-  const { data, error } = await supabase
-    .from("tweets")
-    .select(
-      `
-      id,
-      content,
-      type,
-      image_url,
-      tweet_id,
-      created_at,
-      profiles(id, full_name, avatar_url, username)
-      `,
-    )
-    .neq("type", "reply")
-    .eq("user_id", user_id)
-    .order("created_at", { ascending: false });
-
-  return { data, error };
 };
 
 export const getTotalReplies = async (id: string) => {
@@ -126,22 +79,6 @@ export const getLikes = async (id: string) => {
   return response;
 };
 
-export const getLikedTweets = async (user_id: string) => {
-  const response = await supabase
-    .from("likes")
-    .select(
-      `
-      id,
-      tweets(
-        id, created_at, image_url, content, type,
-        profiles(id, full_name, avatar_url, username)
-      )
-      `,
-    )
-    .eq("user_id", user_id);
-  return response;
-};
-
 export const createLikes = async (user_id: string, tweet_id: string) => {
   const { data, error } = await supabase
     .from("likes")
@@ -157,22 +94,6 @@ export const createLikes = async (user_id: string, tweet_id: string) => {
   } else {
     await supabase.from("likes").insert({ user_id, tweet_id });
   }
-};
-
-export const getReplies = async (id: string) => {
-  const { data } = (await supabase
-    .from("tweets")
-    .select(
-      `
-    id,
-    content,
-    created_at,
-    type,
-    profiles(id, full_name, avatar_url, username)
-  `,
-    )
-    .eq("tweet_id", id)) as PostgrestResponse<Tweet>;
-  return data;
 };
 
 export const getUsers = async (search: string, follower_user_id: string) => {

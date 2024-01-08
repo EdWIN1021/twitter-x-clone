@@ -1,30 +1,23 @@
-import { useEffect, useState } from "react";
-import { getLikedTweets } from "../utils/tweet";
-import { Profiles, Tweet } from "../types";
-import { PostgrestSingleResponse } from "@supabase/supabase-js";
+import { useContext, useEffect, useState } from "react";
+import { Tweet } from "../types";
+import { supabase } from "../lib/supabase";
+import { AuthContext } from "../contexts/AuthContext";
 
-interface Data {
-  id: string;
-  profiles: Profiles;
-  tweets: Tweet;
-}
-
-const useLikedTweets = (user_id: string) => {
-  const [data, setData] = useState<Data[] | null>([]);
+const useLikes = () => {
+  const [likedTweets, setLikedTweets] = useState<Tweet[] | []>([]);
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     (async () => {
-      const response = (await getLikedTweets(
-        user_id,
-      )) as PostgrestSingleResponse<Data[]>;
+      const { data } = await supabase.rpc("get_user_likes", {
+        current_user_id: currentUser?.id,
+      });
 
-      if (response.status === 200) {
-        setData(response?.data);
-      }
+      setLikedTweets(data);
     })();
-  }, [user_id]);
+  }, [currentUser]);
 
-  return { data };
+  return { likedTweets };
 };
 
-export default useLikedTweets;
+export default useLikes;

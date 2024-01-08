@@ -3,7 +3,6 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import TweetItem from "./TweetItem";
 import PostForm from "./PostForm";
 import { useEffect, useState } from "react";
-import { getReplies, getTweet } from "../utils/tweet";
 import { supabase } from "../lib/supabase";
 import { Tweet } from "../types";
 
@@ -13,7 +12,9 @@ const TweetDetail = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getReplies(state.tweet.id);
+      const { data } = await supabase.rpc("get_tweet_replies", {
+        tweetid: state.tweet.id,
+      });
       if (data) setReplies(data);
     })();
 
@@ -32,9 +33,11 @@ const TweetDetail = () => {
           filter: "type=eq.reply",
         },
         async (payload) => {
-          const data = await getTweet(payload.new.id);
+          const { data } = await supabase.rpc("get_tweet", {
+            tweetid: payload.new.id,
+          });
           if (data) {
-            setReplies([data as Tweet, ...replies]);
+            setReplies([data[0], ...replies]);
           }
         },
       )

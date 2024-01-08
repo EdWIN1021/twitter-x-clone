@@ -2,9 +2,8 @@ import moment from "moment";
 
 export const getDateRange = (date: Date) => {
   const duration: moment.Duration = moment.duration(
-    moment(new Date()).diff(moment(date)),
+    moment().diff(moment(date)),
   );
-
   if (Number(duration.asSeconds().toFixed(0)) < 60) {
     return `${Number(duration.asSeconds().toFixed(0))}s`;
   } else if (Number(duration.asMinutes().toFixed(0)) < 60) {

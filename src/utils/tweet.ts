@@ -60,27 +60,6 @@ export const uploadTweetImage = async (file: File, tweet_id: string) => {
   return { imageData, error };
 };
 
-export const getTweets = async () => {
-  const { data, error } = (await supabase
-    .from("tweets")
-    .select(
-      `
-      id,
-      content,
-      type,
-      image_url,
-      created_at,
-      tweet_id,
-      profiles(id, full_name, avatar_url, username)
-    `,
-    )
-    .neq("type", "reply")
-    .order("created_at", {
-      ascending: false,
-    })) as PostgrestSingleResponse<Tweet[]>;
-
-  return { data, error };
-};
 
 export const getUserTweets = async (user_id: string) => {
   const { data, error } = await supabase
@@ -196,7 +175,7 @@ export const getReplies = async (id: string) => {
   return data;
 };
 
-export const getProfiles = async (search: string, follower_user_id: string) => {
+export const getUsers = async (search: string, follower_user_id: string) => {
   let response;
   if (search) {
     response = await supabase
@@ -206,20 +185,9 @@ export const getProfiles = async (search: string, follower_user_id: string) => {
         config: "english",
       });
   } else {
-    const temp: string[] = [follower_user_id];
-    const { data } = await supabase
-      .from("followers")
-      .select(
-        `
-        user_id
-        `,
-      )
-      .eq("follower_user_id", follower_user_id);
-    data?.forEach((item) => temp.push(item.user_id));
-    response = await supabase
-      .from("profiles")
-      .select()
-      .not("id", "in", `(${temp.join(",")})`);
+    response = await supabase.rpc("get_users_expect_following", {
+      current_user_id: follower_user_id,
+    });
   }
 
   return response;

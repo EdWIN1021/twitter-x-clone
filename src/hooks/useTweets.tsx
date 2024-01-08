@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { Tweet } from "../types";
 import { supabase } from "../lib/supabase";
-import { getTweet, getTweets } from "../utils/tweet";
 
 const useTweets = () => {
   const [tweets, setTweets] = useState<Tweet[]>([]);
 
   useEffect(() => {
     (async () => {
-      const { data, error } = await getTweets();
+      const { data, error } = await supabase.rpc("get_all_tweets");
       if (data && !error) {
         setTweets(data);
       }
@@ -27,9 +26,12 @@ const useTweets = () => {
           filter: "type=neq.reply",
         },
         async (payload) => {
-          const data = await getTweet(payload.new.id);
+          const { data } = await supabase.rpc("get_tweet", {
+            tweetid: payload.new.id,
+          });
+
           if (data) {
-            setTweets([data as Tweet, ...tweets]);
+            setTweets([data[0], ...tweets]);
           }
         },
       )

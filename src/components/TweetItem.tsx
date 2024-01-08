@@ -110,7 +110,7 @@ const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
               <div className="w-10 cursor-pointer">
                 <img
                   className="rounded-full"
-                  src={tweet?.profiles?.avatar_url || "/default_profile.png"}
+                  src={tweet?.avatar_url || "/default_profile.png"}
                   alt="default..."
                 />
               </div>
@@ -122,10 +122,10 @@ const TweetItem: React.FC<{ tweet: Tweet; showBar?: boolean }> = ({
 
             <div className="flex-1">
               <div>
-                <span className="font-bold">{tweet.profiles?.full_name}</span>
+                <span className="font-bold">{tweet?.full_name}</span>
                 <span className="ml-1 text-label">
-                  @{tweet.profiles?.username} &middot;{" "}
-                  {getDateRange(new Date(tweet?.created_at))}
+                  @{tweet.username} &middot;
+                  {getDateRange(tweet?.created_at)}
                 </span>
               </div>
               <p className="break-words">{tweet?.content}</p>

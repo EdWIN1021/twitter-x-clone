@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Profiles } from "../types";
-import { getProfiles } from "../utils/tweet";
+import { getUsers } from "../utils/tweet";
 import { AuthContext } from "../contexts/AuthContext";
 
 const useUsers = (search: string) => {
@@ -14,7 +14,7 @@ const useUsers = (search: string) => {
         if (currentUser) {
           setLoading(true);
           try {
-            const { data } = await getProfiles(search, currentUser.id);
+            const { data } = await getUsers(search, currentUser.id);
             setUsers(data as Profiles[]);
           } catch (err) {
             console.log(err);

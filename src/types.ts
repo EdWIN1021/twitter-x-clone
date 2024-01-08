@@ -12,11 +12,13 @@ export interface Tweet {
   id: string;
   content: string;
   image_url?: string;
-  user_id?: string;
-  profiles: Profiles;
-  created_at: Date;
+  user_id: string;
   type: string;
   tweet_id?: string;
+  avatar_url?: string;
+  full_name: string;
+  username: string;
+  created_at: Date;
 }
 
 export interface Like {
@@ -32,6 +34,7 @@ export interface Profiles {
   username?: string;
   created_at?: Date;
 }
+
 export interface ImageData {
   fullPath: string;
   path: string;

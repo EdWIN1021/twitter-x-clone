@@ -15,7 +15,6 @@ const useUserTweets = () => {
         });
 
         if (data && !error) {
-          console.log(data);
           setTweets(data);
         }
       }

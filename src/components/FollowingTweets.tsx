@@ -15,7 +15,6 @@ const FollowingTweets = () => {
           current_user_id: currentUser?.id,
         });
 
-        console.log(data);
         if (data && !error) setTweets(data);
       }
     })();
